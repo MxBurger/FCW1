@@ -41,7 +41,7 @@ DATA id / id /
 
 ## d) Transformieren Sie die gegebene Grammatik in das Regelsystem der formalen Sprachen. Welche Grammatikschreibweise halten Sie für lesbarer? Begründen Sie Ihre Antwort.
 
-[IMPORTANT]
+ >**_NOTE:_**
 NOCH NICHT FERTIG
 
 ```
@@ -52,6 +52,32 @@ OC  -> ε | ,
 // TODO ...
 
 DV  ->
+NOD -> num | id
+NOS -> num | str
+DVP -> ε | * id | * OPS num | * str // TODO adde second alternative here
+OPS -> ε | + | -
 
+
+// TODO ...
+
+DDL -> ( id ( id )
+CSV -> ε | , id CSV
 
 ```
+Die Wirthsch'e EBNF halte ich für lesbarer, da die zusätzlichen Metasymbole sehr
+ausdrucksstark sind und die Einführung zusätzlicher Nonterminalsymbole teilweise
+überflüssig machen.
+
+
+## de Zeichnen Sie den Syntaxbaum für folgenden Satz, verwenden Sie dazu die gegebene Grammatik G(DataStat) von oben:
+```
+DATA id, id / num * str /, ( id(id), id = expr, expr ) / num * num /
+```
+## Gibt es mehrere Syntaxbäume für diesen Satz? (Mit Begründung!)
+
+ >**_NOTE:_**
+TODO
+
+
+
+# 2. Konstruktion einer Grammatik
