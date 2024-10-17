@@ -69,7 +69,7 @@ ausdrucksstark sind und die Einführung zusätzlicher Nonterminalsymbole teilwei
 überflüssig machen.
 
 
-## de Zeichnen Sie den Syntaxbaum für folgenden Satz, verwenden Sie dazu die gegebene Grammatik G(DataStat) von oben:
+## e) Zeichnen Sie den Syntaxbaum für folgenden Satz, verwenden Sie dazu die gegebene Grammatik G(DataStat) von oben:
 ```
 DATA id, id / num * str /, ( id(id), id = expr, expr ) / num * num /
 ```
@@ -81,3 +81,28 @@ TODO
 
 
 # 2. Konstruktion einer Grammatik
+
+>**_NOTE:_**
+Diese Gramatik ist nicht vollständig, muss noch gemacht werden!!
+Am besten die Gramatik in Wirth'sche EBNF in Regelschreibweise umschreiben 
+
+```
+N  -> VZ ZON Z UZ
+UZ -> 1 | 3 | 5 | 7 | 9
+VZ -> ε | + | -
+Z  -> 
+GZ -> 0 | 2 | 4 | 6 | 8
+Z  -> ε | UZ | GZ | Z
+ZON -> 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+```
+
+in Wirth'scher EBNF
+```
+Z = [ "+" | "-" ] 
+[
+    ( "1", "2", "3", "4", "5", "6", "7", "8", "9" )
+    { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" }
+]
+( "1" | "3" | "5" | "7" | "9" ) .
+```
+
