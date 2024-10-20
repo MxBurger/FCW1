@@ -71,6 +71,9 @@ ausdrucksstark sind und die Einführung zusätzlicher Nonterminalsymbole teilwei
 ```
 DATA id, id / num * str /, ( id(id), id = expr, expr ) / num * num /
 ```
+
+![Syntaxtree](pictures/Syntaxtree.png)
+
 ## Gibt es mehrere Syntaxbäume für diesen Satz? (Mit Begründung!)
 
  >**_NOTE:_**
