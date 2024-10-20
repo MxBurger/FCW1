@@ -41,32 +41,30 @@ DATA id / id /
 
 ## d) Transformieren Sie die gegebene Grammatik in das Regelsystem der formalen Sprachen. Welche Grammatikschreibweise halten Sie für lesbarer? Begründen Sie Ihre Antwort.
 
- >**_NOTE:_**
-NOCH NICHT FERTIG
-
 ```
-DS  -> DATA DDL DDR
-DDR -> ε | DDR 
-OC  -> ε | ,
-
-// TODO ...
-
-DV  ->
-NOD -> num | id
-NOS -> num | str
-DVP -> ε | * id | * OPS num | * str // TODO adde second alternative here
-OPS -> ε | + | -
-
-
-// TODO ...
-
-DDL -> ( id ( id )
-CSV -> ε | , id CSV
+DS    -> DATA DDL DDR
+DDR   -> ε | DDR OC DDL
+OC    -> ε | ","
+DD    -> DNL "/" DVL "/"
+DNL   -> DN | DN "," DNL
+DN    -> id | DDL
+DVL   -> DV | DVL "," DV
+DV    -> NOD DVP | DVS
+NOD   -> num | id
+NOS   -> num | str
+DVP   -> ε | * id | * OPS num | * str 
+DVS   -> OPS num | OPS str
+OPS   -> ε | + | -
+DDL   -> "(" ODDL DDLR ")"
+ODDL  -> IDDL | DDL
+IDDL  -> id "(" CSV ")" 
+CSV   -> ε | "," id CSV
+DDLR  -> ε | DDLR ","
+IDDLR -> 
 
 ```
 Die Wirthsch'e EBNF halte ich für lesbarer, da die zusätzlichen Metasymbole sehr
-ausdrucksstark sind und die Einführung zusätzlicher Nonterminalsymbole teilweise
-überflüssig machen.
+ausdrucksstark sind und die Einführung zusätzlicher Nonterminalsymbole teilweise überflüssig machen. Die von Niklaus Wirth gewählten Metasymbole sind außerdem leicht in herkömmlichen Texteditoren zu verwenden. (keine fancy zeilenübergreifenden Symbole)
 
 
 ## e) Zeichnen Sie den Syntaxbaum für folgenden Satz, verwenden Sie dazu die gegebene Grammatik G(DataStat) von oben:
