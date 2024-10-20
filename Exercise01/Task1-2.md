@@ -9,7 +9,7 @@ Vt = { DataDeclRest, DataDeclRest, DataNameList,
 Vn = { "DATA",",", "/", id, num, "*", "+", "-", str, "(", ")", expr }
 
 Anmerkung: id, num, str und expr sind Terminalklassen!
-epsilon ist kein Terminalsymbol
+ε ist kein Terminalsymbol
 ```
 
 ## b) Geben Sie den/die kürzesten Satz/Sätze an, den/die man mit dieser Grammatik bilden kann.
@@ -87,13 +87,13 @@ Diese Gramatik ist nicht vollständig, muss noch gemacht werden!!
 Am besten die Gramatik in Wirth'sche EBNF in Regelschreibweise umschreiben 
 
 ```
-N  -> VZ ZON Z UZ
-UZ -> 1 | 3 | 5 | 7 | 9
-VZ -> ε | + | -
-Z  -> 
-GZ -> 0 | 2 | 4 | 6 | 8
-Z  -> ε | UZ | GZ | Z
-ZON -> 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+Zahl -> "+" Ziffernfolge | "-" Ziffernfolge | Ziffernfolge
+Ziffernfolge -> EinstelligeZahl | MehrstelligeZahl
+EinstelligeZahl -> "1" | "3" | "5" | "7" | "9" 
+MehrstelligeZahl -> Startziffer MittlereZiffern LetzteZiffer
+StartZiffer -> "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
+MittlereZiffern -> "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" | MittlereZiffern |  ε
+LetzteZiffer -> "1" | "3" | "5" | "7" | "9"
 ```
 
 in Wirth'scher EBNF
