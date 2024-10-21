@@ -42,27 +42,29 @@ DATA id / id /
 ## d) Transformieren Sie die gegebene Grammatik in das Regelsystem der formalen Sprachen. Welche Grammatikschreibweise halten Sie für lesbarer? Begründen Sie Ihre Antwort.
 
 ```
-DS    -> DATA DDL DDR
-DDR   -> ε | DDR OC DDL
-OC    -> ε | ","
-DD    -> DNL "/" DVL "/"
-DNL   -> DN | DN "," DNL
-DN    -> id | DDL
-DVL   -> DV | DVL "," DV
-DV    -> NOD DVP | DVS
-NOD   -> num | id
-NOS   -> num | str
-DVP   -> ε | * id | * OPS num | * str 
-DVS   -> OPS num | OPS str
-OPS   -> ε | + | -
-DDL   -> "(" ODDL DDLR ")"
-ODDL  -> IDDL | DDL
-IDDL  -> id "(" CSV ")" 
-CSV   -> ε | "," id CSV
-DDLR  -> ε | DDLR ","
-IDDLR -> 
-
+DataStat                -> DATA DataDecl DataDeclRest
+DataDeclRest            -> ε | DataDeclRest OptionalComma DataDecl
+OptionalComma           -> ε | ,
+DataDecl                -> DataNameList / DataValueList /
+DataNameList            -> DataName | DataName , DataNameList
+DataName                -> id | DataDoList
+DataValueList           -> DataValue | DataValueList , DataValue
+DataValue               -> NumOrId OptionalValue | SignedNumOrStr
+NumOrId                 -> num | id
+NumOrStr                -> num | str
+OptionalValue           -> ε | * id | * OptinalSign num | * str
+SignedNumOrStr          -> OptinalSign num | OptinalSign str
+OptinalSign             -> ε | + | -
+DataDoList              -> ( ODDL DataDoListRest )
+ODDL                    -> IdList | DataDoList
+IdList                  -> id ( CommaSeparatedId ) 
+CommaSeparatedId        -> ε | , id CommaSeparatedId
+DataDoListRest          -> ε | DataDoListRest , 
+DataDoListRestOption    -> id Expression | DataDoList
+Expression              -> ( ExpressionList ) | = expr , expr expr | = expr , expr
+ExpressionList          -> expr | expr , ExpressionList
 ```
+
 Die Wirthsch'e EBNF halte ich für lesbarer, da die zusätzlichen Metasymbole sehr
 ausdrucksstark sind und die Einführung zusätzlicher Nonterminalsymbole teilweise überflüssig machen. Die von Niklaus Wirth gewählten Metasymbole sind außerdem leicht in herkömmlichen Texteditoren zu verwenden. (keine fancy zeilenübergreifenden Symbole)
 
@@ -82,10 +84,6 @@ TODO
 
 
 # 2. Konstruktion einer Grammatik
-
->**_NOTE:_**
-Diese Gramatik ist nicht vollständig, muss noch gemacht werden!!
-Am besten die Gramatik in Wirth'sche EBNF in Regelschreibweise umschreiben 
 
 Z...Zahl
 ZF...Ziffernfolge
