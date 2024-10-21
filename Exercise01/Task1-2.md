@@ -87,20 +87,18 @@ TODO
 
 Z...Zahl
 ZF...Ziffernfolge
-EZ...Einstellige Zahl
+UZ...Ungerade Ziffer
 MZ...Mehrstellige Zahl
 SZ...Start-Ziffer
 MTZ...Mittlere Ziffer
-LZ...Letzte Ziffer
 
 ```
 Z -> "+" ZF | "-" ZF | ZF
-ZF -> EZ | MZ
-EZ -> "1" | "3" | "5" | "7" | "9" 
+ZF -> UZ | MZ
+UZ -> "1" | "3" | "5" | "7" | "9" 
 MZ -> SZ MTZ LZ
 SZ -> "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
 MTZ -> "0" MTZ | "1" MTZ | "2" MTZ | "3" MTZ | "4" MTZ | "5" MTZ | "6" MTZ | "7" MTZ | "8" MTZ | "9" MTZ |  ε
-LZ -> "1" | "3" | "5" | "7" | "9"
 ```
 
 in Wirth'scher EBNF
