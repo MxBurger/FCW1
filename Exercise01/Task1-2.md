@@ -93,12 +93,12 @@ SZ...Start-Ziffer
 MTZ...Mittlere Ziffer
 
 ```
-Z -> "+" ZF | "-" ZF | ZF
+Z -> + ZF | - ZF | ZF
 ZF -> UZ | MZ
-UZ -> "1" | "3" | "5" | "7" | "9" 
-MZ -> SZ MTZ LZ
-SZ -> "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
-MTZ -> "0" MTZ | "1" MTZ | "2" MTZ | "3" MTZ | "4" MTZ | "5" MTZ | "6" MTZ | "7" MTZ | "8" MTZ | "9" MTZ |  ε
+UZ -> 1 | 3 | 5 | 7 | 9 
+MZ -> SZ MTZ UZ
+SZ -> 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+MTZ -> 0 MTZ | 1 MTZ | 2 MTZ | 3 MTZ | 4 MTZ | 5 MTZ | 6 MTZ | 7 MTZ | 8 MTZ | 9 MTZ |  ε
 ```
 
 in Wirth'scher EBNF
