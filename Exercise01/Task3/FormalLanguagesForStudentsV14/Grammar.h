@@ -57,9 +57,13 @@ class Grammar // no public base class
     bool isEpsilonFree() const;  // only root may have an epsilon alternative
     bool rootHasEpsilonAlternative() const; // S -> ... | EPS | ...
 
+    friend Grammar *newEpsilonFreeGrammarOf(const Grammar *g);
+
 }; // Grammar
 
 std::ostream &operator<<(std::ostream &os, const Grammar &g);
+
+Grammar *newEpsilonFreeGrammarOf(const Grammar *g);
 
 
 #endif

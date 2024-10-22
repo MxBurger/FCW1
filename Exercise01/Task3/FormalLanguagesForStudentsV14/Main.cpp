@@ -35,6 +35,9 @@ using namespace std;
 #endif
 
 
+
+
+
 int main(int argc, char * argv[]) {
 
   installSignalHandlers();
@@ -46,19 +49,21 @@ int main(int argc, char * argv[]) {
 try {
 
   SymbolPool *sp = new SymbolPool();
-  cout << *sp << endl;
+   // cout << *sp << endl;
 
   GrammarBuilder *gb1 = nullptr;
   GrammarBuilder *gb2 = nullptr;
   GrammarBuilder *gb3 = nullptr;
+  GrammarBuilder *gb4 = nullptr;
 
   Grammar *g1 = nullptr;
   Grammar *g2 = nullptr;
   Grammar *g3 = nullptr;
+  Grammar *g4 = nullptr;
 
 
-// *** test case selection: 1, 2, or 3 ***
-#define TESTCASE 1
+// *** test case selection: 1, 2, 3 or 4 ***
+#define TESTCASE 4
 // ***************************************
 
   cout << "TESTCASE " << TESTCASE << endl << endl;
@@ -127,6 +132,19 @@ try {
 
   cout << "grammar from C string:" << endl << *g3 << endl;
 
+#elif TESTCASE == 4 // epsilon free grammar
+
+  gb4 = new GrammarBuilder(
+      "G(S):           \n\
+     S -> A B C                 \n\
+     A -> B B | eps             \n\
+     B -> C C | a               \n\
+     C -> A A | b             ");
+  g4 = gb4->buildGrammar();
+
+  auto epsFreeGrammer = newEpsilonFreeGrammarOf(g4);
+  cout << *epsFreeGrammer << endl;
+  delete epsFreeGrammer;
 
 #else // none of the TESTCASEs above
 
@@ -137,10 +155,12 @@ try {
   delete gb1;
   delete gb2;
   delete gb3;
+  delete gb4;
 
   delete g1;
   delete g2;
   delete g3;
+  delete g4;
 
   cout << endl << *sp << endl; // final contents of symbol pool
   delete sp;

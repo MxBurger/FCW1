@@ -159,6 +159,49 @@ ostream& operator<<(ostream &os, const Grammar &g) {
 } // operator<<
 
 
+Grammar *newEpsilonFreeGrammarOf(const Grammar *g) {
+  // Step 1
+  Vocabulary<NTSymbol> deletableNTs = g->deletableNTs();
+  cout << "deletableNTs: " << deletableNTs << endl;
+
+  // Step 2
+  // check every NT
+  for(auto &rule: g->rules) {
+
+    cout << "rule: " << *rule.first << " -> " << rule.second <<  endl;
+
+    // check every substitution rule
+    for(auto &right: rule.second ) {
+
+      // skip all rules containing epsilon
+      if(right->isEpsilon()) {
+        cout << *rule.first << " contains epsilon" << endl;
+        break;
+      }
+
+      // skip all rules containing deletable NTs
+      for (auto symbol : *right) {
+        if(symbol->isNT() && deletableNTs.contains(static_cast<NTSymbol *>(symbol))) {
+          cout << *rule.first << " is deletable (because of " << *right << ")" << endl;
+          break;
+        }
+      }
+
+
+      // take rule to new grammar (because no delete rule applied)
+    }
+    cout << endl;
+  }
+
+
+
+
+  auto epsFreeGrammar  = new Grammar(*g);
+  return epsFreeGrammar;
+}
+
+
+
 // === test ============================================================
 
 #if 0
