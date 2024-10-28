@@ -19,6 +19,7 @@ using namespace std;
 #include "GrammarBasics.h"
 #include "GrammarBuilder.h"
 #include "Grammar.h"
+#include "Language.h"
 
 // Activation (with 1) allows simple builds via command line
 // * for GNU   use:  g++      -std=c++17 Main.cpp
@@ -32,6 +33,7 @@ using namespace std;
   #include "GrammarBasics.cpp"
   #include "GrammarBuilder.cpp"
   #include "Grammar.cpp"
+  #include "Language.cpp"
 #endif
 
 
@@ -55,15 +57,17 @@ try {
   GrammarBuilder *gb2 = nullptr;
   GrammarBuilder *gb3 = nullptr;
   GrammarBuilder *gb4 = nullptr;
+  GrammarBuilder *gb5 = nullptr;
 
   Grammar *g1 = nullptr;
   Grammar *g2 = nullptr;
   Grammar *g3 = nullptr;
   Grammar *g4 = nullptr;
+  Grammar *g5 = nullptr;
 
 
-// *** test case selection: 1, 2, 3 or 4 ***
-#define TESTCASE 4
+// *** test case selection: 1, 2, 3, 4 or 5 ***
+#define TESTCASE 5
 // ***************************************
 
   cout << "TESTCASE " << TESTCASE << endl << endl;
@@ -141,10 +145,27 @@ try {
      B -> C C | a               \n\
      C -> A A | b             ");
   g4 = gb4->buildGrammar();
+  cout << "original grammar:" << endl << *g4 << endl;
 
   auto epsFreeGrammer = newEpsilonFreeGrammarOf(g4);
-  cout << *epsFreeGrammer << endl;
+  cout << "epsilon free grammar:" << endl << *epsFreeGrammer << endl;
   delete epsFreeGrammer;
+
+#elif TESTCASE == 5 // language of
+
+  gb5 = new GrammarBuilder(
+      "G(S):           \n\
+     S -> a B | b A             \n\
+     A -> a   | a S | b A A     \n\
+     B -> b   | b S | a B B         ");
+  g5 = gb5->buildGrammar();
+  Language* lang = languageOf(g5, 6);
+
+  cout << "language of grammar:" << endl << *lang << endl;
+
+  cout << endl << "Total number of sentences: " << lang->size() << std::endl;
+
+  delete lang;
 
 #else // none of the TESTCASEs above
 
@@ -156,11 +177,13 @@ try {
   delete gb2;
   delete gb3;
   delete gb4;
+  delete gb5;
 
   delete g1;
   delete g2;
   delete g3;
   delete g4;
+  delete g5;
 
   cout << endl << *sp << endl; // final contents of symbol pool
   delete sp;
