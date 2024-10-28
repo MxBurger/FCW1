@@ -37,7 +37,12 @@ using namespace std;
 #endif
 
 
-
+void testHasSentence(Language* lang, Sequence* seq, bool expected) {
+  bool actual = lang->hasSentence(seq);
+  cout << *seq << " --- Expected: " << (expected ? "true" : "false") << " - "
+               << "Actual: " << (actual ? "true" : "false") << std::endl;
+  delete seq;
+}
 
 
 int main(int argc, char * argv[]) {
@@ -66,8 +71,8 @@ try {
   Grammar *g5 = nullptr;
 
 
-// *** test case selection: 1, 2, 3, 4 or 5 ***
-#define TESTCASE 5
+// *** test case selection: 1, 2, 3, 4, 5 or 6 ***
+#define TESTCASE 6
 // ***************************************
 
   cout << "TESTCASE " << TESTCASE << endl << endl;
@@ -167,6 +172,29 @@ try {
 
   delete lang;
 
+#elif TESTCASE == 6 // language of
+
+  gb5 = new GrammarBuilder(
+      "G(S):           \n\
+     S -> a B | b A             \n\
+     A -> a   | a S | b A A     \n\
+     B -> b   | b S | a B B         ");
+  g5 = gb5->buildGrammar();
+  Language* lang = languageOf(g5, 6);
+
+  cout << "language of grammar:" << endl << *lang << endl;
+
+  testHasSentence(lang, new Sequence("a b"), true);
+  testHasSentence(lang, new Sequence("a a b"), false);
+  testHasSentence(lang, new Sequence("a a a b"), false);
+  testHasSentence(lang, new Sequence("a a a a b"), false);
+  testHasSentence(lang, new Sequence("a b b a"), true);
+  testHasSentence(lang, new Sequence("a b b a b a"), true);
+  testHasSentence(lang, new Sequence("a a a a b b b b"), false);
+
+
+  delete lang;
+
 #else // none of the TESTCASEs above
 
   cerr << "ERROR: invalid TESTCASE " << TESTCASE << endl;
@@ -202,6 +230,8 @@ try {
 
   return 0;
 } // main
+
+
 
 
 // end of Main.cpp
