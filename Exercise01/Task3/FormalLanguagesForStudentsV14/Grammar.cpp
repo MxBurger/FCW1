@@ -203,6 +203,8 @@ Grammar *newEpsilonFreeGrammarOf(const Grammar *g) {
                 // Only add non-empty alternatives
                 if (newAlt->length() > 0) {
                     builder->addRule(nt, newAlt);
+                } else {
+                    delete newAlt; // Clean up empty alternatives
                 }
             }
         }
@@ -210,14 +212,12 @@ Grammar *newEpsilonFreeGrammarOf(const Grammar *g) {
 
     // Handle deletable start symbol
     if (deletableNTs.contains(g->root)) {
-        // Create new root symbol using symbol pool
         NTSymbol* newRoot = sp->ntSymbol(g->root->name + "'");
         builder->setNewRoot(newRoot);
         Sequence* emptySeq = new Sequence();
         builder->addRule(newRoot, {emptySeq, new Sequence({g->root})});
     }
 
-    // Clean up and return
     Grammar* result = builder->buildGrammar();
     delete sp;
     delete builder;
