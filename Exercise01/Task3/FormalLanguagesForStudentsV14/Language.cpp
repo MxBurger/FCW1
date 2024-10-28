@@ -41,9 +41,8 @@ Language* languageOf(const Grammar* g, int maxLen) {
 
     Language* lang = new Language();
 
-    // Set to store all sequences we need to check
+    // initialize set of sequences to check with the start symbol
     std::set<Sequence> toCheck;
-
     Sequence start(g->root);
     toCheck.insert(start);
 

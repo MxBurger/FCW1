@@ -8,6 +8,7 @@
 #include <cstring>
 
 #include <algorithm>
+#include <cmath>
 #include <iostream>
 #include <fstream>
 #include <queue>
@@ -182,8 +183,8 @@ Grammar *newEpsilonFreeGrammarOf(const Grammar *g) {
                 }
             }
 
-            // Generate all combinations
-            int combinations = 1 << deletableIndices.size();
+            // Generate all combinations (deletable ^ 2) of deletable symbols
+            int combinations = static_cast<int>(pow(2, deletableIndices.size()));
             for (int i = 0; i < combinations; i++) {
                 Sequence* newAlt = new Sequence();
                 for (int j = 0; j < alt->length(); j++) {
