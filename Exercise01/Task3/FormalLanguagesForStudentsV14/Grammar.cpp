@@ -49,7 +49,7 @@ VNt Grammar::deletableNTs() const {
   } // for
 
   // 2. look for NTs having at least one deletable sequence
-  size_t oldSize;
+  int oldSize;
   do {
     oldSize = vNtDel.size();
     for (auto &rule: rules) {
@@ -160,44 +160,68 @@ ostream& operator<<(ostream &os, const Grammar &g) {
 
 
 Grammar *newEpsilonFreeGrammarOf(const Grammar *g) {
-  // Step 1
-  Vocabulary<NTSymbol> deletableNTs = g->deletableNTs();
-  cout << "deletableNTs: " << deletableNTs << endl;
+    // Get all deletable nonterminal symbols
+    Vocabulary<NTSymbol> deletableNTs = g->deletableNTs();
 
-  // Step 2
-  // check every NT
-  for(auto &rule: g->rules) {
+    SymbolPool* sp = new SymbolPool();
+    GrammarBuilder* builder = new GrammarBuilder(g->root);
 
-    cout << "rule: " << *rule.first << " -> " << rule.second <<  endl;
+    for (const auto& rule : g->rules) {
+        NTSymbol* nt = rule.first;
 
-    // check every substitution rule
-    for(auto &right: rule.second ) {
+        for (const Sequence* alt : rule.second) {
+            // Skip empty alternatives
+            if (alt->length() == 0) continue;
 
-      // skip all rules containing epsilon
-      if(right->isEpsilon()) {
-        cout << *rule.first << " contains epsilon" << endl;
-        break;
-      }
+            // Find positions of deletable symbols in this alternative
+            vector<size_t> deletableIndices;
+            for (int i = 0; i < alt->length(); i++) {
+                Symbol* sym = alt->at(i);
+                if (sym->isNT() && deletableNTs.contains(dynamic_cast<NTSymbol*>(sym))) {
+                    deletableIndices.push_back(i);
+                }
+            }
 
-      // skip all rules containing deletable NTs
-      for (auto symbol : *right) {
-        if(symbol->isNT() && deletableNTs.contains(static_cast<NTSymbol *>(symbol))) {
-          cout << *rule.first << " is deletable (because of " << *right << ")" << endl;
-          break;
+            // Generate all combinations
+            int combinations = 1 << deletableIndices.size();
+            for (int i = 0; i < combinations; i++) {
+                Sequence* newAlt = new Sequence();
+                for (int j = 0; j < alt->length(); j++) {
+                    // Check if current position is deletable
+                    auto it = find(deletableIndices.begin(), deletableIndices.end(), j);
+                    if (it == deletableIndices.end()) {
+                        // Not deletable - always include
+                        newAlt->append(alt->at(j));
+                    } else {
+                        // Deletable - include only if bit is set
+                        int bitPos = it - deletableIndices.begin();
+                        if (!(i & (1 << bitPos))) {
+                            newAlt->append(alt->at(j));
+                        }
+                    }
+                }
+                // Only add non-empty alternatives
+                if (newAlt->length() > 0) {
+                    builder->addRule(nt, newAlt);
+                }
+            }
         }
-      }
-
-
-      // take rule to new grammar (because no delete rule applied)
     }
-    cout << endl;
-  }
 
+    // Handle deletable start symbol
+    if (deletableNTs.contains(g->root)) {
+        // Create new root symbol using symbol pool
+        NTSymbol* newRoot = sp->ntSymbol(g->root->name + "'");
+        builder->setNewRoot(newRoot);
+        Sequence* emptySeq = new Sequence();
+        builder->addRule(newRoot, {emptySeq, new Sequence({g->root})});
+    }
 
-
-
-  auto epsFreeGrammar  = new Grammar(*g);
-  return epsFreeGrammar;
+    // Clean up and return
+    Grammar* result = builder->buildGrammar();
+    delete sp;
+    delete builder;
+    return result;
 }
 
 
