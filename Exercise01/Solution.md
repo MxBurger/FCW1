@@ -181,6 +181,95 @@ Grammar *newEpsilonFreeGrammarOf(const Grammar *g) {
 }
 ```
 
+
+### Konsolenausgabe
+```
+START Main
+
+TESTCASE 4
+
+original grammar:
+
+G(S):
+S -> A B C
+A -> eps | B B
+B -> C C | a
+C -> A A | b
+---
+VNt = { A, B, C, S }, deletable: { A, B, C, S }
+VT  = { a, b }
+
+
+epsilon free grammar:
+
+G(S'):
+S' -> eps | S
+S -> A | A B | A B C | A C | B | B C | C
+A -> B | B B
+B -> C | C C | a
+C -> A | A A | b
+---
+VNt = { A, B, C, S, S' }, deletable: { S' }
+VT  = { a, b }
+
+
+
+symbol pool: 2 terminals and 5 nonterminals
+  terminals    = { b, a }
+  nonterminals = { S', B, C, A, S }
+
+elapsed time: 0.017
+
+END Main
+
+
+----------------------------------------------------
+report generated on destruction of ObjectCounter<>s:
+
+Grammar:
+  +2 -2 = 0 alive
+
+TSymbol:
+  +2 -2 = 0 alive
+
+Sequence:
+  +55 -55 = 0 alive
+
+Vocabulary<Symbol>::XSymbol:
+  +64 -64 = 0 alive
+
+NTSymbol:
+  +5 -5 = 0 alive
+
+Vocabulary<Symbol>:
+  +4 -4 = 0 alive
+
+Vocabulary<TSymbol>:
+  +4 -4 = 0 alive
+
+Vocabulary<NTSymbol>:
+  +7 -7 = 0 alive
+
+RulesMap:
+  +4 -4 = 0 alive
+
+GrammarBuilder:
+  +2 -2 = 0 alive
+
+SymbolPoolData:
+  +1 -1 = 0 alive
+
+SymbolPool:
+  +7 -7 = 0 alive
+
+SequenceSet:
+  +19 -19 = 0 alive
+
+Process finished with exit code 0
+
+```
+
+
 ## b) `Language *languageOf(const Grammar *g, int maxLen);`
 
 ```cpp
@@ -261,6 +350,98 @@ Language* languageOf(const Grammar* g, int maxLen) {
 }
 ```
 
+### Konsolenausgabe
+```
+START Main
+
+TESTCASE 5
+
+language of grammar:
+a a b b a b
+a a b b b a
+a a b a b b
+a a b b
+a a a b b b
+a b
+a b a a b b
+b b a a b a
+b b a a
+a b b b a a
+b a a a b b
+b a a b
+a b b a a b
+b a a b b a
+a b a b b a
+a b a b a b
+a b b a b a
+b b a a a b
+b a b a b a
+b a b a
+a b b a
+b a
+a b a b
+b a b a a b
+b a a b a b
+b a b b a a
+b b b a a a
+b b a b a a
+
+
+Total number of sentences: 28
+
+symbol pool: 2 terminals and 3 nonterminals
+  terminals    = { b, a }
+  nonterminals = { B, A, S }
+
+elapsed time: 0.02
+
+END Main
+
+
+----------------------------------------------------
+report generated on destruction of ObjectCounter<>s:
+
+Grammar:
+  +1 -1 = 0 alive
+
+TSymbol:
+  +2 -2 = 0 alive
+
+Sequence:
+  +661 -661 = 0 alive
+
+Vocabulary<Symbol>::XSymbol:
+  +25 -25 = 0 alive
+
+NTSymbol:
+  +3 -3 = 0 alive
+
+Vocabulary<Symbol>:
+  +2 -2 = 0 alive
+
+Vocabulary<TSymbol>:
+  +2 -2 = 0 alive
+
+Vocabulary<NTSymbol>:
+  +2 -2 = 0 alive
+
+RulesMap:
+  +2 -2 = 0 alive
+
+GrammarBuilder:
+  +1 -1 = 0 alive
+
+SymbolPoolData:
+  +1 -1 = 0 alive
+
+SymbolPool:
+  +4 -4 = 0 alive
+
+SequenceSet:
+  +7 -7 = 0 alive
+
+Process finished with exit code 0
+```
 
 ## c) `bool Language::hasSentence(const Sequence *s) const;`
 
@@ -271,4 +452,113 @@ bool Language::hasSentence(const Sequence *s) const {
     }
     return false;
 }
+```
+
+### Testfunktion
+```cpp
+void testHasSentence(Language* lang, Sequence* seq, bool expected) {
+  bool actual = lang->hasSentence(seq);
+  cout << *seq << " --- Expected: " << (expected ? "true" : "false") << " - "
+               << "Actual: " << (actual ? "true" : "false") << std::endl;
+  delete seq;
+}
+```
+
+### Konsolenausgabe
+
+```
+START Main
+
+TESTCASE 6
+
+language of grammar:
+a a b b
+a b
+a a b a b b
+a a a b b b
+a b a a b b
+b b a a b a
+b b a a
+a a b b a b
+a a b b b a
+b b a a a b
+b a b a b a
+a b a b
+a b b a b a
+b a a a b b
+a b b b a a
+b a a b
+b a a b a b
+b a a b b a
+a b a b a b
+a b b a a b
+a b b a
+b a b a a b
+a b a b b a
+b a
+b a b b a a
+b a b a
+b b a b a a
+b b b a a a
+
+a b --- Expected: true - Actual: true
+a a b --- Expected: false - Actual: false
+a a a b --- Expected: false - Actual: false
+a a a a b --- Expected: false - Actual: false
+a b b a --- Expected: true - Actual: true
+a b b a b a --- Expected: true - Actual: true
+a a a a b b b b --- Expected: false - Actual: false
+
+symbol pool: 2 terminals and 3 nonterminals
+  terminals    = { b, a }
+  nonterminals = { B, A, S }
+
+elapsed time: 0.03
+
+END Main
+
+
+----------------------------------------------------
+report generated on destruction of ObjectCounter<>s:
+
+Grammar:
+  +1 -1 = 0 alive
+
+TSymbol:
+  +2 -2 = 0 alive
+
+Sequence:
+  +668 -668 = 0 alive
+
+Vocabulary<Symbol>::XSymbol:
+  +25 -25 = 0 alive
+
+NTSymbol:
+  +3 -3 = 0 alive
+
+Vocabulary<Symbol>:
+  +2 -2 = 0 alive
+
+Vocabulary<TSymbol>:
+  +2 -2 = 0 alive
+
+Vocabulary<NTSymbol>:
+  +2 -2 = 0 alive
+
+RulesMap:
+  +2 -2 = 0 alive
+
+GrammarBuilder:
+  +1 -1 = 0 alive
+
+SymbolPoolData:
+  +1 -1 = 0 alive
+
+SymbolPool:
+  +11 -11 = 0 alive
+
+SequenceSet:
+  +7 -7 = 0 alive
+
+Process finished with exit code 0
 ```
