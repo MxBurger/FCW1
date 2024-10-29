@@ -114,6 +114,12 @@ Z = [ "+" | "-" ]
 
 ## a) `Grammar *newEpsilonFreeGrammarOf(const Grammar *g);`
 
+Die Lösungsidee ist die Beseitigung von ε-Regeln durch systematische Erzeugung aller möglichen Alternativen ohne Grammatikregeln bei denen ein Nonterminalsymbol zu  ε abgeleitet wird . 
+
+1. Identifiziere alle löschbaren Nonterminalsymbole
+2. Generiere für jede Alternative mit löschbaren Symbolen alle Kombinationen, wo diese entweder vorhanden sind oder weggelassen werden
+3. Füge einen neuen Startzustand hinzu, falls das ursprüngliche Startsymbol löschbar war
+
 ```cpp
 Grammar *newEpsilonFreeGrammarOf(const Grammar *g) {
     // Get all deletable nonterminal symbols
@@ -269,8 +275,14 @@ Process finished with exit code 0
 
 ```
 
-
 ## b) `Language *languageOf(const Grammar *g, int maxLen);`
+
+Die Lösungsidee ist eine systematische Generierung aller möglichen Sätze bis zur maximalen Länge durch:
+
+1. Starte mit dem Startsymbol
+2. Ersetze iterativ Nonterminalsymbole durch ihre Alternativen
+3. Sobald eine Sequenz nur aus Terminalsymbolen besteht und nicht länger als maxLen ist, füge sie zur Sprache hinzu
+4. Fortsetzung bis keine neuen gültigen Sätze mehr gefunden werden können oder zu überprüfende Sequenzen die maximale Länge überschreiten würden
 
 ```cpp
 #include "Language.h"
