@@ -11,12 +11,14 @@
 #include <cmath>
 #include <iostream>
 #include <fstream>
+#include <functional>
 #include <queue>
 #include <stdexcept>
 #include <sstream>
 #include <vector>
 
 using namespace std;
+using std::function;
 
 #include "GrammarBasics.h"
 #include "GrammarBuilder.h"
@@ -160,6 +162,26 @@ ostream& operator<<(ostream &os, const Grammar &g) {
 } // operator<<
 
 
+void generateCombinations(Sequence* newAlt, size_t pos, const vector<size_t>& deletableIndices, const Sequence* alt, NTSymbol* nt, GrammarBuilder* builder) {
+  if (pos == deletableIndices.size()) {
+    if (newAlt->length() > 0) {
+      builder->addRule(nt, new Sequence(*newAlt));
+    }
+    return;
+  }
+
+  // Include the deletable symbol
+  newAlt->append(alt->at(deletableIndices[pos]));
+  generateCombinations(newAlt, pos + 1, deletableIndices, alt, nt, builder);
+
+  // Exclude the deletable symbol
+  if (!newAlt->empty()) {
+    newAlt->pop_back();
+  }
+  generateCombinations(newAlt, pos + 1, deletableIndices, alt, nt, builder);
+}
+
+
 Grammar *newEpsilonFreeGrammarOf(const Grammar *g) {
     // Get all deletable nonterminal symbols
     Vocabulary<NTSymbol> deletableNTs = g->deletableNTs();
@@ -183,31 +205,15 @@ Grammar *newEpsilonFreeGrammarOf(const Grammar *g) {
                 }
             }
 
-            // Generate all combinations (deletable ^ 2) of deletable symbols
-            int combinations = static_cast<int>(pow(2, deletableIndices.size()));
-            for (int i = 0; i < combinations; i++) {
-                Sequence* newAlt = new Sequence();
-                for (int j = 0; j < alt->length(); j++) {
-                    // Check if current position is deletable
-                    auto it = find(deletableIndices.begin(), deletableIndices.end(), j);
-                    if (it == deletableIndices.end()) {
-                        // Not deletable - always include
-                        newAlt->append(alt->at(j));
-                    } else {
-                        // Deletable - include only if bit is set
-                        int bitPos = it - deletableIndices.begin();
-                        if (!(i & (1 << bitPos))) {
-                            newAlt->append(alt->at(j));
-                        }
-                    }
-                }
-                // Only add non-empty alternatives
-                if (newAlt->length() > 0) {
-                    builder->addRule(nt, newAlt);
-                } else {
-                    delete newAlt; // Clean up empty alternatives
+            // Start generating combinations
+            Sequence* newAlt = new Sequence();
+            for (int i = 0; i < alt->length(); i++) {
+                if (find(deletableIndices.begin(), deletableIndices.end(), i) == deletableIndices.end()) {
+                    newAlt->append(alt->at(i));
                 }
             }
+            generateCombinations(newAlt, 0, deletableIndices, alt, nt, builder);
+            delete newAlt;
         }
     }
 

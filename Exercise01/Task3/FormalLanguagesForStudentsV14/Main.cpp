@@ -72,7 +72,7 @@ try {
 
 
 // *** test case selection: 1, 2, 3, 4, 5 or 6 ***
-#define TESTCASE 6
+#define TESTCASE 4
 // ***************************************
 
   cout << "TESTCASE " << TESTCASE << endl << endl;
