@@ -57,7 +57,6 @@ class Grammar // no public base class
     bool isEpsilonFree() const;  // only root may have an epsilon alternative
     bool rootHasEpsilonAlternative() const; // S -> ... | EPS | ...
 
-    friend Grammar *newEpsilonFreeGrammarOf(const Grammar *g);
 
 }; // Grammar
 
