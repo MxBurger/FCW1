@@ -161,7 +161,6 @@ ostream& operator<<(ostream &os, const Grammar &g) {
   return os;
 } // operator<<
 
-
 void generateCombinations(Sequence* newAlt, size_t pos, const vector<size_t>& deletableIndices, const Sequence* alt, NTSymbol* nt, GrammarBuilder* builder) {
   if (pos == deletableIndices.size()) {
     if (newAlt->length() > 0) {
@@ -205,13 +204,14 @@ Grammar *newEpsilonFreeGrammarOf(const Grammar *g) {
                 }
             }
 
-            // Start generating combinations
+            // Generate a new  alternative with non-deletable symbols
             Sequence* newAlt = new Sequence();
             for (int i = 0; i < alt->length(); i++) {
                 if (find(deletableIndices.begin(), deletableIndices.end(), i) == deletableIndices.end()) {
                     newAlt->append(alt->at(i));
                 }
             }
+
             generateCombinations(newAlt, 0, deletableIndices, alt, nt, builder);
             delete newAlt;
         }

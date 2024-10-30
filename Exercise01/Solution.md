@@ -22,6 +22,10 @@ DATA id / *DV* / *DDR* =>
 DATA id / id / *DDR* =>
 DATA id / id /
 
+<!-- pagebreak -->
+
+
+
 ## c) Ermitteln Sie alle rekursiven Nonterminalsymbole. Geben Sie für jedes dieser Nonterminalsymbole an, ob es direkt- oder indirekt- und links-, zentral- oder rechtsrekursiv ist.
 
 **NT** ...Nonterminalsymbol
@@ -38,6 +42,7 @@ DATA id / id /
 | DDLR |   d |  l   |
 | DDLR |   i |  z   |
 
+<!-- pagebreak -->
 
 ## d) Transformieren Sie die gegebene Grammatik in das Regelsystem der formalen Sprachen. Welche Grammatikschreibweise halten Sie für lesbarer? Begründen Sie Ihre Antwort.
 
@@ -68,6 +73,7 @@ ExpressionList          -> expr | expr , ExpressionList
 Die Wirthsch'e EBNF halte ich für lesbarer, da die zusätzlichen Metasymbole sehr
 ausdrucksstark sind und die Einführung zusätzlicher Nonterminalsymbole teilweise überflüssig machen. Die von Niklaus Wirth gewählten Metasymbole sind außerdem leicht in herkömmlichen Texteditoren zu verwenden. (keine fancy zeilenübergreifenden Symbole)
 
+<!-- pagebreak -->
 
 ## e) Zeichnen Sie den Syntaxbaum für folgenden Satz, verwenden Sie dazu die gegebene Grammatik G(DataStat) von oben:
 ```
@@ -110,15 +116,32 @@ Z = [ "+" | "-" ]
 ( "1" | "3" | "5" | "7" | "9" ) .
 ```
 
+<!-- pagebreak -->
+
+
 # 3. Oo-Implementierung von Grammatiken
 
 ## a) `Grammar *newEpsilonFreeGrammarOf(const Grammar *g);`
 
-Die Lösungsidee ist die Beseitigung von ε-Regeln durch systematische Erzeugung aller möglichen Alternativen ohne Grammatikregeln bei denen ein Nonterminalsymbol zu  ε abgeleitet wird . 
+### Lösungsidee von newEpsilonFreeGrammarOf
 
-1. Identifiziere alle löschbaren Nonterminalsymbole
-2. Generiere für jede Alternative mit löschbaren Symbolen alle Kombinationen, wo diese entweder vorhanden sind oder weggelassen werden
-3. Füge einen neuen Startzustand hinzu, falls das ursprüngliche Startsymbol löschbar war
+1. Identifikation löschbarer Nonterminal-Symbole:
+
+Bestimme die Menge aller löschbaren Nonterminal-Symbole in der Grammatik *g* und speichere diese in `deletableNTs`.
+
+2. Erstellung der neuen Alternativen:
+
+- Jede Regel der Grammatik wird analysiert. Für jede Alternative `alt` innerhalb einer Regel:
+  - Die Positionen der löschbaren Symbole in alt werden in `deletableIndices` gespeichert.
+  - Ein `Sequence`-Objekt `newAlt` wird erstellt, das alle nicht löschbaren Symbole der Alternative `alt` enthält.
+  - Die Funktion `generateCombinations` wird aufgerufen, um alle Alternativen für diese Regel zu generieren, in denen die löschbaren Symbole optional sind. Jede gültige Kombination wird dabei als neue Regel zur Grammatik hinzugefügt.
+
+3. Behandlung des Startsymbols:
+
+- Wenn das Startsymbol löschbar ist, wird ein neues Startsymbol `newRoot` eingeführt. Dieses neue Symbol erlaubt sowohl die Ableitung der leeren Kette als auch die Ableitung des ursprünglichen Startsymbols.
+
+
+### Implementierung
 
 ```cpp
 void generateCombinations(Sequence* newAlt, size_t pos, const vector<size_t>& deletableIndices, const Sequence* alt, NTSymbol* nt, GrammarBuilder* builder) {
@@ -164,13 +187,14 @@ Grammar *newEpsilonFreeGrammarOf(const Grammar *g) {
                 }
             }
 
-            // Start generating combinations
+            // Generate a new  alternative with non-deletable symbols
             Sequence* newAlt = new Sequence();
             for (int i = 0; i < alt->length(); i++) {
                 if (find(deletableIndices.begin(), deletableIndices.end(), i) == deletableIndices.end()) {
                     newAlt->append(alt->at(i));
                 }
             }
+
             generateCombinations(newAlt, 0, deletableIndices, alt, nt, builder);
             delete newAlt;
         }
@@ -281,14 +305,66 @@ Process finished with exit code 0
 
 ## b) `Language *languageOf(const Grammar *g, int maxLen);`
 
-Die Lösungsidee ist eine systematische Generierung aller möglichen Sätze bis zur maximalen Länge durch:
+### Lösungsidee
+1. Initialisierung 
 
-1. Starte mit dem Startsymbol
-2. Ersetze iterativ Nonterminalsymbole durch ihre Alternativen
-3. Sobald eine Sequenz nur aus Terminalsymbolen besteht und nicht länger als maxLen ist, füge sie zur Sprache hinzu
-4. Fortsetzung bis keine neuen gültigen Sätze mehr gefunden werden können oder zu überprüfende Sequenzen die maximale Länge überschreiten würden
+Ein Startsymbol wird auf Basis des Wurzel-Symbols der Grammatik erzeugt. Das ist die Ausgangssequenz, die im Set `toCheck` gespeichert wird, welches die zu überprüfenden Sequenzen enthält.
+
+2. Iterative Überprüfung
+
+Solange `toCheck` nicht leer ist, wird die erste Sequenz (im Set) ausgewählt und entfernt.
+Wenn die Sequenz nur Nonterminal-Symbole enthält und sie kleiner oder gleich `maxLen` ist, wird sie zur Sprache hinzugefügt.
+
+3. Ersetzen und Erweitern von Nichtterminalen:
+
+Für jedes Symbol in der zu überprüfenden Sequenz wird geprüft, ob es sich um ein Nonterminal-Symbol handelt.
+Falls ja, werden alle Regeln in der Grammatik *g* durchlaufen. Ist das aktuelle Nonterminal-Symbol das linke Symbol einer Regel, werden alle Alternativen der Regel berücksichtigt.
+Jede Alternative wird an der Position des Nonterminal-Symbols in der aktuellen Sequenz eingefügt, und eine neue Sequenz instanziiert.
+Diese neue Sequenz wird nur dann in `toCheck` aufgenommen, wenn ihre Länge die Begrenzung `maxLen` nicht überschreitet.
+
+4. Resultat:
+
+Sobald `toCheck` leer ist, sind alle möglichen Sequenzen in der Sprache `lang` gesammelt, die den Bedingungen (nur Terminalsymbole und maximal `maxLen` lang) entsprechen.
+
+### Implementierung
 
 ```cpp
+// Language.h
+#pragma once
+#include <set>
+#include <string>
+#include "Grammar.h"
+#include "SequenceStuff.h"
+
+class Language {
+
+private:
+    std::set<Sequence*> sentences;
+
+public:
+    Language();
+
+    ~Language();
+
+    void addSentence(Sequence* sentence);
+
+    bool hasSentence(const Sequence* s) const;
+
+    size_t size() const;
+
+    set<Sequence*>::iterator begin() const;
+
+    set<Sequence*>::iterator  end() const;
+
+};
+
+std::ostream &operator<<(std::ostream &os, const Grammar &g);
+
+Language* languageOf(const Grammar* g, int maxLen);
+```
+
+```cpp
+//Language.cpp
 #include "Language.h"
 #include "Grammar.h"
 
@@ -461,7 +537,7 @@ Process finished with exit code 0
 
 ## c) `bool Language::hasSentence(const Sequence *s) const;`
 
-Die Lösungsidee ist ein einfacher aber effizienter Vergleich:
+Die Lösungsidee ist brute-force Vergleich:
 
 1. Durchsuchen der gespeicherten Sätze der Sprache
 2. Vergleich des übergebenen Satzes mit jedem gespeicherten Satz
