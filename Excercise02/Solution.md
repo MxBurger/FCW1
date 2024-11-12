@@ -1,12 +1,5 @@
-# 1.
-Gegeben sei folgende Grammatik für einfache arithmetische Ausdrücke:
-```
-E → T | + T | - T | E + T | E - T
-T → F | T * F | T / F
-F → v | ( E )
-```
-
-## a)
+# 1. Kanonische Ableitung und Reduktion
+## a) Leiten Sie aus dem Satzsymbol E einmal links- und einmal rechtskanonisch folgenden Satz ab:
 
 
 ```
@@ -35,13 +28,18 @@ F → v | ( E )
 ⇒ -<u>T</u>
 ⇒ -T  * <u>F</u>
 ⇒ -T  * (<u>E</u>)
-⇒ -T  *  E + (<u>T</u>)
-⇒ -T  *  E + (T / <u>F</u>)
-⇒ -T  *  E + (<u>T</u> / v)
-⇒ -T  *  E + (<u>T</u> / v)
-⇒ -T  *  E + (<u>F</u> / v)
+⇒ -T * (E + <u>T</u>)
+⇒ -T * (E + T / <u>F</u>)
+⇒ -T * (E + <u>T</u> / v)
+⇒ -T * (E + <u>F</u> / v)
+⇒ -T * (<u>E</u> + v / v)
+⇒ -T * (<u>T</u> + v / v)
+⇒ -T * (<u>F</u> + v / v)
+⇒ -<u>T</u> * (v + v / v)
+⇒ -<u>F</u> * (v + v / v)
+⇒ -v * (v + v / v)
 
-## b)
+## b) Reduzieren Sie folgenden Satz
 
 ```
 ( ( v + v ) * v / v ) – ( v / v )
@@ -49,65 +47,89 @@ F → v | ( E )
 
 ### Linkskanonisch
 
-( ( *v* + v ) * v / v ) – ( v / v )   |-
-( ( *F* + v ) * v / v ) – ( v / v )   |-
-( ( *T* + v ) * v / v ) – ( v / v )   |-
-( ( E + *v* ) * v / v ) – ( v / v )   |-
-( ( E + *F* ) * v / v ) – ( v / v )   |-
-( ( E + T ) * v / v ) – ( v / v )     |-
-( ( *E + T* ) * v / v ) – ( v / v )   |-
-( *( E )* * v / v ) – ( v / v )       |-
-(  *F*  * v / v ) – ( v / v )         |-
-(  T  * *v* / v ) – ( v / v )         |-
-(  *T  * F* / v ) – ( v / v )         |-
-( T/F ) -(v/v)                        |-
-( *T/F* ) -(v/v)                      |-
-( *T* ) -(v/v)                        |-
-*( E )* -(v/v)                        |-
-*F* - ( v / v)                        |-
-*T* - (v / v)                         |-
-E -(*v*/v)                            |-
-E - (*F* / v)                         |-
-E - (T / *v*)                         |-
-E - ( *T/F*)                          |-
-E - ( *T* )                           |-
-E - *(E)*                             |-
-E - *F*                               |-
-*E - T*                               |-
-E                                     |-
+( ( <u>v</u> + v ) * v / v ) – ( v / v )   ⊢
+( ( <u>F</u> + v ) * v / v ) – ( v / v )   ⊢
+( ( <u>T</u> + v ) * v / v ) – ( v / v )   ⊢
+( ( E + <u>v</u> ) * v / v ) – ( v / v )   ⊢
+( ( E + <u>F</u> ) * v / v ) – ( v / v )   ⊢
+( ( <u>E + T</u> ) * v / v ) – ( v / v )   ⊢
+( <u>( E )</u> * v / v ) – ( v / v )       ⊢
+(  <u>F</u>  * v / v ) – ( v / v )         ⊢
+(  T  * <u>v</u> / v ) – ( v / v )         ⊢
+(  <u>T  * F</u> / v ) – ( v / v )         ⊢
+( <u>T/F</u> ) - ( v / v )                 ⊢
+( <u>T</u> ) - ( v / v )                   ⊢
+<u>( E )</u> - ( v / v )                   ⊢
+<u>F</u> - ( v / v )                       ⊢
+<u>T</u> - ( v / v )                       ⊢
+E -( <u>v</u> / v)                         ⊢
+E - ( <u>F</u> / v)                        ⊢
+E - (T / <u>v</u>)                         ⊢
+E - ( <u> T / F </u> )                     ⊢
+E - ( <u>T</u> )                           ⊢
+E - <u>(E)</u>                             ⊢
+E - <u>F</u>                               ⊢
+<u>E - T</u>                               ⊢
+E                                          ⊢
 
 ### Rechtskanonisch
+( ( v + v ) * v / v ) – ( v / <u>v</u> )   ⊢
+( ( v + v ) * v / v ) – ( v / <u>T</u> )   ⊢
+( ( v + v ) * v / v ) – ( <u>v</u> / F )   ⊢
+( ( v + v ) * v / v ) – ( <u>F</u> / F )   ⊢
+( ( v + v ) * v / v ) – ( <u>T / F</u> )   ⊢
+( ( v + v ) * v / v ) – ( <u>T</u> )       ⊢
+( ( v + v ) * v / v ) – <u>( E )</u>       ⊢
+( ( v + v ) * v / v ) – <u>F</u>           ⊢
+( ( v + v ) * v / <u>v</u> ) – T           ⊢
+( ( v + v ) * <u>v</u> / F ) – T           ⊢
+( ( v + v ) * <u>F</u> / F ) – T           ⊢
+( ( v + v ) * <u>T / F</u> ) – T           ⊢
+( ( v + v ) * <u>T / F</u> ) – T           ⊢
+( ( v + <u>v</u> ) * T ) – T               ⊢
+( ( v + <u>F</u> ) * T ) – T               ⊢
+( ( <u>v</u> + T ) * T ) – T               ⊢
+( ( <u>F</u> + T ) * T ) – T               ⊢
+( ( <u>T</u> + T ) * T ) – T               ⊢
+( ( <u>E + T</u> ) * T ) – T               ⊢
+( <u>( E )</u> * T ) – T                   ⊢
+( <u>F</u> * T ) – T                       ⊢
+da ist der hund drin...verdammt
+( <u>T * F</u> ) – T                       ⊢
+( <u>T</u> ) – T                           ⊢
+<u>( E )</u> – T                           ⊢
+<u>F</u> – T                               ⊢
+<u>T</u> – T                               ⊢
+<u>E – T</u>                               ⊢
+E                                          ⊢
 
-# 2.
-## a)
-nein, nicht eindeutig (es gibt für einen Satz mehr als einen Syntaxbaum)
 
->TODO: insert syntaxtree here
+
+# 2. Mehrdeutigkeit, Beschreibung und Schreibweisen
+## a) Ist diese Grammatik mehrdeutig? Begründen Sie Ihre Antwort und transformieren Sie diese
+Grammatik – wenn nötig – in eine äquivalente eindeutige Grammatik.
+Nein, nicht eindeutig (es gibt für einen Satz mehr als einen Syntaxbaum)
+![Syntaxbaum](images/2a.png)
 ```
 frac -> frac d | ϵ
 ```
 
-## b)
-
-> TODO define d
+## b) Geben Sie eine möglichst kurze Grammatik für L(G(real)) in Wirth'scher EBNF an.
 ```
 Real = [ "+" | "-"]
        d {d}
        ["."{d}]
        ["E" ["+" | "-"] d{d}]
-
-d = ...
+d = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
 ```
 
-# 3.
-```
-S → b A | a B | ϵ
-A → b A | b
-B → b C | b
-C → a B
-```
+# 3. Reguläre Grammatiken 
 
-## a)
+![Zustands-Automat](images/3a.png)
+
+## a) Geben Sie eine äquivalente umgekehrt reguläre Grammatik an.
+
+
 ```
 E -> A b | B b | ϵ
 A -> b | A a
@@ -115,14 +137,17 @@ B -> a | C a
 C -> B b 
 ```
 
-## b)
+## b) Geben Sie einen regulären Ausdruck an, der die Sprache dieser Grammatik beschreibt/erkennt
 ```
 ϵ +
 b a* b +
 a (b a)* b 
 ```
 
-# 4.
+# 4. Bezeichner in der Programmiersprache Ada
+
+![Zustands-Automat](images/4a.png)
+
 ## a)
 
 ```
@@ -142,7 +167,7 @@ U -> E _
 l (_(d + l) + d + l)
 ```
 
-# 5.
+# 5. Transformation zwischen Darstellungsformen regulärer Sprachen
 
 ## a)
 
