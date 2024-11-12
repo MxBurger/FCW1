@@ -1,4 +1,10 @@
 # 1.
+Gegeben sei folgende Grammatik für einfache arithmetische Ausdrücke:
+```
+E → T | + T | - T | E + T | E - T
+T → F | T * F | T / F
+F → v | ( E )
+```
 
 ## a)
 
@@ -7,16 +13,33 @@
 - v * ( v + v / v )
 ```
 ### Linkskanonisch
-E => -T => -*T*  * F
-=> - *F* * F => -v * *F* =>  -v *(*E*)
-=> -v * (*E* + T) => -v * (*T* + T)
-=> -v * (*E* + T) => -v * (v + *T*)
-=> -v * (v + *T*/F) => -v * (v + *F*/F) 
-=> -v * (v + v/*F*) =>  -v * (v + v/v)
+
+<u>E</u>
+⇒ -<u>T</u>
+⇒ -<u>T</u>  * F
+⇒ - <u>F</u> * F
+⇒ -v * <u>F</u>
+⇒  -v *(<u>E</u>)
+⇒ -v * (<u>E</u> + T)
+⇒ -v * (<u>T</u> + T)
+⇒ -v * (<u>E</u> + T)
+⇒ -v * (v + <u>T</u>)
+⇒ -v * (v + <u>T</u>/F)
+⇒ -v * (v + <u>F</u>/F) 
+⇒ -v * (v + v/<u>F</u>)
+⇒  -v * (v + v/v)
 
 ### Rechtskanonisch
 
->TODO
+<u>E</u>
+⇒ -<u>T</u>
+⇒ -T  * <u>F</u>
+⇒ -T  * (<u>E</u>)
+⇒ -T  *  E + (<u>T</u>)
+⇒ -T  *  E + (T / <u>F</u>)
+⇒ -T  *  E + (<u>T</u> / v)
+⇒ -T  *  E + (<u>T</u> / v)
+⇒ -T  *  E + (<u>F</u> / v)
 
 ## b)
 
@@ -52,6 +75,8 @@ E - *(E)*                             |-
 E - *F*                               |-
 *E - T*                               |-
 E                                     |-
+
+### Rechtskanonisch
 
 # 2.
 ## a)
