@@ -172,4 +172,19 @@ l (_(d + l) + d + l)
 ## a)
 
 
+### Nicht deterministischer Automat
+![Nichtdeterministischer Automat](images/5a.png)
+
+|   | a | b |
+| --- | --- | --- |
+|▶S | {A, AB}  | {BA}  |
+| A | {A }  | -  |
+| AB | -  | {AB*}  |
+| ○AB* | {AB}  | {BA}  |
+| BA | {BA*}  | -  |
+| ○BA* | -  | {BA}  |
+| {A,AB} | {A}  | {AB*}  |
+
+
+
 
