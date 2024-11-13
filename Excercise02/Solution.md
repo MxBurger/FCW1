@@ -82,25 +82,27 @@ E                                          ⊢
 ( ( v + v ) * v / v ) – <u>F</u>           ⊢
 ( ( v + v ) * v / <u>v</u> ) – T           ⊢
 ( ( v + v ) * <u>v</u> / F ) – T           ⊢
-( ( v + v ) * <u>F</u> / F ) – T           ⊢
-( ( v + v ) * <u>T / F</u> ) – T           ⊢
-( ( v + v ) * <u>T</u> ) – T               ⊢
-( ( v + <u>v</u> ) * F ) – T               ⊢
-( ( v + <u>F</u> ) * F ) – T               ⊢
-( ( <u>v</u> + T ) * F ) – T               ⊢
-( ( <u>F</u> + T ) * F ) – T               ⊢
-( ( <u>T</u> + T ) * F ) – T               ⊢
-( ( <u>E + T</u> ) * F ) – T               ⊢
-( <u>( E )</u> * F ) – T                   ⊢
-( <u>F</u> * F ) – T                       ⊢
-( <u>T * F</u> ) – T                       ⊢
-( <u>T</u> ) – T                           ⊢
-<u>( E )</u> – T                           ⊢
-<u>F</u> – T                               ⊢ 
+( ( v + <u>v</u> ) * F / F ) – T           ⊢
+( ( v + <u>F</u> ) * F / F ) – T           ⊢
+( ( <u>v</u> + T ) * F / F ) – T           ⊢
+( ( <u>F</u> + T ) * F / F ) – T           ⊢
+( ( <u>T</u> + T ) * F / F ) – T           ⊢
+( ( <u>E + T</u> ) * F / F ) – T           ⊢
+( ( <u>( E )</u> ) * F / F ) – T           ⊢
+( <u>F</u>  * F / F ) – T                  ⊢
+( <u>T  * F</u> / F ) – T                  ⊢
+( <u>T  / F</u>  ) – T                     ⊢
+( <u>T</u>  ) – T                          ⊢
+<u>( E  )</u> – T                          ⊢
+<u>F</u> – T                               ⊢
 <u>T</u> – T                               ⊢
-<u>E – T</u>                               ⊢
+<u>E – T </u>                              ⊢
 E                                          ⊢
 
+
+![Syntaxtree](images/1b.png)
+Ich stelle fest der Syntaxbaum lässt sich direkt aus der Reduktions- / Ableitungsfolge erkennen.
+Wird bei linkskanonischer Ableitung von links nach rechts aufgebaut, bei rechtskanonischer entsprechend umgekehrt. 
 
 
 # 2. Mehrdeutigkeit, Beschreibung und Schreibweisen
@@ -173,15 +175,15 @@ l (_(d + l) + d + l)
 ### Nicht deterministischer Automat
 ![Nichtdeterministischer Automat](images/5a.png)
 
-|   | a | b |
+|   | $a$ | $b$ |
 | --- | --- | --- |
-|▶S | {A, AB}  | {BA}  |
-| A | {A }  | -  |
-| AB | -  | {AB*}  |
-| ○AB* | {AB}  | {BA}  |
-| BA | {BA*}  | -  |
-| ○BA* | -  | {BA}  |
-| {A,AB} | {A}  | {AB*}  |
+|$\rhd$ $S$ | $\{A, AB\} $ | $\{BA\}$  |
+| $A$ | $\{A \}$  | -  |
+| $AB$ | -  | {AB*}  |
+| $\circ AB*$ | $\{AB\}$  | $\{BA\}$  |
+| $BA$ | $\{BA*\}$  | -  |
+| $\circ BA*$ | -  | $\{BA\}$  |
+| $\{A,AB\}$ | $\{A\}$  | $\{AB*\}$  |
 
 ## b)
 
