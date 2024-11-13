@@ -161,7 +161,7 @@ a (b a)* b
 
 ![Zustands-Automat](images/4a.png){ width="250" style="display: block; margin: 0 auto" }
 
-## a)
+## a) Geben Sie eine reguläre Grammatik an, die diese Bezeichner beschreibt.
 
 ```
 B -> l E | l
@@ -169,15 +169,15 @@ E -> _ U | d E | l E | d | l
 U -> l E | d E | l | d
 ```
 
-## b)
+## b) Geben Sie eine umgekehrt reguläre Grammatik an, die diese Bezeichner beschreibt.
 ```
 E -> l | E l | E d | U l | U d
 U -> E _
 ```
 
-## c)
+## c) Leiten Sie aus der regulären Grammatik einen regulären Ausdruck ab, der die Menge aller Bezeichner beschreibt. Kann man den so hergeleiteten Ausdruck noch verkürzen?
 ```
-l (_(d + l) + d + l)
+l (_(d + l) + d + l)*
 ```
 
 # 5. Transformation zwischen Darstellungsformen regulärer Sprachen
@@ -205,7 +205,7 @@ l (_(d + l) + d + l)
 
 
 
-## b)
+## b) 
 
 **Auswirkungen:**
 - Das Anhängen von $0$ an eine Zahl $x$ ergibt $2 * x$
