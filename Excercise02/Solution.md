@@ -74,7 +74,6 @@ E                                          ⊢
 
 ### Rechtskanonisch
 ( ( v + v ) * v / v ) – ( v / <u>v</u> )   ⊢
-( ( v + v ) * v / v ) – ( v / <u>T</u> )   ⊢
 ( ( v + v ) * v / v ) – ( <u>v</u> / F )   ⊢
 ( ( v + v ) * v / v ) – ( <u>F</u> / F )   ⊢
 ( ( v + v ) * v / v ) – ( <u>T / F</u> )   ⊢
@@ -85,20 +84,19 @@ E                                          ⊢
 ( ( v + v ) * <u>v</u> / F ) – T           ⊢
 ( ( v + v ) * <u>F</u> / F ) – T           ⊢
 ( ( v + v ) * <u>T / F</u> ) – T           ⊢
-( ( v + v ) * <u>T / F</u> ) – T           ⊢
-( ( v + <u>v</u> ) * T ) – T               ⊢
-( ( v + <u>F</u> ) * T ) – T               ⊢
-( ( <u>v</u> + T ) * T ) – T               ⊢
-( ( <u>F</u> + T ) * T ) – T               ⊢
-( ( <u>T</u> + T ) * T ) – T               ⊢
-( ( <u>E + T</u> ) * T ) – T               ⊢
-( <u>( E )</u> * T ) – T                   ⊢
-( <u>F</u> * T ) – T                       ⊢
-da ist der hund drin...verdammt
+( ( v + v ) * <u>T</u> ) – T               ⊢
+( ( v + <u>v</u> ) * F ) – T               ⊢
+( ( v + <u>F</u> ) * F ) – T               ⊢
+( ( <u>v</u> + T ) * F ) – T               ⊢
+( ( <u>F</u> + T ) * F ) – T               ⊢
+( ( <u>T</u> + T ) * F ) – T               ⊢
+( ( <u>E + T</u> ) * F ) – T               ⊢
+( <u>( E )</u> * F ) – T                   ⊢
+( <u>F</u> * F ) – T                       ⊢
 ( <u>T * F</u> ) – T                       ⊢
 ( <u>T</u> ) – T                           ⊢
 <u>( E )</u> – T                           ⊢
-<u>F</u> – T                               ⊢
+<u>F</u> – T                               ⊢ 
 <u>T</u> – T                               ⊢
 <u>E – T</u>                               ⊢
 E                                          ⊢
@@ -184,6 +182,30 @@ l (_(d + l) + d + l)
 | BA | {BA*}  | -  |
 | ○BA* | -  | {BA}  |
 | {A,AB} | {A}  | {AB*}  |
+
+## b)
+
+**Auswirkungen:**
+- Das Anhängen von $0$ an eine Zahl $x$ ergibt $2 * x$
+- Das Anhängen von $1$ an eine Zahl $x$ ergibt $2*x+1$
+
+
+**Fall:** Anhängen einer $0$ an $x$ (neue Zahl heißt dann $x_0$)
+- $x_0 = 2*x$
+- Wenn $x \ mod \ 3 = 0 $, dann ergibt $(2*0) \ mod \ 3 = 0$. Rest ist $0$
+- Wenn $x \ mod \ 3 = 1 $, dann ergibt $(2*1) \ mod \ 3 = 2$. Rest ist $2$
+- Wenn $x \ mod \ 3 = 2 $, dann ergibt $(2*2) \ mod \ 3 = 1$. Rest ist $1$
+
+**Fall:** Anhängen einer $1$ an $x$ (neue Zahl heißt dann $x_1$)
+- $x_1 = 2*x+1$
+- Wenn $x \ mod \ 3 = 0 $, dann ergibt $(2*0+1) \ mod \ 3 = 1$. Rest ist $1$
+- Wenn $x \ mod \ 3 = 1 $, dann ergibt $(2*1+1) \ mod \ 3 = 0$. Rest ist $0$
+- Wenn $x \ mod \ 3 = 2 $, dann ergibt $(2*2+1) \ mod \ 3 = 2$. Rest ist $2$
+
+
+
+![DreiModuloBinär](images/5b.png)
+
 
 
 
