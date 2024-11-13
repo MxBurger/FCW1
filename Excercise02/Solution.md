@@ -39,6 +39,12 @@
 ⇒ -<u>F</u> * (v + v / v)
 ⇒ -v * (v + v / v)
 
+
+<!-- pagebreak -->
+
+
+
+
 ## b) Reduzieren Sie folgenden Satz
 
 ```
@@ -100,16 +106,20 @@ E                                          ⊢
 E                                          ⊢
 
 
-![Syntaxtree](images/1b.png)
+![Syntaxtree](images/1b.png){ width="400" style="display: block; margin: 0 auto" }
 Ich stelle fest der Syntaxbaum lässt sich direkt aus der Reduktions- / Ableitungsfolge erkennen.
 Wird bei linkskanonischer Ableitung von links nach rechts aufgebaut, bei rechtskanonischer entsprechend umgekehrt. 
+
+<!-- pagebreak -->
+
+
 
 
 # 2. Mehrdeutigkeit, Beschreibung und Schreibweisen
 ## a) Ist diese Grammatik mehrdeutig? Begründen Sie Ihre Antwort und transformieren Sie diese
 Grammatik – wenn nötig – in eine äquivalente eindeutige Grammatik.
 Nein, nicht eindeutig (es gibt für einen Satz mehr als einen Syntaxbaum)
-![Syntaxbaum](images/2a.png)
+![Syntaxbaum](images/2a.png){ width="400" style="display: block; margin: 0 auto" }
 ```
 frac -> frac d | ϵ
 ```
@@ -123,9 +133,13 @@ Real = [ "+" | "-"]
 d = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
 ```
 
+<!-- pagebreak -->
+
+
+
 # 3. Reguläre Grammatiken 
 
-![Zustands-Automat](images/3a.png)
+![Zustands-Automat](images/3a.png){ width="250" style="display: block; margin: 0 auto" }
 
 ## a) Geben Sie eine äquivalente umgekehrt reguläre Grammatik an.
 
@@ -146,7 +160,7 @@ a (b a)* b
 
 # 4. Bezeichner in der Programmiersprache Ada
 
-![Zustands-Automat](images/4a.png)
+![Zustands-Automat](images/4a.png){ width="250" style="display: block; margin: 0 auto" }
 
 ## a)
 
@@ -173,17 +187,24 @@ l (_(d + l) + d + l)
 
 
 ### Nicht deterministischer Automat
-![Nichtdeterministischer Automat](images/5a.png)
+![NFA](images/5a.png)
 
 |   | $a$ | $b$ |
 | --- | --- | --- |
 |$\rhd$ $S$ | $\{A, AB\} $ | $\{BA\}$  |
-| $A$ | $\{A \}$  | -  |
-| $AB$ | -  | {AB*}  |
+| $\circ A$ | $\{A \}$  | -  |
+| $AB$ | -  | $\{AB*\}$  |
 | $\circ AB*$ | $\{AB\}$  | $\{BA\}$  |
 | $BA$ | $\{BA*\}$  | -  |
 | $\circ BA*$ | -  | $\{BA\}$  |
+|        |       |         |
 | $\{A,AB\}$ | $\{A\}$  | $\{AB*\}$  |
+
+
+### deterministischer Automat
+![DFA](images/5a_nfa.png)
+
+
 
 ## b)
 
