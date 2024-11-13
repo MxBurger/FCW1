@@ -116,8 +116,7 @@ Wird bei linkskanonischer Ableitung von links nach rechts aufgebaut, bei rechtsk
 
 
 # 2. Mehrdeutigkeit, Beschreibung und Schreibweisen
-## a) Ist diese Grammatik mehrdeutig? Begründen Sie Ihre Antwort und transformieren Sie diese
-Grammatik – wenn nötig – in eine äquivalente eindeutige Grammatik.
+## a) Ist diese Grammatik mehrdeutig? Begründen Sie Ihre Antwort und transformieren Sie diese Grammatik – wenn nötig – in eine äquivalente eindeutige Grammatik.
 Nein, nicht eindeutig (es gibt für einen Satz mehr als einen Syntaxbaum)
 ![Syntaxbaum](images/2a.png){ width="400" style="display: block; margin: 0 auto" }
 ```
