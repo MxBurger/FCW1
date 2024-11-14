@@ -22,6 +22,9 @@ static bool fileExists(const string &fileName) {
 } // fileExists
 
 static string dotExeFileName() {
+
+  return "dot";
+
   static string defn = "";
 
   if (defn != "") // correct file name has already been found
@@ -90,7 +93,7 @@ void vizualizeFA(const string &faName, const FA *fa,
   // 3. display gvFileName.format
   cout << "displaying " << gvFileName + "." + format << " ..." << endl;
   // 3.a either use the default application for files with this format
-  cmdStr = "cmd /c \"start " + gvFileName + "." + format + "\"";
+  cmdStr = "brave " + gvFileName + "." + format;
   // 3.b or start Internet Explorer
   // cmdStr = "\"C:\\Program Files\\Internet Explorer\\iexplore.exe\" %cd%\\" + gvFileName + "." + format;
   // 3.c or start Microsoft Edge

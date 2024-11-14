@@ -66,7 +66,7 @@ try {
   cout << "------" << endl;
   cout << endl;
 
-  int buildCase = 1;
+  int buildCase = 2;
   switch (buildCase) {
     case 1: // programmatical init. of builder
       fab = new FABuilder(); // example from FS slides p. 47
