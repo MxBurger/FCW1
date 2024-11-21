@@ -11,5 +11,7 @@ b) Moore DFA nehmen
 # Task 3
 
 # Task 4
+nicht implementieren
 
 # Task 5
+reine Theorie

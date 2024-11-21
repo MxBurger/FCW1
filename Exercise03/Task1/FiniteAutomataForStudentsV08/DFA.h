@@ -32,7 +32,9 @@ class DFA: public  FA
         const State    &s1, const StateSet      &F,
         const DDelta   &delta);
 
-    virtual StateSet deltaAt(const State &src, TapeSymbol tSy) const;
+
+
+  virtual StateSet deltaAt(const State &src, TapeSymbol tSy) const;
 
   public:
 
@@ -42,6 +44,8 @@ class DFA: public  FA
     DFA(      DFA &&dfa) = default;
 
     virtual ~DFA() = default;
+
+    virtual void OnStateEntered(const State &s) const;
 
     virtual bool accepts(const Tape &tape) const; // impl. of abstr. meth.
 

@@ -60,14 +60,19 @@ StateSet DFA::deltaAt(const State &src, TapeSymbol tSy) const {
 } // DFA::deltaAt
 
 
+void DFA::OnStateEntered(const State &s) const {
+}
+
 bool DFA::accepts(const Tape &tape) const {
   int        i   = 0;       // index of first symbol
   TapeSymbol tSy = tape[i]; // fetch first tape symbol
   State      s   = s1;      // start state
+  OnStateEntered(s);
   while (tSy != eot) {      // eot = end of tape
     s = delta[s][tSy];
     if (!defined(s))
       return false;         // s undefined, so no acceptance
+    OnStateEntered(s);
     i++;
     tSy = tape[i];          // fetch next symbol
   } // while

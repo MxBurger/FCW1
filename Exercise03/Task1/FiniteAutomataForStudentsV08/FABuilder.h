@@ -22,6 +22,7 @@
 class FA;    // forward declarations for ...
 class DFA;   //    ... the return types in ...
 class NFA;   //    ... the build methods below
+class MooreDFA;
 
 class FABuilder final // no public base class
                /*OC+*/ : private ObjectCounter<FABuilder> /*+OC*/ {
@@ -35,6 +36,7 @@ class FABuilder final // no public base class
     Delta<StateSet> delta; // type for NFA, transformed to Delta<State> for DFA
     State           s1;    // start state, an element of S
     StateSet        F;     // set of final states, a subset of S
+    std::map<State, char> mooreLambda;
 
     void checkStates() const;
 
@@ -69,6 +71,7 @@ class FABuilder final // no public base class
                const State &src, TapeSymbol tSy, const StateSet &destSet);
     FABuilder &addTransition(
                const State &src, TapeSymbol tSy, std::initializer_list<State> il);
+    FABuilder &setMooreLambda(const std::map<State, char> mooreLambda);
 
     // build methods:
 
@@ -77,6 +80,7 @@ class FABuilder final // no public base class
      FA *buildFA()  const;  // build DFA when possible, otherwise build NFA
     DFA *buildDFA() const;  // requires: representsDFA() == true
     NFA *buildNFA() const;  // always works
+    MooreDFA *buildMooreDFA() const;
 
     // finally, a clear method that allows reuse or the builder:
 

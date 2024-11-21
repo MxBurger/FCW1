@@ -38,7 +38,8 @@ class MooreDFA: public DFA
 
     const std::map<State, char> lambda;    // lambda function for output
 
-    virtual bool accepts(const Tape &tape) const; // override DFA::accepts
+    void OnStateEntered(const State &s) const override;
+    
 
 }; // MooreDFA
 
