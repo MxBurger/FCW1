@@ -47,8 +47,8 @@ void stopTimer() {
 double elapsedTime() {  /*returns elapsed time in seconds*/
   #ifdef HIGH_RES_TIMING
     return
-      chrono::duration_cast<chrono::milliseconds>
-        (stop_tp - start_tp).count() / 1000.0;
+      chrono::duration_cast<chrono::microseconds>
+        (stop_tp - start_tp).count();
   #else
     return (double)(stop_ticks - start_ticks) / CLOCKS_PER_SEC;
   #endif
