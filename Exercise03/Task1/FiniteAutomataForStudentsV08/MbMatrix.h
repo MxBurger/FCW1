@@ -19,6 +19,7 @@
 
 #include "ObjectCounter.h"
 
+using namespace std;
 
 // --- generic class Triple ---
 
