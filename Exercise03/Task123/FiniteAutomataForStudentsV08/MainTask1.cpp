@@ -1,12 +1,5 @@
-#include <cstdio>
-
-#include <iostream>
-#include <typeinfo>
-
-
-
 using namespace std;
-
+#include <iostream>
 #include "SignalHandling.h"
 #include "Timer.h"
 #include "SymbolStuff.h"
@@ -98,6 +91,7 @@ Grammar* grammarOf(const NFA* nfa) {
     GrammarBuilder* builder = new GrammarBuilder(sp->ntSymbol(nfa->s1));
 
     for (const State& state : nfa->S) {
+        // A → ε
         if (state == nfa->s1 && nfa->F.contains(state)) {
             bool hasFinalTransition = false;
             for (const TapeSymbol& sym : nfa->V) {
@@ -128,7 +122,6 @@ Grammar* grammarOf(const NFA* nfa) {
             }
         }
     }
-
     Grammar* result = builder->buildGrammar();
     delete sp;
     delete builder;
@@ -139,28 +132,28 @@ Grammar* grammarOf(const NFA* nfa) {
 int main(int argc, char *argv[]) {
     installSignalHandlers();
     startTimer();
-
     // test grammars
     const char* grammarStrings[4] = {
+        // grammar 1
         "G(S): \n\
         S -> b A | a B | eps \n\
         A -> b A | b \n\
         B -> b C | b \n\
         C -> a B",
-
+        // grammar 2
         "G(S): \n\
         S -> a B \n\
         A -> b B | eps \n\
         B -> c C | a \n\
         C -> a A | b",
-
+        // grammar 3
         "G(S): \n\
         S -> 0 A | 1 B \n\
         A -> 0 E | 1 B \n\
         B -> 0 C | 1 B \n\
         E -> 0 E | 1 E \n\
         C -> 0 E | 1 S",
-
+        // grammar 4
         "G(S):              \n\
         S -> a A | b S               \n\
         A -> a A | b"
@@ -173,20 +166,21 @@ int main(int argc, char *argv[]) {
     for(int i = 0; i < 4; i++) {
         gb = new GrammarBuilder(grammarStrings[i]);
         g = gb->buildGrammar();
-        cout << "grammar" << i + 1 << " from string:" << endl << *g << endl;
+        cout << "grammar" << i + 1 << " from string-literal:" << endl << *g;
         NFA* nfa = faOf(g);
-        cout << "Converted NFA:" << endl << *nfa << endl;
+        cout << "Converted NFA" << i + 1 <<  ":" << endl << *nfa;
         vizualizeFA("nfa", nfa);
         Grammar* g1 = grammarOf(nfa);
-        cout << "grammar from nfa:" << endl << *g1 << endl;
+        cout << "grammar" << i + 1 <<  " from nfa:" << endl << *g1;
         delete nfa;
         delete g;
         delete g1;
         delete gb;
+
+        cout << "----------------------------------------------------------------" << endl;
     }
 
     delete sp;
-
     stopTimer();
     cout << "elapsed time: " << elapsedTime() << endl;
     cout << endl;

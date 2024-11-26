@@ -13,7 +13,68 @@ Die Funktion faOf() implementiert die Konvertierung einer regulären Grammatik i
 - Fall `A → aB` : Erstelle Übergang vom Zustand `A` mit Symbol `a` zum Zustand `B`
 - Fall `A → aA` : Wenn ein NT nur Regeln in dieser Form hat, wird `A` zum Endzustand
 
+### b) `Grammar *grammarOf(const XFA *xfa)`
+Die Funktion grammarOf() konvertiert einen NFA zurück in eine reguläre Grammatik.
+
+**Lösungs-Idee:**
+- Die Zustände des NFA werden zu NTs in der Grammatik
+- Der Startzustand des NFA wird zum Satzsymbol der Grammatik
+- Wenn ein Zustand ein Endzustand ist und der Startzustand, füge Regel `A → ε` hinzu
+- Eine Transition `A --a--> FINAL` wird zur Regel `A → a`
+- Eine Transition `A --a--> B` wird zur Regel `A → aB`
+
+
+
+### Implementierung
+
 ```cpp
+using namespace std;
+#include <iostream>
+#include "SignalHandling.h"
+#include "Timer.h"
+#include "SymbolStuff.h"
+#include "SequenceStuff.h"
+#include "Vocabulary.h"
+#include "GrammarBasics.h"
+#include "GrammarBuilder.h"
+#include "Grammar.h"
+#include "Language.h"
+#include "TapeStuff.h"
+#include "StateStuff.h"
+#include "MbMatrix.h"
+#include "DeltaStuff.h"
+#include "FA.h"
+#include "DFA.h"
+#include "NFA.h"
+#include "MooreDFA.h"
+#include "FABuilder.h"
+#include "GraphVizUtil.h"
+
+// Activation (with 1) allows simple builds via command line
+// * for GNU   use:  g++      -std=c++17 Main.cpp
+// * for Clang use:  clang++  -std=c++17 Main.cpp
+// * for M.S.  use:  cl /EHsc /std:c++17 Main.cpp
+#if 1
+#include "SignalHandling.cpp"
+#include "Timer.cpp"
+#include "SymbolStuff.cpp"
+#include "SequenceStuff.cpp"
+#include "GrammarBasics.cpp"
+#include "GrammarBuilder.cpp"
+#include "Grammar.cpp"
+#include "Language.cpp"
+#include "TapeStuff.cpp"
+#include "StateStuff.cpp"
+#include "MbMatrix.cpp"
+#include "DeltaStuff.cpp"
+#include "FA.cpp"
+#include "DFA.cpp"
+#include "NFA.cpp"
+#include "MooreDFA.cpp"
+#include "FABuilder.cpp"
+#include "GraphVizUtil.cpp"
+#endif
+
 // TASK 1a)
 NFA* faOf(const Grammar* g) {
     FABuilder* builder = new FABuilder();
@@ -53,17 +114,273 @@ NFA* faOf(const Grammar* g) {
     delete builder;
     return result;
 }
+
+// TASK 1b)
+Grammar* grammarOf(const NFA* nfa) {
+    SymbolPool* sp = new SymbolPool();
+    GrammarBuilder* builder = new GrammarBuilder(sp->ntSymbol(nfa->s1));
+
+    for (const State& state : nfa->S) {
+        // A → ε
+        if (state == nfa->s1 && nfa->F.contains(state)) {
+            bool hasFinalTransition = false;
+            for (const TapeSymbol& sym : nfa->V) {
+                if (nfa->delta[state][sym].contains("FINAL")) {
+                    hasFinalTransition = true;
+                    break;
+                }
+            }
+            if (!hasFinalTransition) {
+                builder->addRule(sp->ntSymbol(state), new Sequence());
+            }
+        }
+
+        for (const TapeSymbol& sym : nfa->V) {
+            StateSet nextStates = nfa->delta[state][sym];
+            for (const State& nextState : nextStates) {
+                // A → aB
+                if (nextState != "FINAL") {
+                    builder->addRule(sp->ntSymbol(state),
+                                   new Sequence({sp->tSymbol(string(1, sym)),
+                                               sp->ntSymbol(nextState)}));
+                }
+                // A → a
+                else {
+                    builder->addRule(sp->ntSymbol(state),
+                                   new Sequence({sp->tSymbol(string(1, sym))}));
+                }
+            }
+        }
+    }
+    Grammar* result = builder->buildGrammar();
+    delete sp;
+    delete builder;
+    return result;
+}
+
+
+int main(int argc, char *argv[]) {
+    installSignalHandlers();
+    startTimer();
+    // test grammars
+    const char* grammarStrings[4] = {
+        // grammar 1
+        "G(S): \n\
+        S -> b A | a B | eps \n\
+        A -> b A | b \n\
+        B -> b C | b \n\
+        C -> a B",
+        // grammar 2
+        "G(S): \n\
+        S -> a B \n\
+        A -> b B | eps \n\
+        B -> c C | a \n\
+        C -> a A | b",
+        // grammar 3
+        "G(S): \n\
+        S -> 0 A | 1 B \n\
+        A -> 0 E | 1 B \n\
+        B -> 0 C | 1 B \n\
+        E -> 0 E | 1 E \n\
+        C -> 0 E | 1 S",
+        // grammar 4
+        "G(S):              \n\
+        S -> a A | b S               \n\
+        A -> a A | b"
+    };
+
+    SymbolPool *sp = new SymbolPool();
+    GrammarBuilder *gb = nullptr;
+    Grammar *g = nullptr;
+    Grammar *g1 = nullptr;
+    for(int i = 0; i < 4; i++) {
+        gb = new GrammarBuilder(grammarStrings[i]);
+        g = gb->buildGrammar();
+        cout << "grammar" << i + 1 << " from string-literal:" << endl << *g;
+        NFA* nfa = faOf(g);
+        cout << "Converted NFA" << i + 1 <<  ":" << endl << *nfa;
+        vizualizeFA("nfa", nfa);
+        Grammar* g1 = grammarOf(nfa);
+        cout << "grammar" << i + 1 <<  " from nfa:" << endl << *g1;
+        delete nfa;
+        delete g;
+        delete g1;
+        delete gb;
+
+        cout << "----------------------------------------------------------------" << endl;
+    }
+
+    delete sp;
+    stopTimer();
+    cout << "elapsed time: " << elapsedTime() << endl;
+    cout << endl;
+    cout << "END Main" << endl;
+
+}
 ```
 
-### b) `Grammar *grammarOf(const XFA *xfa)`
-Die Funktion grammarOf() konvertiert einen NFA zurück in eine reguläre Grammatik.
 
-**Lösungs-Idee:**
-- Die Zustände des NFA werden zu NTs in der Grammatik
-- Der Startzustand des NFA wird zum Satzsymbol der Grammatik
-- Wenn ein Zustand ein Endzustand ist und der Startzustand, füge Regel `A → ε` hinzu
-- Eine Transition `A --a--> FINAL` wird zur Regel `A → a`
-- Eine Transition `A --a--> B` wird zur Regel `A → aB`
+#### Ergebnisse
+
+##### Grammatik1 -> NFA1 -> Grammatik1
+
+```
+grammar1 from string-literal:
+
+G(S):
+S -> eps | a B | b A
+B -> b | b C
+A -> b | b A
+C -> a B
+---
+VNt = { A, B, C, S }, deletable: { S }
+VT  = { a, b }
+
+Converted NFA1:
+-> () S -> a B | b A
+      B -> b C | b FINAL
+      A -> b A | b FINAL
+      C -> a B
+   () FINAL
+
+writing    nfa to nfa.gv ...
+rendering  nfa.gv to nfa.gv.svg ...
+displaying nfa.gv.svg ...
+Opening in existing browser session.
+
+grammar1 from nfa:
+
+G(S):
+S -> eps | a B | b A
+B -> b | b C
+A -> b | b A
+C -> a B
+---
+VNt = { A, B, C, S }, deletable: { S }
+VT  = { a, b }
+
+----------------------------------------------------------------
+```
+![alt text](Task1_g1.svg)
+
+##### Grammatik2 -> NFA2 -> Grammatik2
+
+```
+grammar2 from string-literal:
+
+G(S):
+S -> a B
+B -> a | c C
+C -> a A | b
+A -> eps | b B
+---
+VNt = { A, B, C, S }, deletable: { A }
+VT  = { a, b, c }
+
+Converted NFA2:
+->    S -> a B
+      B -> a FINAL | c C
+      C -> a A | b FINAL
+   () A -> b B
+   () FINAL
+
+writing    nfa to nfa.gv ...
+rendering  nfa.gv to nfa.gv.svg ...
+displaying nfa.gv.svg ...
+Opening in existing browser session.
+
+grammar2 from nfa:
+
+G(S):
+S -> a B
+B -> a | c C
+C -> a A | b
+A -> b B
+---
+VNt = { A, B, C, S }, deletable: {  }
+VT  = { a, b, c }
+
+----------------------------------------------------------------
+```
+![alt text](Task1_g2.svg)
+
+##### Grammatik3 -> NFA3 -> Grammatik3
+
+```
+grammar3 from string-literal:
+
+G(S):
+S -> 0 A | 1 B
+A -> 0 E | 1 B
+B -> 0 C | 1 B
+E -> 0 E | 1 E
+C -> 0 E | 1 S
+---
+VNt = { A, B, C, E, S }, deletable: {  }
+VT  = { 0, 1 }
+
+Converted NFA3:
+->    S -> 0 A | 1 B
+      A -> 0 E | 1 B
+      B -> 0 C | 1 B
+   () E -> 0 E | 1 E
+      C -> 0 E | 1 S
+
+writing    nfa to nfa.gv ...
+rendering  nfa.gv to nfa.gv.svg ...
+displaying nfa.gv.svg ...
+Opening in existing browser session.
+
+grammar3 from nfa:
+
+G(S):
+S -> 0 A | 1 B
+A -> 0 E | 1 B
+B -> 0 C | 1 B
+E -> 0 E | 1 E
+C -> 0 E | 1 S
+---
+VNt = { A, B, C, E, S }, deletable: {  }
+VT  = { 0, 1 }
+
+----------------------------------------------------------------
+```
+![alt text](Task1_g3.svg)
+
+##### Grammatik4 -> NFA4 -> Grammatik4
+
+```
+grammar4 from string-literal:
+
+G(S):
+S -> a A | b S
+A -> a A | b
+---
+VNt = { A, S }, deletable: {  }
+VT  = { a, b }
+
+Converted NFA4:
+->    S -> a A | b S
+      A -> a A | b FINAL
+   () FINAL
+
+writing    nfa to nfa.gv ...
+rendering  nfa.gv to nfa.gv.svg ...
+displaying nfa.gv.svg ...
+Opening in existing browser session.
+
+grammar4 from nfa:
+
+G(S):
+S -> a A | b S
+A -> a A | b
+---
+VNt = { A, S }, deletable: {  }
+VT  = { a, b }
+
+----------------------------------------------------------------
+```
+![alt text](Task1_g4.svg)
 
 
 ## Aufgabe 4
