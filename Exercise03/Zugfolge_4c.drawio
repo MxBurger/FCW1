@@ -1,0 +1,67 @@
+<mxfile host="65bd71144e">
+    <diagram id="iFuYPdpA_ksGmAtpuQ9G" name="Page-1">
+        <mxGraphModel dx="676" dy="629" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="2" value="&lt;pre style=&quot;--tw-border-spacing-x: 0; --tw-border-spacing-y: 0; --tw-translate-x: 0; --tw-translate-y: 0; --tw-rotate: 0; --tw-skew-x: 0; --tw-skew-y: 0; --tw-scale-x: 1; --tw-scale-y: 1; --tw-pan-x: ; --tw-pan-y: ; --tw-pinch-zoom: ; --tw-scroll-snap-strictness: proximity; --tw-gradient-from-position: ; --tw-gradient-via-position: ; --tw-gradient-to-position: ; --tw-ordinal: ; --tw-slashed-zero: ; --tw-numeric-figure: ; --tw-numeric-spacing: ; --tw-numeric-fraction: ; --tw-ring-inset: ; --tw-ring-offset-width: 0px; --tw-ring-offset-color: #fff; --tw-ring-color: rgb(59 130 246 / .5); --tw-ring-offset-shadow: 0 0 #0000; --tw-ring-shadow: 0 0 #0000; --tw-shadow: 0 0 #0000; --tw-shadow-colored: 0 0 #0000; --tw-blur: ; --tw-brightness: ; --tw-contrast: ; --tw-grayscale: ; --tw-hue-rotate: ; --tw-invert: ; --tw-saturate: ; --tw-sepia: ; --tw-drop-shadow: ; --tw-backdrop-blur: ; --tw-backdrop-brightness: ; --tw-backdrop-contrast: ; --tw-backdrop-grayscale: ; --tw-backdrop-hue-rotate: ; --tw-backdrop-invert: ; --tw-backdrop-opacity: ; --tw-backdrop-saturate: ; --tw-backdrop-sepia: ; padding: 0.8em; overflow: auto; line-height: 1.4; border: rgb(214, 214, 214); border-radius: 3px; margin-top: 0px; margin-bottom: 16px; color: rgb(51, 51, 51); background: rgb(245, 245, 245); font-family: Consolas, &amp;quot;Liberation Mono&amp;quot;, Menlo, Courier, monospace; text-align: left; word-spacing: 0px; word-break: normal; overflow-wrap: normal; tab-size: 8; hyphens: none; font-size: 0.75em; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-indent: 0px; text-transform: none; widows: 2; -webkit-text-stroke-width: 0px; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;&quot; class=&quot;language-text&quot; data-source-line=&quot;4&quot; data-info=&quot;{data-source-line=&amp;quot;4&amp;quot;}&quot; data-role=&quot;codeBlock&quot;&gt;&lt;code style=&quot;--tw-border-spacing-x: 0; --tw-border-spacing-y: 0; --tw-translate-x: 0; --tw-translate-y: 0; --tw-rotate: 0; --tw-skew-x: 0; --tw-skew-y: 0; --tw-scale-x: 1; --tw-scale-y: 1; --tw-pan-x: ; --tw-pan-y: ; --tw-pinch-zoom: ; --tw-scroll-snap-strictness: proximity; --tw-gradient-from-position: ; --tw-gradient-via-position: ; --tw-gradient-to-position: ; --tw-ordinal: ; --tw-slashed-zero: ; --tw-numeric-figure: ; --tw-numeric-spacing: ; --tw-numeric-fraction: ; --tw-ring-inset: ; --tw-ring-offset-width: 0px; --tw-ring-offset-color: #fff; --tw-ring-color: rgb(59 130 246 / .5); --tw-ring-offset-shadow: 0 0 #0000; --tw-ring-shadow: 0 0 #0000; --tw-shadow: 0 0 #0000; --tw-shadow-colored: 0 0 #0000; --tw-blur: ; --tw-brightness: ; --tw-contrast: ; --tw-grayscale: ; --tw-hue-rotate: ; --tw-invert: ; --tw-saturate: ; --tw-sepia: ; --tw-drop-shadow: ; --tw-backdrop-blur: ; --tw-backdrop-brightness: ; --tw-backdrop-contrast: ; --tw-backdrop-grayscale: ; --tw-backdrop-hue-rotate: ; --tw-backdrop-invert: ; --tw-backdrop-opacity: ; --tw-backdrop-saturate: ; --tw-backdrop-sepia: ; font-family: Menlo, Monaco, Consolas, &amp;quot;Courier New&amp;quot;, monospace; color: rgb(0, 0, 0); background: 0px 0px transparent; padding: 0px; border-radius: 3px; font-size: 0.75em; margin: 0px; word-break: normal; border: 0px; display: inline; max-width: initial; overflow: initial; line-height: inherit; overflow-wrap: normal;&quot;&gt;ConstDef  → const Type ident Init OptNInits ;&#10;Type      → bool | int&#10;Init      → = Val&#10;Val       → false | true | OptSign number&#10;OptSign   → ε | + | - &#10;OptNInits → ε | , ident Init OptNInits &lt;/code&gt;&lt;/pre&gt;" style="text;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="10" width="230" height="130" as="geometry"/>
+                </mxCell>
+                <mxCell id="3" value="(Z, $.const int max = 100;)&lt;font style=&quot;font-size: 24px;&quot;&gt;˫&lt;/font&gt;" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=18;fontFamily=Helvetica;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="120" width="240" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="4" value="(Z, $const.int max = 100;)&lt;font style=&quot;font-size: 24px;&quot;&gt;˫&lt;/font&gt;" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=18;fontFamily=Helvetica;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="150" width="240" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="5" value="(Z, $const &lt;font color=&quot;#ff6666&quot;&gt;int&lt;/font&gt;.max = 100;)&lt;font style=&quot;font-size: 24px;&quot;&gt;˫&lt;/font&gt;" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=18;fontFamily=Helvetica;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="180" width="240" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="20" value="(Z, $const Type.max = 100;)&lt;font style=&quot;font-size: 24px;&quot;&gt;˫&lt;/font&gt;" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=18;fontFamily=Helvetica;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="210" width="260" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="21" value="(Z, $const Type &lt;font color=&quot;#ff6666&quot;&gt;max&lt;/font&gt;.= 100;)&lt;font style=&quot;font-size: 24px;&quot;&gt;˫&lt;/font&gt;" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=18;fontFamily=Helvetica;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="240" width="260" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="22" value="(Z, $const Type ident.= 100;)&lt;font style=&quot;font-size: 24px;&quot;&gt;˫&lt;/font&gt;" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=18;fontFamily=Helvetica;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="270" width="260" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="23" value="(Z, $const Type ident =.100;)&lt;font style=&quot;font-size: 24px;&quot;&gt;˫&lt;/font&gt;" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=18;fontFamily=Helvetica;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="300" width="260" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="24" value="(Z, $const Type ident =&lt;font color=&quot;#ff6666&quot;&gt; &lt;/font&gt;100.;)&lt;font style=&quot;font-size: 24px;&quot;&gt;˫&lt;/font&gt;" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=18;fontFamily=Helvetica;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="330" width="270" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="25" value="(Z, $const Type ident &lt;font color=&quot;#ff6666&quot;&gt;= Val&lt;/font&gt;.;)&lt;font style=&quot;font-size: 24px;&quot;&gt;˫&lt;/font&gt;" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=18;fontFamily=Helvetica;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="420" width="260" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="26" value="(Z, $const Type ident Init.;)&lt;font style=&quot;font-size: 24px;&quot;&gt;˫&lt;/font&gt;" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=18;fontFamily=Helvetica;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="450" width="250" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="27" value="(Z, $const Type ident =&lt;font color=&quot;#ff6666&quot;&gt; OptSign number&lt;/font&gt;.;)&lt;font style=&quot;font-size: 24px;&quot;&gt;˫&lt;/font&gt;" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=18;fontFamily=Helvetica;" vertex="1" parent="1">
+                    <mxGeometry x="40" y="390" width="370" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="28" value="(Z, $const Type ident Init OptNInits.;)&lt;font style=&quot;font-size: 24px;&quot;&gt;˫&lt;/font&gt;" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=18;fontFamily=Helvetica;" vertex="1" parent="1">
+                    <mxGeometry x="40" y="510" width="330" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="29" value="(Z, $&lt;font color=&quot;#ff6666&quot;&gt;const Type ident Init OptNInits;&lt;/font&gt;.&lt;span style=&quot;font-family: Menlo, Monaco, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 13.5px;&quot;&gt;ε&lt;/span&gt;)&lt;font style=&quot;font-size: 24px;&quot;&gt;˫&lt;/font&gt;" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=18;fontFamily=Helvetica;" vertex="1" parent="1">
+                    <mxGeometry x="40" y="540" width="330" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="30" value="(Z, &lt;font color=&quot;#ff6666&quot;&gt;$ConstDef&lt;/font&gt;.&lt;span style=&quot;font-family: Menlo, Monaco, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 13.5px;&quot;&gt;ε&lt;/span&gt;)&lt;font style=&quot;font-size: 24px;&quot;&gt;˫&lt;/font&gt;" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=18;fontFamily=Helvetica;" vertex="1" parent="1">
+                    <mxGeometry x="40" y="570" width="160" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="31" value="(R,&amp;nbsp;&lt;span style=&quot;font-family: Menlo, Monaco, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 13.5px;&quot;&gt;ε&lt;/span&gt;.&lt;span style=&quot;font-family: Menlo, Monaco, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 13.5px;&quot;&gt;ε&lt;/span&gt;)&lt;font style=&quot;font-size: 24px;&quot;&gt;˫&lt;/font&gt;" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=18;fontFamily=Helvetica;" vertex="1" parent="1">
+                    <mxGeometry x="40" y="600" width="90" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="32" value="Erkannt!" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=25;fontFamily=Helvetica;fontColor=#99FF99;" vertex="1" parent="1">
+                    <mxGeometry x="115" y="600" width="120" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="33" value="(Z, $const Type ident =&lt;font color=&quot;#ff6666&quot;&gt;&lt;span style=&quot;font-family: Menlo, Monaco, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 13.5px;&quot;&gt;ε&lt;/span&gt;100&lt;/font&gt;.;)&lt;font style=&quot;font-size: 24px;&quot;&gt;˫&lt;/font&gt;" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=18;fontFamily=Helvetica;" vertex="1" parent="1">
+                    <mxGeometry x="40" y="360" width="270" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="34" value="(Z, $const Type ident Init&lt;span style=&quot;color: rgb(255, 102, 102); font-family: Menlo, Monaco, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 13.5px;&quot;&gt;ε&lt;/span&gt;.;)&lt;font style=&quot;font-size: 24px;&quot;&gt;˫&lt;/font&gt;" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=18;fontFamily=Helvetica;" vertex="1" parent="1">
+                    <mxGeometry x="40" y="480" width="250" height="40" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

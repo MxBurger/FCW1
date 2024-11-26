@@ -170,3 +170,115 @@ S.3) Den Übergang für das Ende:
 ```
 δ(Z, ε, $ConstDef) = (R, ε)
 ```
+
+### d)
+![4b](Zugfolge_4b.svg)
+
+![4c](Zugfolge_4c.svg)
+
+
+## Aufgabe 5
+### a)
+
+Terminale Anfänge der Länge 1
+```
+First1(progmod) = { MODULE }
+First1(priority) = { const, ε }
+First1(imppart) = { FROM, IMPORT }
+First1(implist) = { id }
+First1(block) = { DECL, BEGIN }
+First1(dclpart) = { DECL }
+First1(statpart) = { BEGIN }
+First1(statseq) = { STAT }
+```
+
+terminale Nachfolger der Länge 1
+```
+Follow1(progmod) = { }
+Follow1(priority) = { ; }
+Follow1(imppart) = { DECL, BEGIN }
+Follow1(implist) = { id, DECL, BEGIN }
+Follow1(block) = { id }
+Follow1(dclpart) = { DECL, BEGIN }
+Follow1(statpart) = { id }
+Follow1(statseq) = { STAT, ; }
+```
+>Annahme: Das Satzsymbol `progmod` hat keinen terminalen Nachfolger.
+
+### b)
+
+Ja, LL(k) k=2.
+Folgende Nonterminalsymbole bieten nach dem Betrachten der ersten Terminalsymbole keine eindeutigen Alternativen:
+- `implist`
+- `dclpart`
+- `statseq`
+
+### c)
+
+```
+progmod → MODULE id : priority ; imppart block id .
+priority → const | ε
+imppart → FROM id IMPORT implist | IMPORT implist 
+implist → id implist'
+implist' → , id implist' | ε
+block → dclpart statpart | statpart
+dclpart → DECL dclpart'
+dclpart' → ; DECL dclpart' | ε
+statpart → BEGIN statseq END
+statseq → STAT statseq'
+statseq' → ; STAT statseq' | ε
+```
+
+```
+First1(progmod) = { MODULE }
+First1(priority) = { const, ε }
+First1(imppart) = { FROM, IMPORT }
+First1(implist) = { id }
+First1(implist') = { ',' , ε }
+First1(block) = { DECL, BEGIN }
+First1(dclpart) = { DECL }
+First1(dclpart') = { ; , ε }
+First1(statpart) = { BEGIN }
+First1(statseq) = { STAT }
+First1(statseq') = { ; , ε }
+```
+
+```
+Follow1(progmod) = { }
+Follow1(priority) = { ; }
+Follow1(imppart) = { DECL, BEGIN }
+Follow1(implist) = { DECL, BEGIN }
+Follow1(implist') = { DECL, BEGIN }
+Follow1(block) = { id }
+Follow1(dclpart) = { BEGIN }
+Follow1(dclpart') = { BEGIN }
+Follow1(statpart) = { id }
+Follow1(statseq) = { END }
+Follow1(statseq') = { END }
+```
+
+Wir betrachten die abgeänderten Regeln:
+```
+implist → id implist' (nur eine Alternative) LL1 ✓
+dclpart → DECL dclpart' (nur eine Alternative) LL1 ✓
+statseq → STAT statseq' (nur eine Alternative) LL1 ✓
+
+implist' → , id implist' | ε
+Da die zweite Alternative ε produziert, muss gelten:
+First1(, id implist') ∩ Follow1(implist') = {','} ∩ {DECL, BEGIN} = { } LL1✓
+
+dclpart' → ; DECL dclpart' | ε
+Da die zweite Alternative ε produziert, muss gelten:
+First1(; DECL dclpart') ∩ Follow1(dclpart') = {';'} ∩ {BEGIN} = { } LL1✓
+
+statseq' → ; STAT statseq' | ε
+Da die zweite Alternative ε produziert, muss gelten:
+First1(; STAT statseq') ∩ Follow1(statseq') = {';'} ∩ {END} = { } LL1✓
+```
+
+
+
+
+
+
+
