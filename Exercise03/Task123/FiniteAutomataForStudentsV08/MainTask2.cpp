@@ -1,8 +1,6 @@
-#include <cstdio>
-#include <iostream>
-#include <typeinfo>
 using namespace std;
 
+#include <iostream>
 #include "SignalHandling.h"
 #include "Timer.h"
 #include "SymbolStuff.h"
@@ -50,16 +48,13 @@ using namespace std;
 #include "MealyDFA.cpp"
 #endif
 
-
 int main() {
     FABuilder* builder = new FABuilder();
-
     builder->setStartState("B");
     builder->addFinalState("R");
     builder->addTransition("B", 'b', "R");
     builder->addTransition("R", 'b', "R");
     builder->addTransition("R", 'z', "R");
-
     DFA* baseDfa = builder->buildDFA();
 
     // Output mapping for MealyDFA
@@ -67,7 +62,6 @@ int main() {
         {"B", {{'b', 'c'}}},
         {"R", {{'b', 'c'}, {'z', 'd'}}}
     };
-
     MealyDFA* mealyDFA = new MealyDFA(
         baseDfa->S,
         baseDfa->V,
@@ -76,20 +70,17 @@ int main() {
         baseDfa->delta,
         lambda
     );
-
     vizualizeFA("mealy", mealyDFA);
+
     // Tests
     cout << "Translate 'b' to 'c':" << endl;
     mealyDFA->accepts("b");
     cout << endl;
-
     cout << "Translate 'bzzb' to 'cddc':" << endl;
     mealyDFA->accepts("bzzb");
     cout << endl;
-
     delete mealyDFA;
     delete baseDfa;
     delete builder;
-
     return 0;
 }

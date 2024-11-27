@@ -219,7 +219,6 @@ int main(int argc, char *argv[]) {
 }
 ```
 
-
 #### Ergebnisse
 
 ##### Grammatik1 -> NFA1 -> Grammatik1
@@ -383,6 +382,185 @@ VT  = { a, b }
 ![alt text](Task1_g4.svg)
 
 
+## Aufgabe 2
+### a)
+**Lösungs-Idee:**
+- Mittels `FABuilder` wird der Automat gemäß der Angabe-Grafik modelliert.
+
+### b)
+Für die Übersetzungsaufgabe wird ein Mealy-Automat entworfen. Da bei jedem Übergang eine Ausgabe erzeugt wird, eignet er sich gut für diesen Anwendungsfall.
+
+**Lösungs-Idee:**
+- `MealyDFA` erbt von der `DFA`-Klasse und erweitert diese um eine Ausgabefunktion (`lambda`). 
+- Erweiterung zu `DFA`:
+    - Der `DFA` entscheidet nur, ob eine Eingabe akzeptiert wird oder nicht
+    - Der `MealyDFA` produziert zusätzlich bei jedem Übergang eine Ausgabe
+- Die Ausgabefunktion (`lambda`) wird als verschachtelte Map implementiert
+    - Der äußere Key ist der aktuelle Zustand (Typ `State`)
+    - Der innere Key ist das gelesene Eingabesymbol (Typ `TapeSymbol`)
+    - Der Wert ist das auszugebende Symbol (Typ `char`)
+- Die accepts()-Methode wird überschrieben, um die Transformation durchzuführen:
+    - Bei jedem Übergang wird geprüft, ob für die aktuelle Zustand-Symbol-Kombination eine Ausgabe definiert ist
+    - Wenn ja, wird das entsprechende Ausgabesymbol über cout ausgegeben
+    - Sie folgt dem normalen DFA-Verhalten zum Traversieren der Zustände
+
+### Implementierung
+
+```cpp
+#ifndef MEALYDFA_H
+#define MEALYDFA_H
+
+#include <map>
+#include "DFA.h"
+
+class MealyDFA : public DFA {
+private:
+    map<State, map<TapeSymbol, char>> lambda;
+
+public:
+    MealyDFA(const StateSet &S,  const TapeSymbolSet &V,
+             const State    &s1, const StateSet      &F,
+             const DDelta   &delta,
+             const map<State, map<TapeSymbol, char>> &lambda);
+
+    virtual ~MealyDFA() = default;
+
+    bool accepts(const Tape &tape) const override;
+
+    const map<State, map<TapeSymbol, char>>& getLambda() const {
+        return lambda;
+    }
+};
+
+#endif //MEALYDFA_H
+```
+```cpp
+#include <iostream>
+#include "MealyDFA.h"
+
+MealyDFA::MealyDFA(const StateSet &S,  const TapeSymbolSet &V,
+                   const State    &s1, const StateSet      &F,
+                   const DDelta   &delta,
+                   const map<State, map<TapeSymbol, char>> &lambda)
+    : DFA(S, V, s1, F, delta), lambda(lambda) {
+}
+
+bool MealyDFA::accepts(const Tape &tape) const {
+    int i = 0;
+    TapeSymbol tSy = tape[i];
+    State s = s1;
+    while (tSy != eot) {
+        if (!defined(delta[s][tSy])) {
+            return false;
+        }
+        if (lambda.count(s) > 0 && lambda.at(s).count(tSy) > 0) {
+            std::cout << lambda.at(s).at(tSy);
+        }
+        s = delta[s][tSy];
+        i++;
+        tSy = tape[i];
+    }
+    return F.contains(s);
+}
+```
+```cpp
+using namespace std;
+
+#include <iostream>
+#include "SignalHandling.h"
+#include "Timer.h"
+#include "SymbolStuff.h"
+#include "SequenceStuff.h"
+#include "Vocabulary.h"
+#include "GrammarBasics.h"
+#include "GrammarBuilder.h"
+#include "Grammar.h"
+#include "Language.h"
+#include "TapeStuff.h"
+#include "StateStuff.h"
+#include "MbMatrix.h"
+#include "DeltaStuff.h"
+#include "FA.h"
+#include "DFA.h"
+#include "NFA.h"
+#include "MooreDFA.h"
+#include "FABuilder.h"
+#include "GraphVizUtil.h"
+#include "MealyDFA.h"
+
+// Activation (with 1) allows simple builds via command line
+// * for GNU   use:  g++      -std=c++17 Main.cpp
+// * for Clang use:  clang++  -std=c++17 Main.cpp
+// * for M.S.  use:  cl /EHsc /std:c++17 Main.cpp
+#if 1
+#include "SignalHandling.cpp"
+#include "Timer.cpp"
+#include "SymbolStuff.cpp"
+#include "SequenceStuff.cpp"
+#include "GrammarBasics.cpp"
+#include "GrammarBuilder.cpp"
+#include "Grammar.cpp"
+#include "Language.cpp"
+#include "TapeStuff.cpp"
+#include "StateStuff.cpp"
+#include "MbMatrix.cpp"
+#include "DeltaStuff.cpp"
+#include "FA.cpp"
+#include "DFA.cpp"
+#include "NFA.cpp"
+#include "MooreDFA.cpp"
+#include "FABuilder.cpp"
+#include "GraphVizUtil.cpp"
+#include "MealyDFA.cpp"
+#endif
+
+int main() {
+    FABuilder* builder = new FABuilder();
+    builder->setStartState("B");
+    builder->addFinalState("R");
+    builder->addTransition("B", 'b', "R");
+    builder->addTransition("R", 'b', "R");
+    builder->addTransition("R", 'z', "R");
+    DFA* baseDfa = builder->buildDFA();
+
+    // Output mapping for MealyDFA
+    map<State, map<TapeSymbol, char>> lambda = {
+        {"B", {{'b', 'c'}}},
+        {"R", {{'b', 'c'}, {'z', 'd'}}}
+    };
+    MealyDFA* mealyDFA = new MealyDFA(
+        baseDfa->S,
+        baseDfa->V,
+        baseDfa->s1,
+        baseDfa->F,
+        baseDfa->delta,
+        lambda
+    );
+    vizualizeFA("mealy", mealyDFA);
+
+    // Tests
+    cout << "Translate 'b' to 'c':" << endl;
+    mealyDFA->accepts("b");
+    cout << endl;
+    cout << "Translate 'bzzb' to 'cddc':" << endl;
+    mealyDFA->accepts("bzzb");
+    cout << endl;
+    delete mealyDFA;
+    delete baseDfa;
+    delete builder;
+    return 0;
+}
+```
+![alt text](Task2_.svg)
+
+```
+Translate 'b' to 'c':
+c
+Translate 'bzzb' to 'cddc':
+cddc
+```
+
+
 ## Aufgabe 4
 
 ### a)
@@ -426,7 +604,7 @@ Für OptSign → ε | + | -
 
 Für OptNInits → ε | , ident Init OptNInits
 
-δ(Z, ε, OptNInits) = (Z, ε)
+δ(Z, ε, OptNInits) = (Z, ε)`
 δ(Z, ε, OptNInits) = (Z, OptNInits Init ident ,)
 
 ```

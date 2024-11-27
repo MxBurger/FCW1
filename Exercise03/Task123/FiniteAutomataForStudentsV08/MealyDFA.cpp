@@ -12,12 +12,10 @@ bool MealyDFA::accepts(const Tape &tape) const {
     int i = 0;
     TapeSymbol tSy = tape[i];
     State s = s1;
-
     while (tSy != eot) {
         if (!defined(delta[s][tSy])) {
             return false;
         }
-
         if (lambda.count(s) > 0 && lambda.at(s).count(tSy) > 0) {
             std::cout << lambda.at(s).at(tSy);
         }
