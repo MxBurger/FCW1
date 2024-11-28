@@ -44,7 +44,7 @@ void stopTimer() {
   #endif
 } /*stopTimer*/
 
-double elapsedTime() {  /*returns elapsed time in seconds*/
+double elapsedTime() {  /*returns elapsed time in microseconds*/
   #ifdef HIGH_RES_TIMING
     return
       chrono::duration_cast<chrono::microseconds>
