@@ -115,6 +115,8 @@ NFA* faOf(const Grammar* g) {
     return result;
 }
 
+
+
 // TASK 1b)
 Grammar* grammarOf(const NFA* nfa) {
     SymbolPool* sp = new SymbolPool();
@@ -384,8 +386,7 @@ VT  = { a, b }
 
 ## Aufgabe 2
 ### a)
-**Lösungs-Idee:**
-- Mittels `FABuilder` wird der Automat gemäß der Angabe-Grafik modelliert.
+Mittels `FABuilder` wird der Automat gemäß der Angabe-Grafik modelliert.
 
 ### b)
 Für die Übersetzungsaufgabe wird ein Mealy-Automat entworfen. Da bei jedem Übergang eine Ausgabe erzeugt wird, eignet er sich gut für diesen Anwendungsfall.
@@ -560,10 +561,9 @@ Translate 'bzzb' to 'cddc':
 cddc
 ```
 
-### Aufgabe 3
+## Aufgabe 3
 ### a)
-**Lösungs-Idee:**
-- Mittels `FABuilder` wird der Automat gemäß der Angabe-Grafik modelliert. Die bereites vorhandenen `accepts`-Methoden der `NFA`-Klasse werden aufgerufen.
+Mittels `FABuilder` wird der Automat gemäß der Angabe-Grafik modelliert. Die bereites vorhandenen `accepts`-Methoden der `NFA`-Klasse werden aufgerufen.
 
 ### b)
 Die bereits vorhande `Timer`-Klasse wird verwendet. Die einzige notwendige Abänderung dieser Klasse ist das Abändern der Genauigkeit von `elapsedTime()` von Millisekunden auf Mikrosekunden.
@@ -839,6 +839,10 @@ OptSign   → ε | + | -
 OptNInits → ε | , ident Init OptNInits   
 ```
 
+<!-- pagebreak -->
+
+
+
 ### b)
 
 S.1) Für jede Regel A → α einen Übergang δ(Z, ε, A) = (Z, αR):
@@ -892,6 +896,8 @@ S.2) Für jedes Terminalsymbol a einen Übergang δ(Z, a, a) = (Z, ε):
 δ(Z, ,, ,) = (Z, ε)
 δ(Z, ;, ;) = (Z, ε)
 ```
+
+<!-- pagebreak -->
 
 ### c)
 
@@ -971,6 +977,10 @@ Für ;:
 δ(Z, ;, x) = (Z, x ;) für alle x ∈ V ∪ {$}
 ```
 
+<!-- pagebreak -->
+
+
+
 Beispielhaft wurde `const` evaluiert:
 ```
 δ(Z, const, $) = (Z, $ const)
@@ -1040,9 +1050,9 @@ Follow1(statseq) = { ; }
 
 Ja, LL(k) k=3.
 Folgende Nonterminalsymbole bieten nach dem Betrachten der ersten Terminalsymbole keine eindeutigen Alternativen:
-- `implist`
+- `implist` ( 2 Vorgriffe  notwendig)
 - `dclpart` ( 2 Vorgriffe  notwendig)
-- `statseq`
+- `statseq` ( 3 Vorgriffe  notwendig)
 
 ### c)
 
@@ -1088,6 +1098,10 @@ Follow1(statseq) = { END }
 Follow1(statseq') = { END }
 ```
 
+<!-- pagebreak -->
+
+
+
 Wir betrachten die abgeänderten Regeln:
 ```
 implist → id implist' (nur eine Alternative) LL1 ✓
@@ -1106,3 +1120,4 @@ statseq' → ; STAT statseq' | ε
 Da die zweite Alternative ε produziert, muss gelten:
 First1(; STAT statseq') ∩ Follow1(statseq') = {';'} ∩ {END} = { } LL1✓
 ```
+>**INFO:** Aufgrund der bereits verbrauchten Zeit für diese Übung wurde Aufgabe 5 nach dem "Best Effort"-Prinzip bearbeitet ;).
