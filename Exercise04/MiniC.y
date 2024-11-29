@@ -43,14 +43,16 @@ IdList:
   ;
   
 StatSeq:
-    /*epsilon*/
+    Stat
   | StatSeq Stat
   ;
   
 Stat:
-    IDENT '=' Expr       ';'
+    ';'
+  | IDENT '=' Expr       ';'
   | SCANF  '(' IDENT ')' ';'
   | PRINTF '(' Expr  ')' ';'
+  | error ';'
   ;
   
 Expr: 

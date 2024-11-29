@@ -1,0 +1,545 @@
+Grammar
+
+    0 $accept: MC $end
+
+    1 MC: VOID MAIN '(' ')' Block
+
+    2 Block: '{' OptVarDecl StatSeq '}'
+
+    3 OptVarDecl: ε
+    4           | INT IdList ';'
+
+    5 IdList: IDENT
+    6       | IdList ',' IDENT
+
+    7 StatSeq: Stat
+    8        | StatSeq Stat
+
+    9 Stat: ';'
+   10     | IDENT '=' Expr ';'
+   11     | SCANF '(' IDENT ')' ';'
+   12     | PRINTF '(' Expr ')' ';'
+   13     | error ';'
+
+   14 Expr: Term
+   15     | Expr '+' Term
+   16     | Expr '-' Term
+
+   17 Term: Fact
+   18     | Term '*' Fact
+   19     | Term '/' Fact
+
+   20 Fact: IDENT
+   21     | NUMBER
+   22     | '(' Expr ')'
+
+
+Terminals, with rules where they appear
+
+    $end (0) 0
+    '(' (40) 1 11 12 22
+    ')' (41) 1 11 12 22
+    '*' (42) 18
+    '+' (43) 15
+    ',' (44) 6
+    '-' (45) 16
+    '/' (47) 19
+    ';' (59) 4 9 10 11 12 13
+    '=' (61) 10
+    '{' (123) 2
+    '}' (125) 2
+    error (256) 13
+    INT (258) 4
+    MAIN (259) 1
+    PRINTF (260) 12
+    SCANF (261) 11
+    VOID (262) 1
+    IDENT (263) 5 6 10 11 20
+    NUMBER (264) 21
+
+
+Nonterminals, with rules where they appear
+
+    $accept (21)
+        on left: 0
+    MC (22)
+        on left: 1
+        on right: 0
+    Block (23)
+        on left: 2
+        on right: 1
+    OptVarDecl (24)
+        on left: 3 4
+        on right: 2
+    IdList (25)
+        on left: 5 6
+        on right: 4 6
+    StatSeq (26)
+        on left: 7 8
+        on right: 2 8
+    Stat (27)
+        on left: 9 10 11 12 13
+        on right: 7 8
+    Expr (28)
+        on left: 14 15 16
+        on right: 10 12 15 16 22
+    Term (29)
+        on left: 17 18 19
+        on right: 14 15 16 18 19
+    Fact (30)
+        on left: 20 21 22
+        on right: 17 18 19
+
+
+State 0
+
+    0 $accept: • MC $end
+
+    VOID  shift, and go to state 1
+
+    MC  go to state 2
+
+
+State 1
+
+    1 MC: VOID • MAIN '(' ')' Block
+
+    MAIN  shift, and go to state 3
+
+
+State 2
+
+    0 $accept: MC • $end
+
+    $end  shift, and go to state 4
+
+
+State 3
+
+    1 MC: VOID MAIN • '(' ')' Block
+
+    '('  shift, and go to state 5
+
+
+State 4
+
+    0 $accept: MC $end •
+
+    $default  accept
+
+
+State 5
+
+    1 MC: VOID MAIN '(' • ')' Block
+
+    ')'  shift, and go to state 6
+
+
+State 6
+
+    1 MC: VOID MAIN '(' ')' • Block
+
+    '{'  shift, and go to state 7
+
+    Block  go to state 8
+
+
+State 7
+
+    2 Block: '{' • OptVarDecl StatSeq '}'
+
+    INT  shift, and go to state 9
+
+    $default  reduce using rule 3 (OptVarDecl)
+
+    OptVarDecl  go to state 10
+
+
+State 8
+
+    1 MC: VOID MAIN '(' ')' Block •
+
+    $default  reduce using rule 1 (MC)
+
+
+State 9
+
+    4 OptVarDecl: INT • IdList ';'
+
+    IDENT  shift, and go to state 11
+
+    IdList  go to state 12
+
+
+State 10
+
+    2 Block: '{' OptVarDecl • StatSeq '}'
+
+    error   shift, and go to state 13
+    PRINTF  shift, and go to state 14
+    SCANF   shift, and go to state 15
+    IDENT   shift, and go to state 16
+    ';'     shift, and go to state 17
+
+    StatSeq  go to state 18
+    Stat     go to state 19
+
+
+State 11
+
+    5 IdList: IDENT •
+
+    $default  reduce using rule 5 (IdList)
+
+
+State 12
+
+    4 OptVarDecl: INT IdList • ';'
+    6 IdList: IdList • ',' IDENT
+
+    ';'  shift, and go to state 20
+    ','  shift, and go to state 21
+
+
+State 13
+
+   13 Stat: error • ';'
+
+    ';'  shift, and go to state 22
+
+
+State 14
+
+   12 Stat: PRINTF • '(' Expr ')' ';'
+
+    '('  shift, and go to state 23
+
+
+State 15
+
+   11 Stat: SCANF • '(' IDENT ')' ';'
+
+    '('  shift, and go to state 24
+
+
+State 16
+
+   10 Stat: IDENT • '=' Expr ';'
+
+    '='  shift, and go to state 25
+
+
+State 17
+
+    9 Stat: ';' •
+
+    $default  reduce using rule 9 (Stat)
+
+
+State 18
+
+    2 Block: '{' OptVarDecl StatSeq • '}'
+    8 StatSeq: StatSeq • Stat
+
+    error   shift, and go to state 13
+    PRINTF  shift, and go to state 14
+    SCANF   shift, and go to state 15
+    IDENT   shift, and go to state 16
+    '}'     shift, and go to state 26
+    ';'     shift, and go to state 17
+
+    Stat  go to state 27
+
+
+State 19
+
+    7 StatSeq: Stat •
+
+    $default  reduce using rule 7 (StatSeq)
+
+
+State 20
+
+    4 OptVarDecl: INT IdList ';' •
+
+    $default  reduce using rule 4 (OptVarDecl)
+
+
+State 21
+
+    6 IdList: IdList ',' • IDENT
+
+    IDENT  shift, and go to state 28
+
+
+State 22
+
+   13 Stat: error ';' •
+
+    $default  reduce using rule 13 (Stat)
+
+
+State 23
+
+   12 Stat: PRINTF '(' • Expr ')' ';'
+
+    IDENT   shift, and go to state 29
+    NUMBER  shift, and go to state 30
+    '('     shift, and go to state 31
+
+    Expr  go to state 32
+    Term  go to state 33
+    Fact  go to state 34
+
+
+State 24
+
+   11 Stat: SCANF '(' • IDENT ')' ';'
+
+    IDENT  shift, and go to state 35
+
+
+State 25
+
+   10 Stat: IDENT '=' • Expr ';'
+
+    IDENT   shift, and go to state 29
+    NUMBER  shift, and go to state 30
+    '('     shift, and go to state 31
+
+    Expr  go to state 36
+    Term  go to state 33
+    Fact  go to state 34
+
+
+State 26
+
+    2 Block: '{' OptVarDecl StatSeq '}' •
+
+    $default  reduce using rule 2 (Block)
+
+
+State 27
+
+    8 StatSeq: StatSeq Stat •
+
+    $default  reduce using rule 8 (StatSeq)
+
+
+State 28
+
+    6 IdList: IdList ',' IDENT •
+
+    $default  reduce using rule 6 (IdList)
+
+
+State 29
+
+   20 Fact: IDENT •
+
+    $default  reduce using rule 20 (Fact)
+
+
+State 30
+
+   21 Fact: NUMBER •
+
+    $default  reduce using rule 21 (Fact)
+
+
+State 31
+
+   22 Fact: '(' • Expr ')'
+
+    IDENT   shift, and go to state 29
+    NUMBER  shift, and go to state 30
+    '('     shift, and go to state 31
+
+    Expr  go to state 37
+    Term  go to state 33
+    Fact  go to state 34
+
+
+State 32
+
+   12 Stat: PRINTF '(' Expr • ')' ';'
+   15 Expr: Expr • '+' Term
+   16     | Expr • '-' Term
+
+    ')'  shift, and go to state 38
+    '+'  shift, and go to state 39
+    '-'  shift, and go to state 40
+
+
+State 33
+
+   14 Expr: Term •
+   18 Term: Term • '*' Fact
+   19     | Term • '/' Fact
+
+    '*'  shift, and go to state 41
+    '/'  shift, and go to state 42
+
+    $default  reduce using rule 14 (Expr)
+
+
+State 34
+
+   17 Term: Fact •
+
+    $default  reduce using rule 17 (Term)
+
+
+State 35
+
+   11 Stat: SCANF '(' IDENT • ')' ';'
+
+    ')'  shift, and go to state 43
+
+
+State 36
+
+   10 Stat: IDENT '=' Expr • ';'
+   15 Expr: Expr • '+' Term
+   16     | Expr • '-' Term
+
+    ';'  shift, and go to state 44
+    '+'  shift, and go to state 39
+    '-'  shift, and go to state 40
+
+
+State 37
+
+   15 Expr: Expr • '+' Term
+   16     | Expr • '-' Term
+   22 Fact: '(' Expr • ')'
+
+    ')'  shift, and go to state 45
+    '+'  shift, and go to state 39
+    '-'  shift, and go to state 40
+
+
+State 38
+
+   12 Stat: PRINTF '(' Expr ')' • ';'
+
+    ';'  shift, and go to state 46
+
+
+State 39
+
+   15 Expr: Expr '+' • Term
+
+    IDENT   shift, and go to state 29
+    NUMBER  shift, and go to state 30
+    '('     shift, and go to state 31
+
+    Term  go to state 47
+    Fact  go to state 34
+
+
+State 40
+
+   16 Expr: Expr '-' • Term
+
+    IDENT   shift, and go to state 29
+    NUMBER  shift, and go to state 30
+    '('     shift, and go to state 31
+
+    Term  go to state 48
+    Fact  go to state 34
+
+
+State 41
+
+   18 Term: Term '*' • Fact
+
+    IDENT   shift, and go to state 29
+    NUMBER  shift, and go to state 30
+    '('     shift, and go to state 31
+
+    Fact  go to state 49
+
+
+State 42
+
+   19 Term: Term '/' • Fact
+
+    IDENT   shift, and go to state 29
+    NUMBER  shift, and go to state 30
+    '('     shift, and go to state 31
+
+    Fact  go to state 50
+
+
+State 43
+
+   11 Stat: SCANF '(' IDENT ')' • ';'
+
+    ';'  shift, and go to state 51
+
+
+State 44
+
+   10 Stat: IDENT '=' Expr ';' •
+
+    $default  reduce using rule 10 (Stat)
+
+
+State 45
+
+   22 Fact: '(' Expr ')' •
+
+    $default  reduce using rule 22 (Fact)
+
+
+State 46
+
+   12 Stat: PRINTF '(' Expr ')' ';' •
+
+    $default  reduce using rule 12 (Stat)
+
+
+State 47
+
+   15 Expr: Expr '+' Term •
+   18 Term: Term • '*' Fact
+   19     | Term • '/' Fact
+
+    '*'  shift, and go to state 41
+    '/'  shift, and go to state 42
+
+    $default  reduce using rule 15 (Expr)
+
+
+State 48
+
+   16 Expr: Expr '-' Term •
+   18 Term: Term • '*' Fact
+   19     | Term • '/' Fact
+
+    '*'  shift, and go to state 41
+    '/'  shift, and go to state 42
+
+    $default  reduce using rule 16 (Expr)
+
+
+State 49
+
+   18 Term: Term '*' Fact •
+
+    $default  reduce using rule 18 (Term)
+
+
+State 50
+
+   19 Term: Term '/' Fact •
+
+    $default  reduce using rule 19 (Term)
+
+
+State 51
+
+   11 Stat: SCANF '(' IDENT ')' ';' •
+
+    $default  reduce using rule 11 (Stat)

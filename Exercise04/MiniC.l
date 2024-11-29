@@ -19,7 +19,24 @@
 
 [ \t]+      { ; }        /*ignore white space: blanks and tabs      */
 
-\n          { yylineno++; }
+[\n]          { yylineno++; }
+
+"/*"        {            /*skip C comments                          */
+              int prevCh = 0, ch = input();
+              while (1) {
+                if (ch <= 0) { /* EOF == -1 */
+                  yyerror("eof within comment"); /*see in MiniC.y   */
+                  break;
+                } /*if*/
+                if (ch == '\n')
+                  yylineno++;
+                else if (prevCh == '*' && ch == '/')
+                  break; /*ok: correct end of comment               */
+                prevCh = ch;
+                ch = input();
+              } /*while*/
+            }
+
 
 int         { return INT;    }
 main        { return MAIN;   }
