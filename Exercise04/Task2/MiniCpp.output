@@ -1,6 +1,3 @@
-State 171 conflicts: 1 shift/reduce
-
-
 Grammar
 
     0 $accept: MiniCpp $end
@@ -241,172 +238,173 @@ Terminals, with rules where they appear
     OR (290) 84
     INC (291) 117 120
     DEC (292) 118 121
+    LOWER_THAN_ELSE (293)
 
 
 Nonterminals, with rules where they appear
 
-    $accept (55)
+    $accept (56)
         on left: 0
-    MiniCpp (56)
+    MiniCpp (57)
         on left: 1 2
         on right: 0 2
-    TopLevel (57)
+    TopLevel (58)
         on left: 3 4 5 6 7
         on right: 2
-    ConstDef (58)
+    ConstDef (59)
         on left: 8
         on right: 3 44
-    IdentInit (59)
+    IdentInit (60)
         on left: 9 10
         on right: 8 10
-    Init (60)
+    Init (61)
         on left: 11
         on right: 9 10 26
-    InitValue (61)
+    InitValue (62)
         on left: 12 13 14 15
         on right: 11
-    OptSign (62)
+    OptSign (63)
         on left: 16 17 18
         on right: 15 95
-    VarDef (63)
+    VarDef (64)
         on left: 19
         on right: 4 45
-    VarList (64)
+    VarList (65)
         on left: 20 21
         on right: 19 21
-    VarItem (65)
+    VarItem (66)
         on left: 22
         on right: 20 21
-    OptPointer (66)
+    OptPointer (67)
         on left: 23 24
         on right: 22 29 35
-    OptInit (67)
+    OptInit (68)
         on left: 25 26
         on right: 22
-    FuncDecl (68)
+    FuncDecl (69)
         on left: 27
         on right: 5
-    FuncDef (69)
+    FuncDef (70)
         on left: 28
         on right: 6
-    FuncHead (70)
+    FuncHead (71)
         on left: 29
         on right: 27 28
-    OptFormParList (71)
+    OptFormParList (72)
         on left: 30 31
         on right: 29
-    FormParList (72)
+    FormParList (73)
         on left: 32 33 34
         on right: 31 34
-    ParamDef (73)
+    ParamDef (74)
         on left: 35
         on right: 33 34
-    OptArray (74)
+    OptArray (75)
         on left: 36 37
         on right: 35
-    Type (75)
+    Type (76)
         on left: 38 39 40
         on right: 8 19 29 35 111
-    Block (76)
+    Block (77)
         on left: 41
         on right: 28 58
-    BlockItems (77)
+    BlockItems (78)
         on left: 42 43
         on right: 41 43
-    BlockItem (78)
+    BlockItem (79)
         on left: 44 45 46
         on right: 43
-    Stat (79)
+    Stat (80)
         on left: 47 48 49 50 51 52 53 54 55 56
         on right: 46 60 61 62
-    EmptyStat (80)
+    EmptyStat (81)
         on left: 57
         on right: 47
-    BlockStat (81)
+    BlockStat (82)
         on left: 58
         on right: 48
-    ExprStat (82)
+    ExprStat (83)
         on left: 59
         on right: 49
-    IfStat (83)
+    IfStat (84)
         on left: 60 61
         on right: 50
-    WhileStat (84)
+    WhileStat (85)
         on left: 62
         on right: 51
-    BreakStat (85)
+    BreakStat (86)
         on left: 63
         on right: 52
-    InputStat (86)
+    InputStat (87)
         on left: 64
         on right: 53
-    OutputStat (87)
+    OutputStat (88)
         on left: 65
         on right: 54
-    OutList (88)
+    OutList (89)
         on left: 66 67
         on right: 65 67
-    OutExpr (89)
+    OutExpr (90)
         on left: 68 69 70
         on right: 66 67
-    DeleteStat (90)
+    DeleteStat (91)
         on left: 71
         on right: 55
-    ReturnStat (91)
+    ReturnStat (92)
         on left: 72
         on right: 56
-    OptExpr (92)
+    OptExpr (93)
         on left: 73 74
         on right: 72
-    Expr (93)
+    Expr (94)
         on left: 75 76
         on right: 59 60 61 62 68 74 111 112 114 124 125
-    AssignOp (94)
+    AssignOp (95)
         on left: 77 78 79 80 81 82
         on right: 76
-    OrExpr (95)
+    OrExpr (96)
         on left: 83 84
         on right: 75 76 84
-    AndExpr (96)
+    AndExpr (97)
         on left: 85 86
         on right: 83 84 86
-    RelExpr (97)
+    RelExpr (98)
         on left: 87 88
         on right: 85 86 88
-    RelOp (98)
+    RelOp (99)
         on left: 89 90 91 92 93 94
         on right: 88
-    SimpleExpr (99)
+    SimpleExpr (100)
         on left: 95 96
         on right: 87 88 96
-    AddOp (100)
+    AddOp (101)
         on left: 97 98
         on right: 96
-    Term (101)
+    Term (102)
         on left: 99 100
         on right: 95 96 100
-    MulOp (102)
+    MulOp (103)
         on left: 101 102 103
         on right: 100
-    NotFact (103)
+    NotFact (104)
         on left: 104 105
         on right: 99 100
-    Fact (104)
+    Fact (105)
         on left: 106 107 108 109 110 111 112
         on right: 104 105
-    LValue (105)
+    LValue (106)
         on left: 113 114 115
         on right: 110
-    OptInc (106)
+    OptInc (107)
         on left: 116 117 118
         on right: 113 114 115
-    OptPostInc (107)
+    OptPostInc (108)
         on left: 119 120 121
         on right: 113 114 115
-    OptActParams (108)
+    OptActParams (109)
         on left: 122 123
         on right: 115
-    ActParams (109)
+    ActParams (110)
         on left: 124 125
         on right: 123 125
 
@@ -2103,24 +2101,7 @@ State 171
 
     ELSE  shift, and go to state 180
 
-    ELSE      [reduce using rule 60 (IfStat)]
     $default  reduce using rule 60 (IfStat)
-
-    shift/reduce conflict on token ELSE:
-       60 IfStat: IF '(' Expr ')' Stat •
-       61 IfStat: IF '(' Expr ')' Stat • ELSE Stat
-      Example: IF '(' Expr ')' IF '(' Expr ')' Stat • ELSE Stat
-      Shift derivation
-        IfStat
-        ↳ 60: IF '(' Expr ')' Stat
-                              ↳ 50: IfStat
-                                    ↳ 61: IF '(' Expr ')' Stat • ELSE Stat
-      Reduce derivation
-        IfStat
-        ↳ 61: IF '(' Expr ')' Stat                               ELSE Stat
-                              ↳ 50: IfStat
-                                    ↳ 60: IF '(' Expr ')' Stat •
-
 
 
 State 172

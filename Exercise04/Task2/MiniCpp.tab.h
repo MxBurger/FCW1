@@ -88,7 +88,8 @@ extern int yydebug;
     AND = 289,                     /* AND  */
     OR = 290,                      /* OR  */
     INC = 291,                     /* INC  */
-    DEC = 292                      /* DEC  */
+    DEC = 292,                     /* DEC  */
+    LOWER_THAN_ELSE = 293          /* LOWER_THAN_ELSE  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif

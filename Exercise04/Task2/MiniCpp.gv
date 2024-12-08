@@ -858,8 +858,6 @@ digraph "MiniCpp.y"
  "170R71" [label="R71", fillcolor=3, shape=diamond, style=filled]
   171 [label="State 171\n\l 60 IfStat: IF '(' Expr ')' Stat •\l 61       | IF '(' Expr ')' Stat • ELSE Stat\l"]
   171 -> 180 [style=solid label="ELSE"]
-  171 -> "171R60d" [label="[ELSE]", style=solid]
- "171R60d" [label="R60", fillcolor=5, shape=diamond, style=filled]
   171 -> "171R60" [style=solid]
  "171R60" [label="R60", fillcolor=3, shape=diamond, style=filled]
   172 [label="State 172\n\l 62 WhileStat: WHILE '(' Expr ')' Stat •\l"]

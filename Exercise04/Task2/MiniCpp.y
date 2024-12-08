@@ -16,6 +16,9 @@ void yyerror(const char *s);
 %token SHL SHR PLUSEQ MINUSEQ TIMESEQ DIVEQ MODEQ
 %token EQ NEQ LEQ GEQ AND OR INC DEC
 
+%nonassoc LOWER_THAN_ELSE
+%nonassoc ELSE
+
 %%
 
 MiniCpp     : /* empty */
@@ -131,7 +134,7 @@ BlockStat   : Block
 ExprStat    : Expr ';'
             ;
 
-IfStat      : IF '(' Expr ')' Stat
+IfStat      : IF '(' Expr ')' Stat              %prec LOWER_THAN_ELSE
             | IF '(' Expr ')' Stat ELSE Stat
             ;
 
