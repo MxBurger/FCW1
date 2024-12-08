@@ -42,202 +42,207 @@ Grammar
 
    27 FuncDecl: FuncHead ';'
 
-   28 FuncDef: FuncHead Block
+   28 $@1: ε
 
-   29 FuncHead: Type OptPointer IDENT '(' OptFormParList ')'
+   29 FuncDef: FuncHead $@1 Block
 
-   30 OptFormParList: ε
-   31               | FormParList
+   30 FuncHead: Type OptPointer IDENT '(' OptFormParList ')'
 
-   32 FormParList: VOID
-   33            | ParamDef
-   34            | FormParList ',' ParamDef
+   31 OptFormParList: ε
+   32               | FormParList
 
-   35 ParamDef: Type OptPointer IDENT OptArray
+   33 FormParList: VOID
+   34            | ParamDef
+   35            | FormParList ',' ParamDef
 
-   36 OptArray: ε
-   37         | '[' ']'
+   36 ParamDef: Type OptPointer IDENT OptArray
 
-   38 Type: VOID
-   39     | BOOL
-   40     | INT
+   37 OptArray: ε
+   38         | '[' ']'
 
-   41 Block: '{' BlockItems '}'
+   39 Type: VOID
+   40     | BOOL
+   41     | INT
 
-   42 BlockItems: ε
-   43           | BlockItems BlockItem
+   42 Block: '{' BlockItems '}'
 
-   44 BlockItem: ConstDef
-   45          | VarDef
-   46          | Stat
+   43 BlockItems: ε
+   44           | BlockItems BlockItem
 
-   47 Stat: EmptyStat
-   48     | BlockStat
-   49     | ExprStat
-   50     | IfStat
-   51     | WhileStat
-   52     | BreakStat
-   53     | InputStat
-   54     | OutputStat
-   55     | DeleteStat
-   56     | ReturnStat
+   45 BlockItem: ConstDef
+   46          | VarDef
+   47          | Stat
 
-   57 EmptyStat: ';'
+   48 Stat: EmptyStat
+   49     | BlockStat
+   50     | ExprStat
+   51     | IfStat
+   52     | WhileStat
+   53     | BreakStat
+   54     | InputStat
+   55     | OutputStat
+   56     | DeleteStat
+   57     | ReturnStat
 
-   58 BlockStat: Block
+   58 EmptyStat: ';'
 
-   59 ExprStat: Expr ';'
+   59 BlockStat: Block
 
-   60 IfStat: IF '(' Expr ')' Stat
-   61       | IF '(' Expr ')' Stat ELSE Stat
+   60 ExprStat: Expr ';'
 
-   62 WhileStat: WHILE '(' Expr ')' Stat
+   61 IfStat: IF '(' Expr ')' Stat
+   62       | IF '(' Expr ')' Stat ELSE Stat
 
-   63 BreakStat: BREAK ';'
+   63 WhileStat: WHILE '(' Expr ')' Stat
 
-   64 InputStat: CIN SHR IDENT ';'
+   64 BreakStat: BREAK ';'
 
-   65 OutputStat: COUT OutList ';'
+   65 InputStat: CIN SHR IDENT ';'
 
-   66 OutList: SHL OutExpr
-   67        | OutList SHL OutExpr
+   66 OutputStat: COUT OutList ';'
 
-   68 OutExpr: Expr
-   69        | STRING
-   70        | ENDL
+   67 OutList: SHL OutExpr
+   68        | OutList SHL OutExpr
 
-   71 DeleteStat: DELETE '[' ']' IDENT ';'
+   69 OutExpr: Expr
+   70        | STRING
+   71        | ENDL
 
-   72 ReturnStat: RETURN OptExpr ';'
+   72 DeleteStat: DELETE '[' ']' IDENT ';'
 
-   73 OptExpr: ε
-   74        | Expr
+   73 ReturnStat: RETURN OptExpr ';'
 
-   75 Expr: OrExpr
-   76     | OrExpr AssignOp OrExpr
+   74 OptExpr: ε
+   75        | Expr
 
-   77 AssignOp: '='
-   78         | PLUSEQ
-   79         | MINUSEQ
-   80         | TIMESEQ
-   81         | DIVEQ
-   82         | MODEQ
+   76 Expr: OrExpr
+   77     | OrExpr AssignOp OrExpr
 
-   83 OrExpr: AndExpr
-   84       | OrExpr OR AndExpr
+   78 AssignOp: '='
+   79         | PLUSEQ
+   80         | MINUSEQ
+   81         | TIMESEQ
+   82         | DIVEQ
+   83         | MODEQ
 
-   85 AndExpr: RelExpr
-   86        | AndExpr AND RelExpr
+   84 OrExpr: AndExpr
+   85       | OrExpr OR AndExpr
 
-   87 RelExpr: SimpleExpr
-   88        | RelExpr RelOp SimpleExpr
+   86 AndExpr: RelExpr
+   87        | AndExpr AND RelExpr
 
-   89 RelOp: EQ
-   90      | NEQ
-   91      | '<'
-   92      | LEQ
-   93      | '>'
-   94      | GEQ
+   88 RelExpr: SimpleExpr
+   89        | RelExpr RelOp SimpleExpr
 
-   95 SimpleExpr: OptSign Term
-   96           | SimpleExpr AddOp Term
+   90 RelOp: EQ
+   91      | NEQ
+   92      | '<'
+   93      | LEQ
+   94      | '>'
+   95      | GEQ
 
-   97 AddOp: '+'
-   98      | '-'
+   96 SimpleExpr: OptSign Term
+   97           | SimpleExpr AddOp Term
 
-   99 Term: NotFact
-  100     | Term MulOp NotFact
+   98 AddOp: '+'
+   99      | '-'
 
-  101 MulOp: '*'
-  102      | '/'
-  103      | '%'
+  100 Term: NotFact
+  101     | Term MulOp NotFact
 
-  104 NotFact: Fact
-  105        | '!' Fact
+  102 MulOp: '*'
+  103      | '/'
+  104      | '%'
 
-  106 Fact: FALSE
-  107     | TRUE
-  108     | NULLPTR
-  109     | NUMBER
-  110     | LValue
-  111     | NEW Type '[' Expr ']'
-  112     | '(' Expr ')'
+  105 NotFact: Fact
+  106        | '!' Fact
 
-  113 LValue: OptInc IDENT OptPostInc
-  114       | OptInc IDENT '[' Expr ']' OptPostInc
-  115       | OptInc IDENT '(' OptActParams ')' OptPostInc
+  107 Fact: FALSE
+  108     | TRUE
+  109     | NULLPTR
+  110     | NUMBER
+  111     | LValue
+  112     | NEW Type '[' Expr ']'
+  113     | '(' Expr ')'
 
-  116 OptInc: ε
-  117       | INC
-  118       | DEC
+  114 LValue: OptInc IDENT OptPostInc
+  115       | OptInc IDENT '[' Expr ']' OptPostInc
 
-  119 OptPostInc: ε
-  120           | INC
-  121           | DEC
+  116 $@2: ε
 
-  122 OptActParams: ε
-  123             | ActParams
+  117 LValue: OptInc IDENT $@2 '(' OptActParams ')' OptPostInc
 
-  124 ActParams: Expr
-  125          | ActParams ',' Expr
+  118 OptInc: ε
+  119       | INC
+  120       | DEC
+
+  121 OptPostInc: ε
+  122           | INC
+  123           | DEC
+
+  124 OptActParams: ε
+  125             | ActParams
+
+  126 ActParams: Expr
+  127          | ActParams ',' Expr
 
 
 Terminals, with rules where they appear
 
     $end (0) 0
-    '!' (33) 105
-    '%' (37) 103
-    '(' (40) 29 60 61 62 112 115
-    ')' (41) 29 60 61 62 112 115
-    '*' (42) 24 101
-    '+' (43) 17 97
-    ',' (44) 10 21 34 125
-    '-' (45) 18 98
-    '/' (47) 102
-    ';' (59) 7 8 19 27 57 59 63 64 65 71 72
-    '<' (60) 91
-    '=' (61) 11 77
-    '>' (62) 93
-    '[' (91) 37 71 111 114
-    ']' (93) 37 71 111 114
-    '{' (123) 41
-    '}' (125) 41
+    '!' (33) 106
+    '%' (37) 104
+    '(' (40) 30 61 62 63 113 117
+    ')' (41) 30 61 62 63 113 117
+    '*' (42) 24 102
+    '+' (43) 17 98
+    ',' (44) 10 21 35 127
+    '-' (45) 18 99
+    '/' (47) 103
+    ';' (59) 7 8 19 27 58 60 64 65 66 72 73
+    '<' (60) 92
+    '=' (61) 11 78
+    '>' (62) 94
+    '[' (91) 38 72 112 115
+    ']' (93) 38 72 112 115
+    '{' (123) 42
+    '}' (125) 42
     error (256)
-    BOOL (258) 39
-    BREAK (259) 63
-    CIN (260) 64
+    BOOL (258) 40
+    BREAK (259) 64
+    CIN (260) 65
     CONST (261) 8
-    COUT (262) 65
-    DELETE (263) 71
-    ELSE (264) 61
-    ENDL (265) 70
-    FALSE (266) 12 106
-    IF (267) 60 61
-    INT (268) 40
-    NEW (269) 111
-    NULLPTR (270) 14 108
-    RETURN (271) 72
-    STRING (272) 69
-    TRUE (273) 13 107
-    VOID (274) 32 38
-    WHILE (275) 62
-    IDENT (276) 9 10 22 29 35 64 71 113 114 115
-    NUMBER (277) 15 109
-    SHL (278) 66 67
-    SHR (279) 64
-    PLUSEQ (280) 78
-    MINUSEQ (281) 79
-    TIMESEQ (282) 80
-    DIVEQ (283) 81
-    MODEQ (284) 82
-    EQ (285) 89
-    NEQ (286) 90
-    LEQ (287) 92
-    GEQ (288) 94
-    AND (289) 86
-    OR (290) 84
-    INC (291) 117 120
-    DEC (292) 118 121
+    COUT (262) 66
+    DELETE (263) 72
+    ELSE (264) 62
+    ENDL (265) 71
+    FALSE (266) 12 107
+    IF (267) 61 62
+    INT (268) 41
+    NEW (269) 112
+    NULLPTR (270) 14 109
+    RETURN (271) 73
+    STRING (272) 70
+    TRUE (273) 13 108
+    VOID (274) 33 39
+    WHILE (275) 63
+    IDENT (276) 9 10 22 30 36 65 72 114 115 117
+    NUMBER (277) 15 110
+    SHL (278) 67 68
+    SHR (279) 65
+    PLUSEQ (280) 79
+    MINUSEQ (281) 80
+    TIMESEQ (282) 81
+    DIVEQ (283) 82
+    MODEQ (284) 83
+    EQ (285) 90
+    NEQ (286) 91
+    LEQ (287) 93
+    GEQ (288) 95
+    AND (289) 87
+    OR (290) 85
+    INC (291) 119 122
+    DEC (292) 120 123
     LOWER_THAN_ELSE (293)
 
 
@@ -253,7 +258,7 @@ Nonterminals, with rules where they appear
         on right: 2
     ConstDef (59)
         on left: 8
-        on right: 3 44
+        on right: 3 45
     IdentInit (60)
         on left: 9 10
         on right: 8 10
@@ -265,10 +270,10 @@ Nonterminals, with rules where they appear
         on right: 11
     OptSign (63)
         on left: 16 17 18
-        on right: 15 95
+        on right: 15 96
     VarDef (64)
         on left: 19
-        on right: 4 45
+        on right: 4 46
     VarList (65)
         on left: 20 21
         on right: 19 21
@@ -277,7 +282,7 @@ Nonterminals, with rules where they appear
         on right: 20 21
     OptPointer (67)
         on left: 23 24
-        on right: 22 29 35
+        on right: 22 30 36
     OptInit (68)
         on left: 25 26
         on right: 22
@@ -285,128 +290,134 @@ Nonterminals, with rules where they appear
         on left: 27
         on right: 5
     FuncDef (70)
-        on left: 28
-        on right: 6
-    FuncHead (71)
         on left: 29
-        on right: 27 28
-    OptFormParList (72)
-        on left: 30 31
+        on right: 6
+    $@1 (71)
+        on left: 28
         on right: 29
-    FormParList (73)
-        on left: 32 33 34
-        on right: 31 34
-    ParamDef (74)
-        on left: 35
-        on right: 33 34
-    OptArray (75)
-        on left: 36 37
-        on right: 35
-    Type (76)
-        on left: 38 39 40
-        on right: 8 19 29 35 111
-    Block (77)
-        on left: 41
-        on right: 28 58
-    BlockItems (78)
-        on left: 42 43
-        on right: 41 43
-    BlockItem (79)
-        on left: 44 45 46
-        on right: 43
-    Stat (80)
-        on left: 47 48 49 50 51 52 53 54 55 56
-        on right: 46 60 61 62
-    EmptyStat (81)
-        on left: 57
-        on right: 47
-    BlockStat (82)
+    FuncHead (72)
+        on left: 30
+        on right: 27 29
+    OptFormParList (73)
+        on left: 31 32
+        on right: 30
+    FormParList (74)
+        on left: 33 34 35
+        on right: 32 35
+    ParamDef (75)
+        on left: 36
+        on right: 34 35
+    OptArray (76)
+        on left: 37 38
+        on right: 36
+    Type (77)
+        on left: 39 40 41
+        on right: 8 19 30 36 112
+    Block (78)
+        on left: 42
+        on right: 29 59
+    BlockItems (79)
+        on left: 43 44
+        on right: 42 44
+    BlockItem (80)
+        on left: 45 46 47
+        on right: 44
+    Stat (81)
+        on left: 48 49 50 51 52 53 54 55 56 57
+        on right: 47 61 62 63
+    EmptyStat (82)
         on left: 58
         on right: 48
-    ExprStat (83)
+    BlockStat (83)
         on left: 59
         on right: 49
-    IfStat (84)
-        on left: 60 61
+    ExprStat (84)
+        on left: 60
         on right: 50
-    WhileStat (85)
-        on left: 62
+    IfStat (85)
+        on left: 61 62
         on right: 51
-    BreakStat (86)
+    WhileStat (86)
         on left: 63
         on right: 52
-    InputStat (87)
+    BreakStat (87)
         on left: 64
         on right: 53
-    OutputStat (88)
+    InputStat (88)
         on left: 65
         on right: 54
-    OutList (89)
-        on left: 66 67
-        on right: 65 67
-    OutExpr (90)
-        on left: 68 69 70
-        on right: 66 67
-    DeleteStat (91)
-        on left: 71
+    OutputStat (89)
+        on left: 66
         on right: 55
-    ReturnStat (92)
+    OutList (90)
+        on left: 67 68
+        on right: 66 68
+    OutExpr (91)
+        on left: 69 70 71
+        on right: 67 68
+    DeleteStat (92)
         on left: 72
         on right: 56
-    OptExpr (93)
-        on left: 73 74
-        on right: 72
-    Expr (94)
-        on left: 75 76
-        on right: 59 60 61 62 68 74 111 112 114 124 125
-    AssignOp (95)
-        on left: 77 78 79 80 81 82
-        on right: 76
-    OrExpr (96)
-        on left: 83 84
-        on right: 75 76 84
-    AndExpr (97)
-        on left: 85 86
-        on right: 83 84 86
-    RelExpr (98)
-        on left: 87 88
-        on right: 85 86 88
-    RelOp (99)
-        on left: 89 90 91 92 93 94
-        on right: 88
-    SimpleExpr (100)
-        on left: 95 96
-        on right: 87 88 96
-    AddOp (101)
-        on left: 97 98
-        on right: 96
-    Term (102)
-        on left: 99 100
-        on right: 95 96 100
-    MulOp (103)
-        on left: 101 102 103
-        on right: 100
-    NotFact (104)
-        on left: 104 105
-        on right: 99 100
-    Fact (105)
-        on left: 106 107 108 109 110 111 112
-        on right: 104 105
-    LValue (106)
-        on left: 113 114 115
-        on right: 110
-    OptInc (107)
-        on left: 116 117 118
-        on right: 113 114 115
-    OptPostInc (108)
-        on left: 119 120 121
-        on right: 113 114 115
-    OptActParams (109)
-        on left: 122 123
-        on right: 115
-    ActParams (110)
+    ReturnStat (93)
+        on left: 73
+        on right: 57
+    OptExpr (94)
+        on left: 74 75
+        on right: 73
+    Expr (95)
+        on left: 76 77
+        on right: 60 61 62 63 69 75 112 113 115 126 127
+    AssignOp (96)
+        on left: 78 79 80 81 82 83
+        on right: 77
+    OrExpr (97)
+        on left: 84 85
+        on right: 76 77 85
+    AndExpr (98)
+        on left: 86 87
+        on right: 84 85 87
+    RelExpr (99)
+        on left: 88 89
+        on right: 86 87 89
+    RelOp (100)
+        on left: 90 91 92 93 94 95
+        on right: 89
+    SimpleExpr (101)
+        on left: 96 97
+        on right: 88 89 97
+    AddOp (102)
+        on left: 98 99
+        on right: 97
+    Term (103)
+        on left: 100 101
+        on right: 96 97 101
+    MulOp (104)
+        on left: 102 103 104
+        on right: 101
+    NotFact (105)
+        on left: 105 106
+        on right: 100 101
+    Fact (106)
+        on left: 107 108 109 110 111 112 113
+        on right: 105 106
+    LValue (107)
+        on left: 114 115 117
+        on right: 111
+    $@2 (108)
+        on left: 116
+        on right: 117
+    OptInc (109)
+        on left: 118 119 120
+        on right: 114 115 117
+    OptPostInc (110)
+        on left: 121 122 123
+        on right: 114 115 117
+    OptActParams (111)
         on left: 124 125
-        on right: 123 125
+        on right: 117
+    ActParams (112)
+        on left: 126 127
+        on right: 125 127
 
 
 State 0
@@ -448,9 +459,9 @@ State 2
 
 State 3
 
-   39 Type: BOOL •
+   40 Type: BOOL •
 
-    $default  reduce using rule 39 (Type)
+    $default  reduce using rule 40 (Type)
 
 
 State 4
@@ -466,16 +477,16 @@ State 4
 
 State 5
 
-   40 Type: INT •
+   41 Type: INT •
 
-    $default  reduce using rule 40 (Type)
+    $default  reduce using rule 41 (Type)
 
 
 State 6
 
-   38 Type: VOID •
+   39 Type: VOID •
 
-    $default  reduce using rule 38 (Type)
+    $default  reduce using rule 39 (Type)
 
 
 State 7
@@ -523,35 +534,36 @@ State 12
 State 13
 
    27 FuncDecl: FuncHead • ';'
-   28 FuncDef: FuncHead • Block
+   29 FuncDef: FuncHead • $@1 Block
 
     ';'  shift, and go to state 16
-    '{'  shift, and go to state 17
 
-    Block  go to state 18
+    $default  reduce using rule 28 ($@1)
+
+    $@1  go to state 17
 
 
 State 14
 
    19 VarDef: Type • VarList ';'
-   29 FuncHead: Type • OptPointer IDENT '(' OptFormParList ')'
+   30 FuncHead: Type • OptPointer IDENT '(' OptFormParList ')'
 
-    '*'  shift, and go to state 19
+    '*'  shift, and go to state 18
 
     $default  reduce using rule 23 (OptPointer)
 
-    VarList     go to state 20
-    VarItem     go to state 21
-    OptPointer  go to state 22
+    VarList     go to state 19
+    VarItem     go to state 20
+    OptPointer  go to state 21
 
 
 State 15
 
     8 ConstDef: CONST Type • IdentInit ';'
 
-    IDENT  shift, and go to state 23
+    IDENT  shift, and go to state 22
 
-    IdentInit  go to state 24
+    IdentInit  go to state 23
 
 
 State 16
@@ -563,28 +575,21 @@ State 16
 
 State 17
 
-   41 Block: '{' • BlockItems '}'
+   29 FuncDef: FuncHead $@1 • Block
 
-    $default  reduce using rule 42 (BlockItems)
+    '{'  shift, and go to state 24
 
-    BlockItems  go to state 25
+    Block  go to state 25
 
 
 State 18
-
-   28 FuncDef: FuncHead Block •
-
-    $default  reduce using rule 28 (FuncDef)
-
-
-State 19
 
    24 OptPointer: '*' •
 
     $default  reduce using rule 24 (OptPointer)
 
 
-State 20
+State 19
 
    19 VarDef: Type VarList • ';'
    21 VarList: VarList • ',' VarItem
@@ -593,22 +598,22 @@ State 20
     ','  shift, and go to state 27
 
 
-State 21
+State 20
 
    20 VarList: VarItem •
 
     $default  reduce using rule 20 (VarList)
 
 
-State 22
+State 21
 
    22 VarItem: OptPointer • IDENT OptInit
-   29 FuncHead: Type OptPointer • IDENT '(' OptFormParList ')'
+   30 FuncHead: Type OptPointer • IDENT '(' OptFormParList ')'
 
     IDENT  shift, and go to state 28
 
 
-State 23
+State 22
 
     9 IdentInit: IDENT • Init
 
@@ -617,7 +622,7 @@ State 23
     Init  go to state 30
 
 
-State 24
+State 23
 
     8 ConstDef: CONST Type IdentInit • ';'
    10 IdentInit: IdentInit • ',' IDENT Init
@@ -626,52 +631,20 @@ State 24
     ','  shift, and go to state 32
 
 
+State 24
+
+   42 Block: '{' • BlockItems '}'
+
+    $default  reduce using rule 43 (BlockItems)
+
+    BlockItems  go to state 33
+
+
 State 25
 
-   41 Block: '{' BlockItems • '}'
-   43 BlockItems: BlockItems • BlockItem
+   29 FuncDef: FuncHead $@1 Block •
 
-    BOOL    shift, and go to state 3
-    BREAK   shift, and go to state 33
-    CIN     shift, and go to state 34
-    CONST   shift, and go to state 4
-    COUT    shift, and go to state 35
-    DELETE  shift, and go to state 36
-    IF      shift, and go to state 37
-    INT     shift, and go to state 5
-    RETURN  shift, and go to state 38
-    VOID    shift, and go to state 6
-    WHILE   shift, and go to state 39
-    ';'     shift, and go to state 40
-    '+'     shift, and go to state 41
-    '-'     shift, and go to state 42
-    '{'     shift, and go to state 17
-    '}'     shift, and go to state 43
-
-    $default  reduce using rule 16 (OptSign)
-
-    ConstDef    go to state 44
-    OptSign     go to state 45
-    VarDef      go to state 46
-    Type        go to state 47
-    Block       go to state 48
-    BlockItem   go to state 49
-    Stat        go to state 50
-    EmptyStat   go to state 51
-    BlockStat   go to state 52
-    ExprStat    go to state 53
-    IfStat      go to state 54
-    WhileStat   go to state 55
-    BreakStat   go to state 56
-    InputStat   go to state 57
-    OutputStat  go to state 58
-    DeleteStat  go to state 59
-    ReturnStat  go to state 60
-    Expr        go to state 61
-    OrExpr      go to state 62
-    AndExpr     go to state 63
-    RelExpr     go to state 64
-    SimpleExpr  go to state 65
+    $default  reduce using rule 29 (FuncDef)
 
 
 State 26
@@ -685,42 +658,42 @@ State 27
 
    21 VarList: VarList ',' • VarItem
 
-    '*'  shift, and go to state 19
+    '*'  shift, and go to state 18
 
     $default  reduce using rule 23 (OptPointer)
 
-    VarItem     go to state 66
-    OptPointer  go to state 67
+    VarItem     go to state 34
+    OptPointer  go to state 35
 
 
 State 28
 
    22 VarItem: OptPointer IDENT • OptInit
-   29 FuncHead: Type OptPointer IDENT • '(' OptFormParList ')'
+   30 FuncHead: Type OptPointer IDENT • '(' OptFormParList ')'
 
     '='  shift, and go to state 29
-    '('  shift, and go to state 68
+    '('  shift, and go to state 36
 
     $default  reduce using rule 25 (OptInit)
 
-    Init     go to state 69
-    OptInit  go to state 70
+    Init     go to state 37
+    OptInit  go to state 38
 
 
 State 29
 
    11 Init: '=' • InitValue
 
-    FALSE    shift, and go to state 71
-    NULLPTR  shift, and go to state 72
-    TRUE     shift, and go to state 73
-    '+'      shift, and go to state 41
-    '-'      shift, and go to state 42
+    FALSE    shift, and go to state 39
+    NULLPTR  shift, and go to state 40
+    TRUE     shift, and go to state 41
+    '+'      shift, and go to state 42
+    '-'      shift, and go to state 43
 
     $default  reduce using rule 16 (OptSign)
 
-    InitValue  go to state 74
-    OptSign    go to state 75
+    InitValue  go to state 44
+    OptSign    go to state 45
 
 
 State 30
@@ -741,816 +714,445 @@ State 32
 
    10 IdentInit: IdentInit ',' • IDENT Init
 
-    IDENT  shift, and go to state 76
+    IDENT  shift, and go to state 46
 
 
 State 33
 
-   63 BreakStat: BREAK • ';'
+   42 Block: '{' BlockItems • '}'
+   44 BlockItems: BlockItems • BlockItem
 
-    ';'  shift, and go to state 77
+    BOOL    shift, and go to state 3
+    BREAK   shift, and go to state 47
+    CIN     shift, and go to state 48
+    CONST   shift, and go to state 4
+    COUT    shift, and go to state 49
+    DELETE  shift, and go to state 50
+    IF      shift, and go to state 51
+    INT     shift, and go to state 5
+    RETURN  shift, and go to state 52
+    VOID    shift, and go to state 6
+    WHILE   shift, and go to state 53
+    ';'     shift, and go to state 54
+    '+'     shift, and go to state 42
+    '-'     shift, and go to state 43
+    '{'     shift, and go to state 24
+    '}'     shift, and go to state 55
+
+    $default  reduce using rule 16 (OptSign)
+
+    ConstDef    go to state 56
+    OptSign     go to state 57
+    VarDef      go to state 58
+    Type        go to state 59
+    Block       go to state 60
+    BlockItem   go to state 61
+    Stat        go to state 62
+    EmptyStat   go to state 63
+    BlockStat   go to state 64
+    ExprStat    go to state 65
+    IfStat      go to state 66
+    WhileStat   go to state 67
+    BreakStat   go to state 68
+    InputStat   go to state 69
+    OutputStat  go to state 70
+    DeleteStat  go to state 71
+    ReturnStat  go to state 72
+    Expr        go to state 73
+    OrExpr      go to state 74
+    AndExpr     go to state 75
+    RelExpr     go to state 76
+    SimpleExpr  go to state 77
 
 
 State 34
-
-   64 InputStat: CIN • SHR IDENT ';'
-
-    SHR  shift, and go to state 78
-
-
-State 35
-
-   65 OutputStat: COUT • OutList ';'
-
-    SHL  shift, and go to state 79
-
-    OutList  go to state 80
-
-
-State 36
-
-   71 DeleteStat: DELETE • '[' ']' IDENT ';'
-
-    '['  shift, and go to state 81
-
-
-State 37
-
-   60 IfStat: IF • '(' Expr ')' Stat
-   61       | IF • '(' Expr ')' Stat ELSE Stat
-
-    '('  shift, and go to state 82
-
-
-State 38
-
-   72 ReturnStat: RETURN • OptExpr ';'
-
-    '+'  shift, and go to state 41
-    '-'  shift, and go to state 42
-
-    ';'       reduce using rule 73 (OptExpr)
-    $default  reduce using rule 16 (OptSign)
-
-    OptSign     go to state 45
-    OptExpr     go to state 83
-    Expr        go to state 84
-    OrExpr      go to state 62
-    AndExpr     go to state 63
-    RelExpr     go to state 64
-    SimpleExpr  go to state 65
-
-
-State 39
-
-   62 WhileStat: WHILE • '(' Expr ')' Stat
-
-    '('  shift, and go to state 85
-
-
-State 40
-
-   57 EmptyStat: ';' •
-
-    $default  reduce using rule 57 (EmptyStat)
-
-
-State 41
-
-   17 OptSign: '+' •
-
-    $default  reduce using rule 17 (OptSign)
-
-
-State 42
-
-   18 OptSign: '-' •
-
-    $default  reduce using rule 18 (OptSign)
-
-
-State 43
-
-   41 Block: '{' BlockItems '}' •
-
-    $default  reduce using rule 41 (Block)
-
-
-State 44
-
-   44 BlockItem: ConstDef •
-
-    $default  reduce using rule 44 (BlockItem)
-
-
-State 45
-
-   95 SimpleExpr: OptSign • Term
-
-    FALSE    shift, and go to state 86
-    NEW      shift, and go to state 87
-    NULLPTR  shift, and go to state 88
-    TRUE     shift, and go to state 89
-    NUMBER   shift, and go to state 90
-    INC      shift, and go to state 91
-    DEC      shift, and go to state 92
-    '('      shift, and go to state 93
-    '!'      shift, and go to state 94
-
-    $default  reduce using rule 116 (OptInc)
-
-    Term     go to state 95
-    NotFact  go to state 96
-    Fact     go to state 97
-    LValue   go to state 98
-    OptInc   go to state 99
-
-
-State 46
-
-   45 BlockItem: VarDef •
-
-    $default  reduce using rule 45 (BlockItem)
-
-
-State 47
-
-   19 VarDef: Type • VarList ';'
-
-    '*'  shift, and go to state 19
-
-    $default  reduce using rule 23 (OptPointer)
-
-    VarList     go to state 20
-    VarItem     go to state 21
-    OptPointer  go to state 67
-
-
-State 48
-
-   58 BlockStat: Block •
-
-    $default  reduce using rule 58 (BlockStat)
-
-
-State 49
-
-   43 BlockItems: BlockItems BlockItem •
-
-    $default  reduce using rule 43 (BlockItems)
-
-
-State 50
-
-   46 BlockItem: Stat •
-
-    $default  reduce using rule 46 (BlockItem)
-
-
-State 51
-
-   47 Stat: EmptyStat •
-
-    $default  reduce using rule 47 (Stat)
-
-
-State 52
-
-   48 Stat: BlockStat •
-
-    $default  reduce using rule 48 (Stat)
-
-
-State 53
-
-   49 Stat: ExprStat •
-
-    $default  reduce using rule 49 (Stat)
-
-
-State 54
-
-   50 Stat: IfStat •
-
-    $default  reduce using rule 50 (Stat)
-
-
-State 55
-
-   51 Stat: WhileStat •
-
-    $default  reduce using rule 51 (Stat)
-
-
-State 56
-
-   52 Stat: BreakStat •
-
-    $default  reduce using rule 52 (Stat)
-
-
-State 57
-
-   53 Stat: InputStat •
-
-    $default  reduce using rule 53 (Stat)
-
-
-State 58
-
-   54 Stat: OutputStat •
-
-    $default  reduce using rule 54 (Stat)
-
-
-State 59
-
-   55 Stat: DeleteStat •
-
-    $default  reduce using rule 55 (Stat)
-
-
-State 60
-
-   56 Stat: ReturnStat •
-
-    $default  reduce using rule 56 (Stat)
-
-
-State 61
-
-   59 ExprStat: Expr • ';'
-
-    ';'  shift, and go to state 100
-
-
-State 62
-
-   75 Expr: OrExpr •
-   76     | OrExpr • AssignOp OrExpr
-   84 OrExpr: OrExpr • OR AndExpr
-
-    PLUSEQ   shift, and go to state 101
-    MINUSEQ  shift, and go to state 102
-    TIMESEQ  shift, and go to state 103
-    DIVEQ    shift, and go to state 104
-    MODEQ    shift, and go to state 105
-    OR       shift, and go to state 106
-    '='      shift, and go to state 107
-
-    $default  reduce using rule 75 (Expr)
-
-    AssignOp  go to state 108
-
-
-State 63
-
-   83 OrExpr: AndExpr •
-   86 AndExpr: AndExpr • AND RelExpr
-
-    AND  shift, and go to state 109
-
-    $default  reduce using rule 83 (OrExpr)
-
-
-State 64
-
-   85 AndExpr: RelExpr •
-   88 RelExpr: RelExpr • RelOp SimpleExpr
-
-    EQ   shift, and go to state 110
-    NEQ  shift, and go to state 111
-    LEQ  shift, and go to state 112
-    GEQ  shift, and go to state 113
-    '<'  shift, and go to state 114
-    '>'  shift, and go to state 115
-
-    $default  reduce using rule 85 (AndExpr)
-
-    RelOp  go to state 116
-
-
-State 65
-
-   87 RelExpr: SimpleExpr •
-   96 SimpleExpr: SimpleExpr • AddOp Term
-
-    '+'  shift, and go to state 117
-    '-'  shift, and go to state 118
-
-    $default  reduce using rule 87 (RelExpr)
-
-    AddOp  go to state 119
-
-
-State 66
 
    21 VarList: VarList ',' VarItem •
 
     $default  reduce using rule 21 (VarList)
 
 
-State 67
+State 35
 
    22 VarItem: OptPointer • IDENT OptInit
 
-    IDENT  shift, and go to state 120
+    IDENT  shift, and go to state 78
 
 
-State 68
+State 36
 
-   29 FuncHead: Type OptPointer IDENT '(' • OptFormParList ')'
+   30 FuncHead: Type OptPointer IDENT '(' • OptFormParList ')'
 
     BOOL  shift, and go to state 3
     INT   shift, and go to state 5
-    VOID  shift, and go to state 121
+    VOID  shift, and go to state 79
 
-    $default  reduce using rule 30 (OptFormParList)
+    $default  reduce using rule 31 (OptFormParList)
 
-    OptFormParList  go to state 122
-    FormParList     go to state 123
-    ParamDef        go to state 124
-    Type            go to state 125
+    OptFormParList  go to state 80
+    FormParList     go to state 81
+    ParamDef        go to state 82
+    Type            go to state 83
 
 
-State 69
+State 37
 
    26 OptInit: Init •
 
     $default  reduce using rule 26 (OptInit)
 
 
-State 70
+State 38
 
    22 VarItem: OptPointer IDENT OptInit •
 
     $default  reduce using rule 22 (VarItem)
 
 
-State 71
+State 39
 
    12 InitValue: FALSE •
 
     $default  reduce using rule 12 (InitValue)
 
 
-State 72
+State 40
 
    14 InitValue: NULLPTR •
 
     $default  reduce using rule 14 (InitValue)
 
 
-State 73
+State 41
 
    13 InitValue: TRUE •
 
     $default  reduce using rule 13 (InitValue)
 
 
-State 74
+State 42
+
+   17 OptSign: '+' •
+
+    $default  reduce using rule 17 (OptSign)
+
+
+State 43
+
+   18 OptSign: '-' •
+
+    $default  reduce using rule 18 (OptSign)
+
+
+State 44
 
    11 Init: '=' InitValue •
 
     $default  reduce using rule 11 (Init)
 
 
-State 75
+State 45
 
    15 InitValue: OptSign • NUMBER
 
-    NUMBER  shift, and go to state 126
+    NUMBER  shift, and go to state 84
 
 
-State 76
+State 46
 
    10 IdentInit: IdentInit ',' IDENT • Init
 
     '='  shift, and go to state 29
 
-    Init  go to state 127
+    Init  go to state 85
+
+
+State 47
+
+   64 BreakStat: BREAK • ';'
+
+    ';'  shift, and go to state 86
+
+
+State 48
+
+   65 InputStat: CIN • SHR IDENT ';'
+
+    SHR  shift, and go to state 87
+
+
+State 49
+
+   66 OutputStat: COUT • OutList ';'
+
+    SHL  shift, and go to state 88
+
+    OutList  go to state 89
+
+
+State 50
+
+   72 DeleteStat: DELETE • '[' ']' IDENT ';'
+
+    '['  shift, and go to state 90
+
+
+State 51
+
+   61 IfStat: IF • '(' Expr ')' Stat
+   62       | IF • '(' Expr ')' Stat ELSE Stat
+
+    '('  shift, and go to state 91
+
+
+State 52
+
+   73 ReturnStat: RETURN • OptExpr ';'
+
+    '+'  shift, and go to state 42
+    '-'  shift, and go to state 43
+
+    ';'       reduce using rule 74 (OptExpr)
+    $default  reduce using rule 16 (OptSign)
+
+    OptSign     go to state 57
+    OptExpr     go to state 92
+    Expr        go to state 93
+    OrExpr      go to state 74
+    AndExpr     go to state 75
+    RelExpr     go to state 76
+    SimpleExpr  go to state 77
+
+
+State 53
+
+   63 WhileStat: WHILE • '(' Expr ')' Stat
+
+    '('  shift, and go to state 94
+
+
+State 54
+
+   58 EmptyStat: ';' •
+
+    $default  reduce using rule 58 (EmptyStat)
+
+
+State 55
+
+   42 Block: '{' BlockItems '}' •
+
+    $default  reduce using rule 42 (Block)
+
+
+State 56
+
+   45 BlockItem: ConstDef •
+
+    $default  reduce using rule 45 (BlockItem)
+
+
+State 57
+
+   96 SimpleExpr: OptSign • Term
+
+    FALSE    shift, and go to state 95
+    NEW      shift, and go to state 96
+    NULLPTR  shift, and go to state 97
+    TRUE     shift, and go to state 98
+    NUMBER   shift, and go to state 99
+    INC      shift, and go to state 100
+    DEC      shift, and go to state 101
+    '('      shift, and go to state 102
+    '!'      shift, and go to state 103
+
+    $default  reduce using rule 118 (OptInc)
+
+    Term     go to state 104
+    NotFact  go to state 105
+    Fact     go to state 106
+    LValue   go to state 107
+    OptInc   go to state 108
+
+
+State 58
+
+   46 BlockItem: VarDef •
+
+    $default  reduce using rule 46 (BlockItem)
+
+
+State 59
+
+   19 VarDef: Type • VarList ';'
+
+    '*'  shift, and go to state 18
+
+    $default  reduce using rule 23 (OptPointer)
+
+    VarList     go to state 19
+    VarItem     go to state 20
+    OptPointer  go to state 35
+
+
+State 60
+
+   59 BlockStat: Block •
+
+    $default  reduce using rule 59 (BlockStat)
+
+
+State 61
+
+   44 BlockItems: BlockItems BlockItem •
+
+    $default  reduce using rule 44 (BlockItems)
+
+
+State 62
+
+   47 BlockItem: Stat •
+
+    $default  reduce using rule 47 (BlockItem)
+
+
+State 63
+
+   48 Stat: EmptyStat •
+
+    $default  reduce using rule 48 (Stat)
+
+
+State 64
+
+   49 Stat: BlockStat •
+
+    $default  reduce using rule 49 (Stat)
+
+
+State 65
+
+   50 Stat: ExprStat •
+
+    $default  reduce using rule 50 (Stat)
+
+
+State 66
+
+   51 Stat: IfStat •
+
+    $default  reduce using rule 51 (Stat)
+
+
+State 67
+
+   52 Stat: WhileStat •
+
+    $default  reduce using rule 52 (Stat)
+
+
+State 68
+
+   53 Stat: BreakStat •
+
+    $default  reduce using rule 53 (Stat)
+
+
+State 69
+
+   54 Stat: InputStat •
+
+    $default  reduce using rule 54 (Stat)
+
+
+State 70
+
+   55 Stat: OutputStat •
+
+    $default  reduce using rule 55 (Stat)
+
+
+State 71
+
+   56 Stat: DeleteStat •
+
+    $default  reduce using rule 56 (Stat)
+
+
+State 72
+
+   57 Stat: ReturnStat •
+
+    $default  reduce using rule 57 (Stat)
+
+
+State 73
+
+   60 ExprStat: Expr • ';'
+
+    ';'  shift, and go to state 109
+
+
+State 74
+
+   76 Expr: OrExpr •
+   77     | OrExpr • AssignOp OrExpr
+   85 OrExpr: OrExpr • OR AndExpr
+
+    PLUSEQ   shift, and go to state 110
+    MINUSEQ  shift, and go to state 111
+    TIMESEQ  shift, and go to state 112
+    DIVEQ    shift, and go to state 113
+    MODEQ    shift, and go to state 114
+    OR       shift, and go to state 115
+    '='      shift, and go to state 116
+
+    $default  reduce using rule 76 (Expr)
+
+    AssignOp  go to state 117
+
+
+State 75
+
+   84 OrExpr: AndExpr •
+   87 AndExpr: AndExpr • AND RelExpr
+
+    AND  shift, and go to state 118
+
+    $default  reduce using rule 84 (OrExpr)
+
+
+State 76
+
+   86 AndExpr: RelExpr •
+   89 RelExpr: RelExpr • RelOp SimpleExpr
+
+    EQ   shift, and go to state 119
+    NEQ  shift, and go to state 120
+    LEQ  shift, and go to state 121
+    GEQ  shift, and go to state 122
+    '<'  shift, and go to state 123
+    '>'  shift, and go to state 124
+
+    $default  reduce using rule 86 (AndExpr)
+
+    RelOp  go to state 125
 
 
 State 77
 
-   63 BreakStat: BREAK ';' •
+   88 RelExpr: SimpleExpr •
+   97 SimpleExpr: SimpleExpr • AddOp Term
 
-    $default  reduce using rule 63 (BreakStat)
+    '+'  shift, and go to state 126
+    '-'  shift, and go to state 127
+
+    $default  reduce using rule 88 (RelExpr)
+
+    AddOp  go to state 128
 
 
 State 78
-
-   64 InputStat: CIN SHR • IDENT ';'
-
-    IDENT  shift, and go to state 128
-
-
-State 79
-
-   66 OutList: SHL • OutExpr
-
-    ENDL    shift, and go to state 129
-    STRING  shift, and go to state 130
-    '+'     shift, and go to state 41
-    '-'     shift, and go to state 42
-
-    $default  reduce using rule 16 (OptSign)
-
-    OptSign     go to state 45
-    OutExpr     go to state 131
-    Expr        go to state 132
-    OrExpr      go to state 62
-    AndExpr     go to state 63
-    RelExpr     go to state 64
-    SimpleExpr  go to state 65
-
-
-State 80
-
-   65 OutputStat: COUT OutList • ';'
-   67 OutList: OutList • SHL OutExpr
-
-    SHL  shift, and go to state 133
-    ';'  shift, and go to state 134
-
-
-State 81
-
-   71 DeleteStat: DELETE '[' • ']' IDENT ';'
-
-    ']'  shift, and go to state 135
-
-
-State 82
-
-   60 IfStat: IF '(' • Expr ')' Stat
-   61       | IF '(' • Expr ')' Stat ELSE Stat
-
-    '+'  shift, and go to state 41
-    '-'  shift, and go to state 42
-
-    $default  reduce using rule 16 (OptSign)
-
-    OptSign     go to state 45
-    Expr        go to state 136
-    OrExpr      go to state 62
-    AndExpr     go to state 63
-    RelExpr     go to state 64
-    SimpleExpr  go to state 65
-
-
-State 83
-
-   72 ReturnStat: RETURN OptExpr • ';'
-
-    ';'  shift, and go to state 137
-
-
-State 84
-
-   74 OptExpr: Expr •
-
-    $default  reduce using rule 74 (OptExpr)
-
-
-State 85
-
-   62 WhileStat: WHILE '(' • Expr ')' Stat
-
-    '+'  shift, and go to state 41
-    '-'  shift, and go to state 42
-
-    $default  reduce using rule 16 (OptSign)
-
-    OptSign     go to state 45
-    Expr        go to state 138
-    OrExpr      go to state 62
-    AndExpr     go to state 63
-    RelExpr     go to state 64
-    SimpleExpr  go to state 65
-
-
-State 86
-
-  106 Fact: FALSE •
-
-    $default  reduce using rule 106 (Fact)
-
-
-State 87
-
-  111 Fact: NEW • Type '[' Expr ']'
-
-    BOOL  shift, and go to state 3
-    INT   shift, and go to state 5
-    VOID  shift, and go to state 6
-
-    Type  go to state 139
-
-
-State 88
-
-  108 Fact: NULLPTR •
-
-    $default  reduce using rule 108 (Fact)
-
-
-State 89
-
-  107 Fact: TRUE •
-
-    $default  reduce using rule 107 (Fact)
-
-
-State 90
-
-  109 Fact: NUMBER •
-
-    $default  reduce using rule 109 (Fact)
-
-
-State 91
-
-  117 OptInc: INC •
-
-    $default  reduce using rule 117 (OptInc)
-
-
-State 92
-
-  118 OptInc: DEC •
-
-    $default  reduce using rule 118 (OptInc)
-
-
-State 93
-
-  112 Fact: '(' • Expr ')'
-
-    '+'  shift, and go to state 41
-    '-'  shift, and go to state 42
-
-    $default  reduce using rule 16 (OptSign)
-
-    OptSign     go to state 45
-    Expr        go to state 140
-    OrExpr      go to state 62
-    AndExpr     go to state 63
-    RelExpr     go to state 64
-    SimpleExpr  go to state 65
-
-
-State 94
-
-  105 NotFact: '!' • Fact
-
-    FALSE    shift, and go to state 86
-    NEW      shift, and go to state 87
-    NULLPTR  shift, and go to state 88
-    TRUE     shift, and go to state 89
-    NUMBER   shift, and go to state 90
-    INC      shift, and go to state 91
-    DEC      shift, and go to state 92
-    '('      shift, and go to state 93
-
-    $default  reduce using rule 116 (OptInc)
-
-    Fact    go to state 141
-    LValue  go to state 98
-    OptInc  go to state 99
-
-
-State 95
-
-   95 SimpleExpr: OptSign Term •
-  100 Term: Term • MulOp NotFact
-
-    '*'  shift, and go to state 142
-    '/'  shift, and go to state 143
-    '%'  shift, and go to state 144
-
-    $default  reduce using rule 95 (SimpleExpr)
-
-    MulOp  go to state 145
-
-
-State 96
-
-   99 Term: NotFact •
-
-    $default  reduce using rule 99 (Term)
-
-
-State 97
-
-  104 NotFact: Fact •
-
-    $default  reduce using rule 104 (NotFact)
-
-
-State 98
-
-  110 Fact: LValue •
-
-    $default  reduce using rule 110 (Fact)
-
-
-State 99
-
-  113 LValue: OptInc • IDENT OptPostInc
-  114       | OptInc • IDENT '[' Expr ']' OptPostInc
-  115       | OptInc • IDENT '(' OptActParams ')' OptPostInc
-
-    IDENT  shift, and go to state 146
-
-
-State 100
-
-   59 ExprStat: Expr ';' •
-
-    $default  reduce using rule 59 (ExprStat)
-
-
-State 101
-
-   78 AssignOp: PLUSEQ •
-
-    $default  reduce using rule 78 (AssignOp)
-
-
-State 102
-
-   79 AssignOp: MINUSEQ •
-
-    $default  reduce using rule 79 (AssignOp)
-
-
-State 103
-
-   80 AssignOp: TIMESEQ •
-
-    $default  reduce using rule 80 (AssignOp)
-
-
-State 104
-
-   81 AssignOp: DIVEQ •
-
-    $default  reduce using rule 81 (AssignOp)
-
-
-State 105
-
-   82 AssignOp: MODEQ •
-
-    $default  reduce using rule 82 (AssignOp)
-
-
-State 106
-
-   84 OrExpr: OrExpr OR • AndExpr
-
-    '+'  shift, and go to state 41
-    '-'  shift, and go to state 42
-
-    $default  reduce using rule 16 (OptSign)
-
-    OptSign     go to state 45
-    AndExpr     go to state 147
-    RelExpr     go to state 64
-    SimpleExpr  go to state 65
-
-
-State 107
-
-   77 AssignOp: '=' •
-
-    $default  reduce using rule 77 (AssignOp)
-
-
-State 108
-
-   76 Expr: OrExpr AssignOp • OrExpr
-
-    '+'  shift, and go to state 41
-    '-'  shift, and go to state 42
-
-    $default  reduce using rule 16 (OptSign)
-
-    OptSign     go to state 45
-    OrExpr      go to state 148
-    AndExpr     go to state 63
-    RelExpr     go to state 64
-    SimpleExpr  go to state 65
-
-
-State 109
-
-   86 AndExpr: AndExpr AND • RelExpr
-
-    '+'  shift, and go to state 41
-    '-'  shift, and go to state 42
-
-    $default  reduce using rule 16 (OptSign)
-
-    OptSign     go to state 45
-    RelExpr     go to state 149
-    SimpleExpr  go to state 65
-
-
-State 110
-
-   89 RelOp: EQ •
-
-    $default  reduce using rule 89 (RelOp)
-
-
-State 111
-
-   90 RelOp: NEQ •
-
-    $default  reduce using rule 90 (RelOp)
-
-
-State 112
-
-   92 RelOp: LEQ •
-
-    $default  reduce using rule 92 (RelOp)
-
-
-State 113
-
-   94 RelOp: GEQ •
-
-    $default  reduce using rule 94 (RelOp)
-
-
-State 114
-
-   91 RelOp: '<' •
-
-    $default  reduce using rule 91 (RelOp)
-
-
-State 115
-
-   93 RelOp: '>' •
-
-    $default  reduce using rule 93 (RelOp)
-
-
-State 116
-
-   88 RelExpr: RelExpr RelOp • SimpleExpr
-
-    '+'  shift, and go to state 41
-    '-'  shift, and go to state 42
-
-    $default  reduce using rule 16 (OptSign)
-
-    OptSign     go to state 45
-    SimpleExpr  go to state 150
-
-
-State 117
-
-   97 AddOp: '+' •
-
-    $default  reduce using rule 97 (AddOp)
-
-
-State 118
-
-   98 AddOp: '-' •
-
-    $default  reduce using rule 98 (AddOp)
-
-
-State 119
-
-   96 SimpleExpr: SimpleExpr AddOp • Term
-
-    FALSE    shift, and go to state 86
-    NEW      shift, and go to state 87
-    NULLPTR  shift, and go to state 88
-    TRUE     shift, and go to state 89
-    NUMBER   shift, and go to state 90
-    INC      shift, and go to state 91
-    DEC      shift, and go to state 92
-    '('      shift, and go to state 93
-    '!'      shift, and go to state 94
-
-    $default  reduce using rule 116 (OptInc)
-
-    Term     go to state 151
-    NotFact  go to state 96
-    Fact     go to state 97
-    LValue   go to state 98
-    OptInc   go to state 99
-
-
-State 120
 
    22 VarItem: OptPointer IDENT • OptInit
 
@@ -1558,727 +1160,1154 @@ State 120
 
     $default  reduce using rule 25 (OptInit)
 
-    Init     go to state 69
-    OptInit  go to state 70
+    Init     go to state 37
+    OptInit  go to state 38
 
 
-State 121
+State 79
 
-   32 FormParList: VOID •
-   38 Type: VOID •
+   33 FormParList: VOID •
+   39 Type: VOID •
 
-    IDENT     reduce using rule 38 (Type)
-    '*'       reduce using rule 38 (Type)
-    $default  reduce using rule 32 (FormParList)
-
-
-State 122
-
-   29 FuncHead: Type OptPointer IDENT '(' OptFormParList • ')'
-
-    ')'  shift, and go to state 152
-
-
-State 123
-
-   31 OptFormParList: FormParList •
-   34 FormParList: FormParList • ',' ParamDef
-
-    ','  shift, and go to state 153
-
-    $default  reduce using rule 31 (OptFormParList)
-
-
-State 124
-
-   33 FormParList: ParamDef •
-
+    IDENT     reduce using rule 39 (Type)
+    '*'       reduce using rule 39 (Type)
     $default  reduce using rule 33 (FormParList)
 
 
-State 125
+State 80
 
-   35 ParamDef: Type • OptPointer IDENT OptArray
+   30 FuncHead: Type OptPointer IDENT '(' OptFormParList • ')'
 
-    '*'  shift, and go to state 19
+    ')'  shift, and go to state 129
+
+
+State 81
+
+   32 OptFormParList: FormParList •
+   35 FormParList: FormParList • ',' ParamDef
+
+    ','  shift, and go to state 130
+
+    $default  reduce using rule 32 (OptFormParList)
+
+
+State 82
+
+   34 FormParList: ParamDef •
+
+    $default  reduce using rule 34 (FormParList)
+
+
+State 83
+
+   36 ParamDef: Type • OptPointer IDENT OptArray
+
+    '*'  shift, and go to state 18
 
     $default  reduce using rule 23 (OptPointer)
 
-    OptPointer  go to state 154
+    OptPointer  go to state 131
 
 
-State 126
+State 84
 
    15 InitValue: OptSign NUMBER •
 
     $default  reduce using rule 15 (InitValue)
 
 
-State 127
+State 85
 
    10 IdentInit: IdentInit ',' IDENT Init •
 
     $default  reduce using rule 10 (IdentInit)
 
 
+State 86
+
+   64 BreakStat: BREAK ';' •
+
+    $default  reduce using rule 64 (BreakStat)
+
+
+State 87
+
+   65 InputStat: CIN SHR • IDENT ';'
+
+    IDENT  shift, and go to state 132
+
+
+State 88
+
+   67 OutList: SHL • OutExpr
+
+    ENDL    shift, and go to state 133
+    STRING  shift, and go to state 134
+    '+'     shift, and go to state 42
+    '-'     shift, and go to state 43
+
+    $default  reduce using rule 16 (OptSign)
+
+    OptSign     go to state 57
+    OutExpr     go to state 135
+    Expr        go to state 136
+    OrExpr      go to state 74
+    AndExpr     go to state 75
+    RelExpr     go to state 76
+    SimpleExpr  go to state 77
+
+
+State 89
+
+   66 OutputStat: COUT OutList • ';'
+   68 OutList: OutList • SHL OutExpr
+
+    SHL  shift, and go to state 137
+    ';'  shift, and go to state 138
+
+
+State 90
+
+   72 DeleteStat: DELETE '[' • ']' IDENT ';'
+
+    ']'  shift, and go to state 139
+
+
+State 91
+
+   61 IfStat: IF '(' • Expr ')' Stat
+   62       | IF '(' • Expr ')' Stat ELSE Stat
+
+    '+'  shift, and go to state 42
+    '-'  shift, and go to state 43
+
+    $default  reduce using rule 16 (OptSign)
+
+    OptSign     go to state 57
+    Expr        go to state 140
+    OrExpr      go to state 74
+    AndExpr     go to state 75
+    RelExpr     go to state 76
+    SimpleExpr  go to state 77
+
+
+State 92
+
+   73 ReturnStat: RETURN OptExpr • ';'
+
+    ';'  shift, and go to state 141
+
+
+State 93
+
+   75 OptExpr: Expr •
+
+    $default  reduce using rule 75 (OptExpr)
+
+
+State 94
+
+   63 WhileStat: WHILE '(' • Expr ')' Stat
+
+    '+'  shift, and go to state 42
+    '-'  shift, and go to state 43
+
+    $default  reduce using rule 16 (OptSign)
+
+    OptSign     go to state 57
+    Expr        go to state 142
+    OrExpr      go to state 74
+    AndExpr     go to state 75
+    RelExpr     go to state 76
+    SimpleExpr  go to state 77
+
+
+State 95
+
+  107 Fact: FALSE •
+
+    $default  reduce using rule 107 (Fact)
+
+
+State 96
+
+  112 Fact: NEW • Type '[' Expr ']'
+
+    BOOL  shift, and go to state 3
+    INT   shift, and go to state 5
+    VOID  shift, and go to state 6
+
+    Type  go to state 143
+
+
+State 97
+
+  109 Fact: NULLPTR •
+
+    $default  reduce using rule 109 (Fact)
+
+
+State 98
+
+  108 Fact: TRUE •
+
+    $default  reduce using rule 108 (Fact)
+
+
+State 99
+
+  110 Fact: NUMBER •
+
+    $default  reduce using rule 110 (Fact)
+
+
+State 100
+
+  119 OptInc: INC •
+
+    $default  reduce using rule 119 (OptInc)
+
+
+State 101
+
+  120 OptInc: DEC •
+
+    $default  reduce using rule 120 (OptInc)
+
+
+State 102
+
+  113 Fact: '(' • Expr ')'
+
+    '+'  shift, and go to state 42
+    '-'  shift, and go to state 43
+
+    $default  reduce using rule 16 (OptSign)
+
+    OptSign     go to state 57
+    Expr        go to state 144
+    OrExpr      go to state 74
+    AndExpr     go to state 75
+    RelExpr     go to state 76
+    SimpleExpr  go to state 77
+
+
+State 103
+
+  106 NotFact: '!' • Fact
+
+    FALSE    shift, and go to state 95
+    NEW      shift, and go to state 96
+    NULLPTR  shift, and go to state 97
+    TRUE     shift, and go to state 98
+    NUMBER   shift, and go to state 99
+    INC      shift, and go to state 100
+    DEC      shift, and go to state 101
+    '('      shift, and go to state 102
+
+    $default  reduce using rule 118 (OptInc)
+
+    Fact    go to state 145
+    LValue  go to state 107
+    OptInc  go to state 108
+
+
+State 104
+
+   96 SimpleExpr: OptSign Term •
+  101 Term: Term • MulOp NotFact
+
+    '*'  shift, and go to state 146
+    '/'  shift, and go to state 147
+    '%'  shift, and go to state 148
+
+    $default  reduce using rule 96 (SimpleExpr)
+
+    MulOp  go to state 149
+
+
+State 105
+
+  100 Term: NotFact •
+
+    $default  reduce using rule 100 (Term)
+
+
+State 106
+
+  105 NotFact: Fact •
+
+    $default  reduce using rule 105 (NotFact)
+
+
+State 107
+
+  111 Fact: LValue •
+
+    $default  reduce using rule 111 (Fact)
+
+
+State 108
+
+  114 LValue: OptInc • IDENT OptPostInc
+  115       | OptInc • IDENT '[' Expr ']' OptPostInc
+  117       | OptInc • IDENT $@2 '(' OptActParams ')' OptPostInc
+
+    IDENT  shift, and go to state 150
+
+
+State 109
+
+   60 ExprStat: Expr ';' •
+
+    $default  reduce using rule 60 (ExprStat)
+
+
+State 110
+
+   79 AssignOp: PLUSEQ •
+
+    $default  reduce using rule 79 (AssignOp)
+
+
+State 111
+
+   80 AssignOp: MINUSEQ •
+
+    $default  reduce using rule 80 (AssignOp)
+
+
+State 112
+
+   81 AssignOp: TIMESEQ •
+
+    $default  reduce using rule 81 (AssignOp)
+
+
+State 113
+
+   82 AssignOp: DIVEQ •
+
+    $default  reduce using rule 82 (AssignOp)
+
+
+State 114
+
+   83 AssignOp: MODEQ •
+
+    $default  reduce using rule 83 (AssignOp)
+
+
+State 115
+
+   85 OrExpr: OrExpr OR • AndExpr
+
+    '+'  shift, and go to state 42
+    '-'  shift, and go to state 43
+
+    $default  reduce using rule 16 (OptSign)
+
+    OptSign     go to state 57
+    AndExpr     go to state 151
+    RelExpr     go to state 76
+    SimpleExpr  go to state 77
+
+
+State 116
+
+   78 AssignOp: '=' •
+
+    $default  reduce using rule 78 (AssignOp)
+
+
+State 117
+
+   77 Expr: OrExpr AssignOp • OrExpr
+
+    '+'  shift, and go to state 42
+    '-'  shift, and go to state 43
+
+    $default  reduce using rule 16 (OptSign)
+
+    OptSign     go to state 57
+    OrExpr      go to state 152
+    AndExpr     go to state 75
+    RelExpr     go to state 76
+    SimpleExpr  go to state 77
+
+
+State 118
+
+   87 AndExpr: AndExpr AND • RelExpr
+
+    '+'  shift, and go to state 42
+    '-'  shift, and go to state 43
+
+    $default  reduce using rule 16 (OptSign)
+
+    OptSign     go to state 57
+    RelExpr     go to state 153
+    SimpleExpr  go to state 77
+
+
+State 119
+
+   90 RelOp: EQ •
+
+    $default  reduce using rule 90 (RelOp)
+
+
+State 120
+
+   91 RelOp: NEQ •
+
+    $default  reduce using rule 91 (RelOp)
+
+
+State 121
+
+   93 RelOp: LEQ •
+
+    $default  reduce using rule 93 (RelOp)
+
+
+State 122
+
+   95 RelOp: GEQ •
+
+    $default  reduce using rule 95 (RelOp)
+
+
+State 123
+
+   92 RelOp: '<' •
+
+    $default  reduce using rule 92 (RelOp)
+
+
+State 124
+
+   94 RelOp: '>' •
+
+    $default  reduce using rule 94 (RelOp)
+
+
+State 125
+
+   89 RelExpr: RelExpr RelOp • SimpleExpr
+
+    '+'  shift, and go to state 42
+    '-'  shift, and go to state 43
+
+    $default  reduce using rule 16 (OptSign)
+
+    OptSign     go to state 57
+    SimpleExpr  go to state 154
+
+
+State 126
+
+   98 AddOp: '+' •
+
+    $default  reduce using rule 98 (AddOp)
+
+
+State 127
+
+   99 AddOp: '-' •
+
+    $default  reduce using rule 99 (AddOp)
+
+
 State 128
 
-   64 InputStat: CIN SHR IDENT • ';'
+   97 SimpleExpr: SimpleExpr AddOp • Term
 
-    ';'  shift, and go to state 155
+    FALSE    shift, and go to state 95
+    NEW      shift, and go to state 96
+    NULLPTR  shift, and go to state 97
+    TRUE     shift, and go to state 98
+    NUMBER   shift, and go to state 99
+    INC      shift, and go to state 100
+    DEC      shift, and go to state 101
+    '('      shift, and go to state 102
+    '!'      shift, and go to state 103
+
+    $default  reduce using rule 118 (OptInc)
+
+    Term     go to state 155
+    NotFact  go to state 105
+    Fact     go to state 106
+    LValue   go to state 107
+    OptInc   go to state 108
 
 
 State 129
 
-   70 OutExpr: ENDL •
+   30 FuncHead: Type OptPointer IDENT '(' OptFormParList ')' •
 
-    $default  reduce using rule 70 (OutExpr)
+    $default  reduce using rule 30 (FuncHead)
 
 
 State 130
 
-   69 OutExpr: STRING •
+   35 FormParList: FormParList ',' • ParamDef
 
-    $default  reduce using rule 69 (OutExpr)
+    BOOL  shift, and go to state 3
+    INT   shift, and go to state 5
+    VOID  shift, and go to state 6
+
+    ParamDef  go to state 156
+    Type      go to state 83
 
 
 State 131
 
-   66 OutList: SHL OutExpr •
-
-    $default  reduce using rule 66 (OutList)
-
-
-State 132
-
-   68 OutExpr: Expr •
-
-    $default  reduce using rule 68 (OutExpr)
-
-
-State 133
-
-   67 OutList: OutList SHL • OutExpr
-
-    ENDL    shift, and go to state 129
-    STRING  shift, and go to state 130
-    '+'     shift, and go to state 41
-    '-'     shift, and go to state 42
-
-    $default  reduce using rule 16 (OptSign)
-
-    OptSign     go to state 45
-    OutExpr     go to state 156
-    Expr        go to state 132
-    OrExpr      go to state 62
-    AndExpr     go to state 63
-    RelExpr     go to state 64
-    SimpleExpr  go to state 65
-
-
-State 134
-
-   65 OutputStat: COUT OutList ';' •
-
-    $default  reduce using rule 65 (OutputStat)
-
-
-State 135
-
-   71 DeleteStat: DELETE '[' ']' • IDENT ';'
+   36 ParamDef: Type OptPointer • IDENT OptArray
 
     IDENT  shift, and go to state 157
 
 
+State 132
+
+   65 InputStat: CIN SHR IDENT • ';'
+
+    ';'  shift, and go to state 158
+
+
+State 133
+
+   71 OutExpr: ENDL •
+
+    $default  reduce using rule 71 (OutExpr)
+
+
+State 134
+
+   70 OutExpr: STRING •
+
+    $default  reduce using rule 70 (OutExpr)
+
+
+State 135
+
+   67 OutList: SHL OutExpr •
+
+    $default  reduce using rule 67 (OutList)
+
+
 State 136
 
-   60 IfStat: IF '(' Expr • ')' Stat
-   61       | IF '(' Expr • ')' Stat ELSE Stat
+   69 OutExpr: Expr •
 
-    ')'  shift, and go to state 158
+    $default  reduce using rule 69 (OutExpr)
 
 
 State 137
 
-   72 ReturnStat: RETURN OptExpr ';' •
+   68 OutList: OutList SHL • OutExpr
 
-    $default  reduce using rule 72 (ReturnStat)
+    ENDL    shift, and go to state 133
+    STRING  shift, and go to state 134
+    '+'     shift, and go to state 42
+    '-'     shift, and go to state 43
+
+    $default  reduce using rule 16 (OptSign)
+
+    OptSign     go to state 57
+    OutExpr     go to state 159
+    Expr        go to state 136
+    OrExpr      go to state 74
+    AndExpr     go to state 75
+    RelExpr     go to state 76
+    SimpleExpr  go to state 77
 
 
 State 138
 
-   62 WhileStat: WHILE '(' Expr • ')' Stat
+   66 OutputStat: COUT OutList ';' •
 
-    ')'  shift, and go to state 159
+    $default  reduce using rule 66 (OutputStat)
 
 
 State 139
 
-  111 Fact: NEW Type • '[' Expr ']'
+   72 DeleteStat: DELETE '[' ']' • IDENT ';'
 
-    '['  shift, and go to state 160
+    IDENT  shift, and go to state 160
 
 
 State 140
 
-  112 Fact: '(' Expr • ')'
+   61 IfStat: IF '(' Expr • ')' Stat
+   62       | IF '(' Expr • ')' Stat ELSE Stat
 
     ')'  shift, and go to state 161
 
 
 State 141
 
-  105 NotFact: '!' Fact •
+   73 ReturnStat: RETURN OptExpr ';' •
 
-    $default  reduce using rule 105 (NotFact)
+    $default  reduce using rule 73 (ReturnStat)
 
 
 State 142
 
-  101 MulOp: '*' •
+   63 WhileStat: WHILE '(' Expr • ')' Stat
 
-    $default  reduce using rule 101 (MulOp)
+    ')'  shift, and go to state 162
 
 
 State 143
 
-  102 MulOp: '/' •
+  112 Fact: NEW Type • '[' Expr ']'
 
-    $default  reduce using rule 102 (MulOp)
+    '['  shift, and go to state 163
 
 
 State 144
 
-  103 MulOp: '%' •
+  113 Fact: '(' Expr • ')'
 
-    $default  reduce using rule 103 (MulOp)
+    ')'  shift, and go to state 164
 
 
 State 145
 
-  100 Term: Term MulOp • NotFact
+  106 NotFact: '!' Fact •
 
-    FALSE    shift, and go to state 86
-    NEW      shift, and go to state 87
-    NULLPTR  shift, and go to state 88
-    TRUE     shift, and go to state 89
-    NUMBER   shift, and go to state 90
-    INC      shift, and go to state 91
-    DEC      shift, and go to state 92
-    '('      shift, and go to state 93
-    '!'      shift, and go to state 94
-
-    $default  reduce using rule 116 (OptInc)
-
-    NotFact  go to state 162
-    Fact     go to state 97
-    LValue   go to state 98
-    OptInc   go to state 99
+    $default  reduce using rule 106 (NotFact)
 
 
 State 146
 
-  113 LValue: OptInc IDENT • OptPostInc
-  114       | OptInc IDENT • '[' Expr ']' OptPostInc
-  115       | OptInc IDENT • '(' OptActParams ')' OptPostInc
+  102 MulOp: '*' •
 
-    INC  shift, and go to state 163
-    DEC  shift, and go to state 164
-    '('  shift, and go to state 165
-    '['  shift, and go to state 166
-
-    $default  reduce using rule 119 (OptPostInc)
-
-    OptPostInc  go to state 167
+    $default  reduce using rule 102 (MulOp)
 
 
 State 147
 
-   84 OrExpr: OrExpr OR AndExpr •
-   86 AndExpr: AndExpr • AND RelExpr
+  103 MulOp: '/' •
 
-    AND  shift, and go to state 109
-
-    $default  reduce using rule 84 (OrExpr)
+    $default  reduce using rule 103 (MulOp)
 
 
 State 148
 
-   76 Expr: OrExpr AssignOp OrExpr •
-   84 OrExpr: OrExpr • OR AndExpr
+  104 MulOp: '%' •
 
-    OR  shift, and go to state 106
-
-    $default  reduce using rule 76 (Expr)
+    $default  reduce using rule 104 (MulOp)
 
 
 State 149
 
-   86 AndExpr: AndExpr AND RelExpr •
-   88 RelExpr: RelExpr • RelOp SimpleExpr
+  101 Term: Term MulOp • NotFact
 
-    EQ   shift, and go to state 110
-    NEQ  shift, and go to state 111
-    LEQ  shift, and go to state 112
-    GEQ  shift, and go to state 113
-    '<'  shift, and go to state 114
-    '>'  shift, and go to state 115
+    FALSE    shift, and go to state 95
+    NEW      shift, and go to state 96
+    NULLPTR  shift, and go to state 97
+    TRUE     shift, and go to state 98
+    NUMBER   shift, and go to state 99
+    INC      shift, and go to state 100
+    DEC      shift, and go to state 101
+    '('      shift, and go to state 102
+    '!'      shift, and go to state 103
 
-    $default  reduce using rule 86 (AndExpr)
+    $default  reduce using rule 118 (OptInc)
 
-    RelOp  go to state 116
+    NotFact  go to state 165
+    Fact     go to state 106
+    LValue   go to state 107
+    OptInc   go to state 108
 
 
 State 150
 
-   88 RelExpr: RelExpr RelOp SimpleExpr •
-   96 SimpleExpr: SimpleExpr • AddOp Term
+  114 LValue: OptInc IDENT • OptPostInc
+  115       | OptInc IDENT • '[' Expr ']' OptPostInc
+  117       | OptInc IDENT • $@2 '(' OptActParams ')' OptPostInc
 
-    '+'  shift, and go to state 117
-    '-'  shift, and go to state 118
+    INC  shift, and go to state 166
+    DEC  shift, and go to state 167
+    '['  shift, and go to state 168
 
-    $default  reduce using rule 88 (RelExpr)
+    '('       reduce using rule 116 ($@2)
+    $default  reduce using rule 121 (OptPostInc)
 
-    AddOp  go to state 119
+    $@2         go to state 169
+    OptPostInc  go to state 170
 
 
 State 151
 
-   96 SimpleExpr: SimpleExpr AddOp Term •
-  100 Term: Term • MulOp NotFact
+   85 OrExpr: OrExpr OR AndExpr •
+   87 AndExpr: AndExpr • AND RelExpr
 
-    '*'  shift, and go to state 142
-    '/'  shift, and go to state 143
-    '%'  shift, and go to state 144
+    AND  shift, and go to state 118
 
-    $default  reduce using rule 96 (SimpleExpr)
-
-    MulOp  go to state 145
+    $default  reduce using rule 85 (OrExpr)
 
 
 State 152
 
-   29 FuncHead: Type OptPointer IDENT '(' OptFormParList ')' •
+   77 Expr: OrExpr AssignOp OrExpr •
+   85 OrExpr: OrExpr • OR AndExpr
 
-    $default  reduce using rule 29 (FuncHead)
+    OR  shift, and go to state 115
+
+    $default  reduce using rule 77 (Expr)
 
 
 State 153
 
-   34 FormParList: FormParList ',' • ParamDef
+   87 AndExpr: AndExpr AND RelExpr •
+   89 RelExpr: RelExpr • RelOp SimpleExpr
 
-    BOOL  shift, and go to state 3
-    INT   shift, and go to state 5
-    VOID  shift, and go to state 6
+    EQ   shift, and go to state 119
+    NEQ  shift, and go to state 120
+    LEQ  shift, and go to state 121
+    GEQ  shift, and go to state 122
+    '<'  shift, and go to state 123
+    '>'  shift, and go to state 124
 
-    ParamDef  go to state 168
-    Type      go to state 125
+    $default  reduce using rule 87 (AndExpr)
+
+    RelOp  go to state 125
 
 
 State 154
 
-   35 ParamDef: Type OptPointer • IDENT OptArray
+   89 RelExpr: RelExpr RelOp SimpleExpr •
+   97 SimpleExpr: SimpleExpr • AddOp Term
 
-    IDENT  shift, and go to state 169
+    '+'  shift, and go to state 126
+    '-'  shift, and go to state 127
+
+    $default  reduce using rule 89 (RelExpr)
+
+    AddOp  go to state 128
 
 
 State 155
 
-   64 InputStat: CIN SHR IDENT ';' •
+   97 SimpleExpr: SimpleExpr AddOp Term •
+  101 Term: Term • MulOp NotFact
 
-    $default  reduce using rule 64 (InputStat)
+    '*'  shift, and go to state 146
+    '/'  shift, and go to state 147
+    '%'  shift, and go to state 148
+
+    $default  reduce using rule 97 (SimpleExpr)
+
+    MulOp  go to state 149
 
 
 State 156
 
-   67 OutList: OutList SHL OutExpr •
+   35 FormParList: FormParList ',' ParamDef •
 
-    $default  reduce using rule 67 (OutList)
+    $default  reduce using rule 35 (FormParList)
 
 
 State 157
 
-   71 DeleteStat: DELETE '[' ']' IDENT • ';'
+   36 ParamDef: Type OptPointer IDENT • OptArray
 
-    ';'  shift, and go to state 170
+    '['  shift, and go to state 171
+
+    $default  reduce using rule 37 (OptArray)
+
+    OptArray  go to state 172
 
 
 State 158
 
-   60 IfStat: IF '(' Expr ')' • Stat
-   61       | IF '(' Expr ')' • Stat ELSE Stat
+   65 InputStat: CIN SHR IDENT ';' •
 
-    BREAK   shift, and go to state 33
-    CIN     shift, and go to state 34
-    COUT    shift, and go to state 35
-    DELETE  shift, and go to state 36
-    IF      shift, and go to state 37
-    RETURN  shift, and go to state 38
-    WHILE   shift, and go to state 39
-    ';'     shift, and go to state 40
-    '+'     shift, and go to state 41
-    '-'     shift, and go to state 42
-    '{'     shift, and go to state 17
-
-    $default  reduce using rule 16 (OptSign)
-
-    OptSign     go to state 45
-    Block       go to state 48
-    Stat        go to state 171
-    EmptyStat   go to state 51
-    BlockStat   go to state 52
-    ExprStat    go to state 53
-    IfStat      go to state 54
-    WhileStat   go to state 55
-    BreakStat   go to state 56
-    InputStat   go to state 57
-    OutputStat  go to state 58
-    DeleteStat  go to state 59
-    ReturnStat  go to state 60
-    Expr        go to state 61
-    OrExpr      go to state 62
-    AndExpr     go to state 63
-    RelExpr     go to state 64
-    SimpleExpr  go to state 65
+    $default  reduce using rule 65 (InputStat)
 
 
 State 159
 
-   62 WhileStat: WHILE '(' Expr ')' • Stat
+   68 OutList: OutList SHL OutExpr •
 
-    BREAK   shift, and go to state 33
-    CIN     shift, and go to state 34
-    COUT    shift, and go to state 35
-    DELETE  shift, and go to state 36
-    IF      shift, and go to state 37
-    RETURN  shift, and go to state 38
-    WHILE   shift, and go to state 39
-    ';'     shift, and go to state 40
-    '+'     shift, and go to state 41
-    '-'     shift, and go to state 42
-    '{'     shift, and go to state 17
-
-    $default  reduce using rule 16 (OptSign)
-
-    OptSign     go to state 45
-    Block       go to state 48
-    Stat        go to state 172
-    EmptyStat   go to state 51
-    BlockStat   go to state 52
-    ExprStat    go to state 53
-    IfStat      go to state 54
-    WhileStat   go to state 55
-    BreakStat   go to state 56
-    InputStat   go to state 57
-    OutputStat  go to state 58
-    DeleteStat  go to state 59
-    ReturnStat  go to state 60
-    Expr        go to state 61
-    OrExpr      go to state 62
-    AndExpr     go to state 63
-    RelExpr     go to state 64
-    SimpleExpr  go to state 65
+    $default  reduce using rule 68 (OutList)
 
 
 State 160
 
-  111 Fact: NEW Type '[' • Expr ']'
+   72 DeleteStat: DELETE '[' ']' IDENT • ';'
 
-    '+'  shift, and go to state 41
-    '-'  shift, and go to state 42
-
-    $default  reduce using rule 16 (OptSign)
-
-    OptSign     go to state 45
-    Expr        go to state 173
-    OrExpr      go to state 62
-    AndExpr     go to state 63
-    RelExpr     go to state 64
-    SimpleExpr  go to state 65
+    ';'  shift, and go to state 173
 
 
 State 161
 
-  112 Fact: '(' Expr ')' •
+   61 IfStat: IF '(' Expr ')' • Stat
+   62       | IF '(' Expr ')' • Stat ELSE Stat
 
-    $default  reduce using rule 112 (Fact)
+    BREAK   shift, and go to state 47
+    CIN     shift, and go to state 48
+    COUT    shift, and go to state 49
+    DELETE  shift, and go to state 50
+    IF      shift, and go to state 51
+    RETURN  shift, and go to state 52
+    WHILE   shift, and go to state 53
+    ';'     shift, and go to state 54
+    '+'     shift, and go to state 42
+    '-'     shift, and go to state 43
+    '{'     shift, and go to state 24
+
+    $default  reduce using rule 16 (OptSign)
+
+    OptSign     go to state 57
+    Block       go to state 60
+    Stat        go to state 174
+    EmptyStat   go to state 63
+    BlockStat   go to state 64
+    ExprStat    go to state 65
+    IfStat      go to state 66
+    WhileStat   go to state 67
+    BreakStat   go to state 68
+    InputStat   go to state 69
+    OutputStat  go to state 70
+    DeleteStat  go to state 71
+    ReturnStat  go to state 72
+    Expr        go to state 73
+    OrExpr      go to state 74
+    AndExpr     go to state 75
+    RelExpr     go to state 76
+    SimpleExpr  go to state 77
 
 
 State 162
 
-  100 Term: Term MulOp NotFact •
+   63 WhileStat: WHILE '(' Expr ')' • Stat
 
-    $default  reduce using rule 100 (Term)
+    BREAK   shift, and go to state 47
+    CIN     shift, and go to state 48
+    COUT    shift, and go to state 49
+    DELETE  shift, and go to state 50
+    IF      shift, and go to state 51
+    RETURN  shift, and go to state 52
+    WHILE   shift, and go to state 53
+    ';'     shift, and go to state 54
+    '+'     shift, and go to state 42
+    '-'     shift, and go to state 43
+    '{'     shift, and go to state 24
+
+    $default  reduce using rule 16 (OptSign)
+
+    OptSign     go to state 57
+    Block       go to state 60
+    Stat        go to state 175
+    EmptyStat   go to state 63
+    BlockStat   go to state 64
+    ExprStat    go to state 65
+    IfStat      go to state 66
+    WhileStat   go to state 67
+    BreakStat   go to state 68
+    InputStat   go to state 69
+    OutputStat  go to state 70
+    DeleteStat  go to state 71
+    ReturnStat  go to state 72
+    Expr        go to state 73
+    OrExpr      go to state 74
+    AndExpr     go to state 75
+    RelExpr     go to state 76
+    SimpleExpr  go to state 77
 
 
 State 163
 
-  120 OptPostInc: INC •
+  112 Fact: NEW Type '[' • Expr ']'
 
-    $default  reduce using rule 120 (OptPostInc)
+    '+'  shift, and go to state 42
+    '-'  shift, and go to state 43
+
+    $default  reduce using rule 16 (OptSign)
+
+    OptSign     go to state 57
+    Expr        go to state 176
+    OrExpr      go to state 74
+    AndExpr     go to state 75
+    RelExpr     go to state 76
+    SimpleExpr  go to state 77
 
 
 State 164
 
-  121 OptPostInc: DEC •
+  113 Fact: '(' Expr ')' •
 
-    $default  reduce using rule 121 (OptPostInc)
+    $default  reduce using rule 113 (Fact)
 
 
 State 165
 
-  115 LValue: OptInc IDENT '(' • OptActParams ')' OptPostInc
+  101 Term: Term MulOp NotFact •
 
-    '+'  shift, and go to state 41
-    '-'  shift, and go to state 42
-
-    ')'       reduce using rule 122 (OptActParams)
-    $default  reduce using rule 16 (OptSign)
-
-    OptSign       go to state 45
-    Expr          go to state 174
-    OrExpr        go to state 62
-    AndExpr       go to state 63
-    RelExpr       go to state 64
-    SimpleExpr    go to state 65
-    OptActParams  go to state 175
-    ActParams     go to state 176
+    $default  reduce using rule 101 (Term)
 
 
 State 166
 
-  114 LValue: OptInc IDENT '[' • Expr ']' OptPostInc
+  122 OptPostInc: INC •
 
-    '+'  shift, and go to state 41
-    '-'  shift, and go to state 42
-
-    $default  reduce using rule 16 (OptSign)
-
-    OptSign     go to state 45
-    Expr        go to state 177
-    OrExpr      go to state 62
-    AndExpr     go to state 63
-    RelExpr     go to state 64
-    SimpleExpr  go to state 65
+    $default  reduce using rule 122 (OptPostInc)
 
 
 State 167
 
-  113 LValue: OptInc IDENT OptPostInc •
+  123 OptPostInc: DEC •
 
-    $default  reduce using rule 113 (LValue)
+    $default  reduce using rule 123 (OptPostInc)
 
 
 State 168
 
-   34 FormParList: FormParList ',' ParamDef •
+  115 LValue: OptInc IDENT '[' • Expr ']' OptPostInc
 
-    $default  reduce using rule 34 (FormParList)
+    '+'  shift, and go to state 42
+    '-'  shift, and go to state 43
+
+    $default  reduce using rule 16 (OptSign)
+
+    OptSign     go to state 57
+    Expr        go to state 177
+    OrExpr      go to state 74
+    AndExpr     go to state 75
+    RelExpr     go to state 76
+    SimpleExpr  go to state 77
 
 
 State 169
 
-   35 ParamDef: Type OptPointer IDENT • OptArray
+  117 LValue: OptInc IDENT $@2 • '(' OptActParams ')' OptPostInc
 
-    '['  shift, and go to state 178
-
-    $default  reduce using rule 36 (OptArray)
-
-    OptArray  go to state 179
+    '('  shift, and go to state 178
 
 
 State 170
 
-   71 DeleteStat: DELETE '[' ']' IDENT ';' •
+  114 LValue: OptInc IDENT OptPostInc •
 
-    $default  reduce using rule 71 (DeleteStat)
+    $default  reduce using rule 114 (LValue)
 
 
 State 171
 
-   60 IfStat: IF '(' Expr ')' Stat •
-   61       | IF '(' Expr ')' Stat • ELSE Stat
+   38 OptArray: '[' • ']'
 
-    ELSE  shift, and go to state 180
-
-    $default  reduce using rule 60 (IfStat)
+    ']'  shift, and go to state 179
 
 
 State 172
 
-   62 WhileStat: WHILE '(' Expr ')' Stat •
+   36 ParamDef: Type OptPointer IDENT OptArray •
 
-    $default  reduce using rule 62 (WhileStat)
+    $default  reduce using rule 36 (ParamDef)
 
 
 State 173
 
-  111 Fact: NEW Type '[' Expr • ']'
+   72 DeleteStat: DELETE '[' ']' IDENT ';' •
 
-    ']'  shift, and go to state 181
+    $default  reduce using rule 72 (DeleteStat)
 
 
 State 174
 
-  124 ActParams: Expr •
+   61 IfStat: IF '(' Expr ')' Stat •
+   62       | IF '(' Expr ')' Stat • ELSE Stat
 
-    $default  reduce using rule 124 (ActParams)
+    ELSE  shift, and go to state 180
+
+    $default  reduce using rule 61 (IfStat)
 
 
 State 175
 
-  115 LValue: OptInc IDENT '(' OptActParams • ')' OptPostInc
+   63 WhileStat: WHILE '(' Expr ')' Stat •
 
-    ')'  shift, and go to state 182
+    $default  reduce using rule 63 (WhileStat)
 
 
 State 176
 
-  123 OptActParams: ActParams •
-  125 ActParams: ActParams • ',' Expr
+  112 Fact: NEW Type '[' Expr • ']'
 
-    ','  shift, and go to state 183
-
-    $default  reduce using rule 123 (OptActParams)
+    ']'  shift, and go to state 181
 
 
 State 177
 
-  114 LValue: OptInc IDENT '[' Expr • ']' OptPostInc
+  115 LValue: OptInc IDENT '[' Expr • ']' OptPostInc
 
-    ']'  shift, and go to state 184
+    ']'  shift, and go to state 182
 
 
 State 178
 
-   37 OptArray: '[' • ']'
+  117 LValue: OptInc IDENT $@2 '(' • OptActParams ')' OptPostInc
 
-    ']'  shift, and go to state 185
+    '+'  shift, and go to state 42
+    '-'  shift, and go to state 43
+
+    ')'       reduce using rule 124 (OptActParams)
+    $default  reduce using rule 16 (OptSign)
+
+    OptSign       go to state 57
+    Expr          go to state 183
+    OrExpr        go to state 74
+    AndExpr       go to state 75
+    RelExpr       go to state 76
+    SimpleExpr    go to state 77
+    OptActParams  go to state 184
+    ActParams     go to state 185
 
 
 State 179
 
-   35 ParamDef: Type OptPointer IDENT OptArray •
+   38 OptArray: '[' ']' •
 
-    $default  reduce using rule 35 (ParamDef)
+    $default  reduce using rule 38 (OptArray)
 
 
 State 180
 
-   61 IfStat: IF '(' Expr ')' Stat ELSE • Stat
+   62 IfStat: IF '(' Expr ')' Stat ELSE • Stat
 
-    BREAK   shift, and go to state 33
-    CIN     shift, and go to state 34
-    COUT    shift, and go to state 35
-    DELETE  shift, and go to state 36
-    IF      shift, and go to state 37
-    RETURN  shift, and go to state 38
-    WHILE   shift, and go to state 39
-    ';'     shift, and go to state 40
-    '+'     shift, and go to state 41
-    '-'     shift, and go to state 42
-    '{'     shift, and go to state 17
+    BREAK   shift, and go to state 47
+    CIN     shift, and go to state 48
+    COUT    shift, and go to state 49
+    DELETE  shift, and go to state 50
+    IF      shift, and go to state 51
+    RETURN  shift, and go to state 52
+    WHILE   shift, and go to state 53
+    ';'     shift, and go to state 54
+    '+'     shift, and go to state 42
+    '-'     shift, and go to state 43
+    '{'     shift, and go to state 24
 
     $default  reduce using rule 16 (OptSign)
 
-    OptSign     go to state 45
-    Block       go to state 48
+    OptSign     go to state 57
+    Block       go to state 60
     Stat        go to state 186
-    EmptyStat   go to state 51
-    BlockStat   go to state 52
-    ExprStat    go to state 53
-    IfStat      go to state 54
-    WhileStat   go to state 55
-    BreakStat   go to state 56
-    InputStat   go to state 57
-    OutputStat  go to state 58
-    DeleteStat  go to state 59
-    ReturnStat  go to state 60
-    Expr        go to state 61
-    OrExpr      go to state 62
-    AndExpr     go to state 63
-    RelExpr     go to state 64
-    SimpleExpr  go to state 65
+    EmptyStat   go to state 63
+    BlockStat   go to state 64
+    ExprStat    go to state 65
+    IfStat      go to state 66
+    WhileStat   go to state 67
+    BreakStat   go to state 68
+    InputStat   go to state 69
+    OutputStat  go to state 70
+    DeleteStat  go to state 71
+    ReturnStat  go to state 72
+    Expr        go to state 73
+    OrExpr      go to state 74
+    AndExpr     go to state 75
+    RelExpr     go to state 76
+    SimpleExpr  go to state 77
 
 
 State 181
 
-  111 Fact: NEW Type '[' Expr ']' •
+  112 Fact: NEW Type '[' Expr ']' •
 
-    $default  reduce using rule 111 (Fact)
+    $default  reduce using rule 112 (Fact)
 
 
 State 182
 
-  115 LValue: OptInc IDENT '(' OptActParams ')' • OptPostInc
+  115 LValue: OptInc IDENT '[' Expr ']' • OptPostInc
 
-    INC  shift, and go to state 163
-    DEC  shift, and go to state 164
+    INC  shift, and go to state 166
+    DEC  shift, and go to state 167
 
-    $default  reduce using rule 119 (OptPostInc)
+    $default  reduce using rule 121 (OptPostInc)
 
     OptPostInc  go to state 187
 
 
 State 183
 
-  125 ActParams: ActParams ',' • Expr
+  126 ActParams: Expr •
 
-    '+'  shift, and go to state 41
-    '-'  shift, and go to state 42
-
-    $default  reduce using rule 16 (OptSign)
-
-    OptSign     go to state 45
-    Expr        go to state 188
-    OrExpr      go to state 62
-    AndExpr     go to state 63
-    RelExpr     go to state 64
-    SimpleExpr  go to state 65
+    $default  reduce using rule 126 (ActParams)
 
 
 State 184
 
-  114 LValue: OptInc IDENT '[' Expr ']' • OptPostInc
+  117 LValue: OptInc IDENT $@2 '(' OptActParams • ')' OptPostInc
 
-    INC  shift, and go to state 163
-    DEC  shift, and go to state 164
-
-    $default  reduce using rule 119 (OptPostInc)
-
-    OptPostInc  go to state 189
+    ')'  shift, and go to state 188
 
 
 State 185
 
-   37 OptArray: '[' ']' •
+  125 OptActParams: ActParams •
+  127 ActParams: ActParams • ',' Expr
 
-    $default  reduce using rule 37 (OptArray)
+    ','  shift, and go to state 189
+
+    $default  reduce using rule 125 (OptActParams)
 
 
 State 186
 
-   61 IfStat: IF '(' Expr ')' Stat ELSE Stat •
+   62 IfStat: IF '(' Expr ')' Stat ELSE Stat •
 
-    $default  reduce using rule 61 (IfStat)
+    $default  reduce using rule 62 (IfStat)
 
 
 State 187
 
-  115 LValue: OptInc IDENT '(' OptActParams ')' OptPostInc •
+  115 LValue: OptInc IDENT '[' Expr ']' OptPostInc •
 
     $default  reduce using rule 115 (LValue)
 
 
 State 188
 
-  125 ActParams: ActParams ',' Expr •
+  117 LValue: OptInc IDENT $@2 '(' OptActParams ')' • OptPostInc
 
-    $default  reduce using rule 125 (ActParams)
+    INC  shift, and go to state 166
+    DEC  shift, and go to state 167
+
+    $default  reduce using rule 121 (OptPostInc)
+
+    OptPostInc  go to state 190
 
 
 State 189
 
-  114 LValue: OptInc IDENT '[' Expr ']' OptPostInc •
+  127 ActParams: ActParams ',' • Expr
 
-    $default  reduce using rule 114 (LValue)
+    '+'  shift, and go to state 42
+    '-'  shift, and go to state 43
+
+    $default  reduce using rule 16 (OptSign)
+
+    OptSign     go to state 57
+    Expr        go to state 191
+    OrExpr      go to state 74
+    AndExpr     go to state 75
+    RelExpr     go to state 76
+    SimpleExpr  go to state 77
+
+
+State 190
+
+  117 LValue: OptInc IDENT $@2 '(' OptActParams ')' OptPostInc •
+
+    $default  reduce using rule 117 (LValue)
+
+
+State 191
+
+  127 ActParams: ActParams ',' Expr •
+
+    $default  reduce using rule 127 (ActParams)

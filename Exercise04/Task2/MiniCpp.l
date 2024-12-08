@@ -2,8 +2,13 @@
 
 %{
 #include "MiniCpp.tab.h"
+#include <string.h>
 extern int yylval;
 extern int yylineno;   /*current line number, initalized with 1   */
+
+
+#define MAX_NAME 64
+char id_name[MAX_NAME];  /* Store identifier names */
 %}
 
 %%
@@ -51,7 +56,11 @@ extern int yylineno;   /*current line number, initalized with 1   */
 "void"      { return VOID; }
 "while"     { return WHILE; }
 
-[a-zA-Z][a-zA-Z0-9]*  { return IDENT; }
+[a-zA-Z][a-zA-Z0-9]*  { 
+  strncpy(id_name, yytext, MAX_NAME-1);
+  id_name[MAX_NAME-1] = '\0';
+  return IDENT;
+}
 
 [0-9]+      { yylval = atoi(yytext); return NUMBER; }
 

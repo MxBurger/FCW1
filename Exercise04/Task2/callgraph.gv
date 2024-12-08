@@ -1,0 +1,11 @@
+digraph CallGraph {
+  rankdir=LR;
+  node [shape=box];
+
+  "n" [style=filled,fillcolor=lightblue];
+  "iHateMyLife" [style=filled,fillcolor=lightblue];
+  "main" [style=filled,fillcolor=lightblue];
+
+  "main" -> "Sieve";
+  "n" -> "iHateMyLife";
+}
