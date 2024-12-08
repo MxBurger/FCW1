@@ -19,7 +19,7 @@
 
 [ \t]+      { ; }        /*ignore white space: blanks and tabs      */
 
-[\n]          { yylineno++; }
+(\r\n|\n)   { yylineno++; } /*this also supports unix style line-endings*/
 
 "/*"        {            /*skip C comments                          */
               int prevCh = 0, ch = input();
@@ -28,7 +28,7 @@
                   yyerror("eof within comment"); /*see in MiniC.y   */
                   break;
                 } /*if*/
-                if (ch == '\n')
+                if (ch == '\n' || ch == '\r\n')
                   yylineno++;
                 else if (prevCh == '*' && ch == '/')
                   break; /*ok: correct end of comment               */
