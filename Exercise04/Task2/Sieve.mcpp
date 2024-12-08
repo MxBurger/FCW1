@@ -67,6 +67,13 @@ void Sieve(int n) { // defintion
   
 } // Sieve
 
+void iHateMyLife() {
+  int a = 0;
+  int b = 0;
+  int c = 0;
+  c = a + b;
+}
+
 // End of Sieve.mcpp
 //=====================================|====================
 
