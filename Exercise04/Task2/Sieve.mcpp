@@ -63,22 +63,9 @@ void Sieve(int n) { // defintion
     i += 2;
   } // while
   
-  iHateMyLife();
-  iHateMyLifeEvenMore(10);
-
   delete[] sieve;
   
 } // Sieve
-
-void iHateMyLife() {
-  int a = 0;
-  int b = 0;
-  int c = 0;
-  c = a + b;
-}
-
-void iHateMyLifeEvenMore(int a) {
-}
 
 // End of Sieve.mcpp
 //=====================================|====================

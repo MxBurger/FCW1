@@ -1,0 +1,34 @@
+// Test program with function calls, recursion, and various MiniCpp features
+void printNumbers(int n);  // declaration
+void factorial(int n);     // declaration
+
+void main() {
+    int num;
+    cout << "Enter a number: ";
+    cin >> num;
+    
+    if (num > 0) {
+        printNumbers(num);
+        factorial(num);
+    }
+}
+
+void printNumbers(int n) {
+    if (n > 0) {
+        cout << n << endl;
+        printNumbers(n - 1);  // recursive call
+    }
+}
+
+void factorial(int n) {
+    int result;
+    result = 1;
+    
+    while (n > 0) {
+        result *= n;
+        printNumbers(n);  // call to another function
+        n--;
+    }
+    
+    cout << "Result: " << result << endl;
+}

@@ -1,5 +1,6 @@
 digraph G {
-  "main" -> "Sieve";
-  "Sieve" -> "iHateMyLife";
-  "Sieve" -> "iHateMyLifeEvenMore";
+  "main" -> "printNumbers";
+  "main" -> "factorial";
+  "printNumbers" -> "printNumbers";
+  "factorial" -> "printNumbers";
 }
