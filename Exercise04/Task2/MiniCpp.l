@@ -2,7 +2,6 @@
 
 %{
 #include "MiniCpp.tab.h"
-extern int yylval;
 extern int yylineno;   /*current line number, initalized with 1   */
 %}
 
@@ -51,9 +50,9 @@ extern int yylineno;   /*current line number, initalized with 1   */
 "void"      { return VOID; }
 "while"     { return WHILE; }
 
-[a-zA-Z][a-zA-Z0-9]*  { return IDENT; }
+[a-zA-Z][a-zA-Z0-9]*  { yylval.strval = strdup(yytext); return IDENT; }
 
-[0-9]+      { yylval = atoi(yytext); return NUMBER; }
+[0-9]+      { yylval.intval = atoi(yytext); return NUMBER; }
 
 \"[^\"]*\"  { return STRING; }  /* string literals */
 

@@ -513,10 +513,9 @@ char *yytext;
 #line 1 "MiniCpp.l"
 #line 4 "MiniCpp.l"
 #include "MiniCpp.tab.h"
-extern int yylval;
 extern int yylineno;   /*current line number, initalized with 1   */
+#line 518 "lex.yy.c"
 #line 519 "lex.yy.c"
-#line 520 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -733,10 +732,10 @@ YY_DECL
 		}
 
 	{
-#line 9 "MiniCpp.l"
+#line 8 "MiniCpp.l"
 
 
-#line 740 "lex.yy.c"
+#line 739 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -795,18 +794,18 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 11 "MiniCpp.l"
+#line 10 "MiniCpp.l"
 { ; }  /* ignore whitespace */
 	YY_BREAK
 case 2:
 /* rule 2 can match eol */
 YY_RULE_SETUP
-#line 12 "MiniCpp.l"
+#line 11 "MiniCpp.l"
 { yylineno++; }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 14 "MiniCpp.l"
+#line 13 "MiniCpp.l"
 {  /* skip C-style comments */
               int c;
               while((c = input()) != EOF) {
@@ -823,7 +822,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 28 "MiniCpp.l"
+#line 27 "MiniCpp.l"
 {  /* skip C++ style comments */
               int c;
               while((c = input()) != EOF && c != '\n') 
@@ -834,196 +833,196 @@ YY_RULE_SETUP
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 36 "MiniCpp.l"
+#line 35 "MiniCpp.l"
 { return BOOL; }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 37 "MiniCpp.l"
+#line 36 "MiniCpp.l"
 { return BREAK; }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 38 "MiniCpp.l"
+#line 37 "MiniCpp.l"
 { return CIN; }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 39 "MiniCpp.l"
+#line 38 "MiniCpp.l"
 { return CONST; }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 40 "MiniCpp.l"
+#line 39 "MiniCpp.l"
 { return COUT; }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 41 "MiniCpp.l"
+#line 40 "MiniCpp.l"
 { return DELETE; }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 42 "MiniCpp.l"
+#line 41 "MiniCpp.l"
 { return ELSE; }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 43 "MiniCpp.l"
+#line 42 "MiniCpp.l"
 { return ENDL; }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 44 "MiniCpp.l"
+#line 43 "MiniCpp.l"
 { return FALSE; }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 45 "MiniCpp.l"
+#line 44 "MiniCpp.l"
 { return IF; }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 46 "MiniCpp.l"
+#line 45 "MiniCpp.l"
 { return INT; }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 47 "MiniCpp.l"
+#line 46 "MiniCpp.l"
 { return NEW; }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 48 "MiniCpp.l"
+#line 47 "MiniCpp.l"
 { return NULLPTR; }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 49 "MiniCpp.l"
+#line 48 "MiniCpp.l"
 { return RETURN; }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 50 "MiniCpp.l"
+#line 49 "MiniCpp.l"
 { return TRUE; }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 51 "MiniCpp.l"
+#line 50 "MiniCpp.l"
 { return VOID; }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 52 "MiniCpp.l"
+#line 51 "MiniCpp.l"
 { return WHILE; }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 54 "MiniCpp.l"
-{ return IDENT; }
+#line 53 "MiniCpp.l"
+{ yylval.strval = strdup(yytext); return IDENT; }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 56 "MiniCpp.l"
-{ yylval = atoi(yytext); return NUMBER; }
+#line 55 "MiniCpp.l"
+{ yylval.intval = atoi(yytext); return NUMBER; }
 	YY_BREAK
 case 24:
 /* rule 24 can match eol */
 YY_RULE_SETUP
-#line 58 "MiniCpp.l"
+#line 57 "MiniCpp.l"
 { return STRING; }  /* string literals */
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 60 "MiniCpp.l"
+#line 59 "MiniCpp.l"
 { return SHL; }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 61 "MiniCpp.l"
+#line 60 "MiniCpp.l"
 { return SHR; }
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 62 "MiniCpp.l"
+#line 61 "MiniCpp.l"
 { return PLUSEQ; }
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 63 "MiniCpp.l"
+#line 62 "MiniCpp.l"
 { return MINUSEQ; }
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 64 "MiniCpp.l"
+#line 63 "MiniCpp.l"
 { return TIMESEQ; }
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 65 "MiniCpp.l"
+#line 64 "MiniCpp.l"
 { return DIVEQ; }
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 66 "MiniCpp.l"
+#line 65 "MiniCpp.l"
 { return MODEQ; }
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 67 "MiniCpp.l"
+#line 66 "MiniCpp.l"
 { return EQ; }
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 68 "MiniCpp.l"
+#line 67 "MiniCpp.l"
 { return NEQ; }
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 69 "MiniCpp.l"
+#line 68 "MiniCpp.l"
 { return LEQ; }
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 70 "MiniCpp.l"
+#line 69 "MiniCpp.l"
 { return GEQ; }
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 71 "MiniCpp.l"
+#line 70 "MiniCpp.l"
 { return AND; }
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 72 "MiniCpp.l"
+#line 71 "MiniCpp.l"
 { return OR; }
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 73 "MiniCpp.l"
+#line 72 "MiniCpp.l"
 { return INC; }
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 74 "MiniCpp.l"
+#line 73 "MiniCpp.l"
 { return DEC; }
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 76 "MiniCpp.l"
+#line 75 "MiniCpp.l"
 { return yytext[0]; }
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 78 "MiniCpp.l"
+#line 77 "MiniCpp.l"
 { printf("Unrecognized character: %s\n", yytext); }
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 80 "MiniCpp.l"
+#line 79 "MiniCpp.l"
 ECHO;
 	YY_BREAK
-#line 1027 "lex.yy.c"
+#line 1026 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2028,5 +2027,5 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 80 "MiniCpp.l"
+#line 79 "MiniCpp.l"
 
