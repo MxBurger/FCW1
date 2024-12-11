@@ -235,7 +235,18 @@ MiniCpp-Programme.
 ### Teilaufgabe b)
 Erweitern Sie Ihre Grammatik aus a) zu einer ATG, sodass der (statische) Funktionsaufrufgraph des analysierten Programms erstellt wird. Gehen Sie dabei so vor, dass von der ATG eine Textdatei (.gv) für GraphViz (www.graphviz.org) erzeugt wird, aus der mit GVEdit, mit `dot.exe` direkt oder über www.webgraphviz.com eine Abbildung erzeugt werden kann.
 
+#### Ablauf der Graphen-Erstellung
+- Bei Programmstart wird eine GraphViz-Datei (`calls.gv`) initialisiert
+- Während des Parsens wird die aktuelle Funktion in `currentFunction` gespeichert
+- Bei jedem Funktionsaufruf wird eine Kante von der aktuellen zur aufgerufenen Funktion hinzugefügt
+- Nach Abschluss des Parsens wird die GraphViz-Datei geschlossen
+
+
+
+
 *folgende Ausarbeitung enthält bereits Teilaufgabe a) und b):* 
+
+
 
 ### Erstellung des lexikalischen Analysators mit flex 2.6.4 
 ```c
