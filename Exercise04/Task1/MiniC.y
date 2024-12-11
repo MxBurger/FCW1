@@ -10,6 +10,7 @@
 
   extern int yylineno;  /*current line number, initalized with 1    */
   extern int yylval;    /*lexical attribute for current token       */
+  extern int yylex_destroy();
 
 %}
 

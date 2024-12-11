@@ -474,9 +474,11 @@ char *yytext;
 
   extern int yylineno;   /*current line number, initalized with 1   */
   extern int yylval;     /*lexical attribute for current token      */
+  extern int yyerror(char *msg); 
 
-#line 479 "lex.yy.c"
-#line 480 "lex.yy.c"
+
+#line 481 "lex.yy.c"
+#line 482 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -693,10 +695,10 @@ YY_DECL
 		}
 
 	{
-#line 18 "MiniC.l"
+#line 20 "MiniC.l"
 
 
-#line 700 "lex.yy.c"
+#line 702 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -755,18 +757,18 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 20 "MiniC.l"
+#line 22 "MiniC.l"
 { ; }        /*ignore white space: blanks and tabs      */
 	YY_BREAK
 case 2:
 /* rule 2 can match eol */
 YY_RULE_SETUP
-#line 22 "MiniC.l"
+#line 24 "MiniC.l"
 { yylineno++; } /*this also supports unix style line-endings*/
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 24 "MiniC.l"
+#line 26 "MiniC.l"
 {            /*skip C comments                          */
               int prevCh = 0, ch = input();
               while (1) {
@@ -774,7 +776,7 @@ YY_RULE_SETUP
                   yyerror("eof within comment"); /*see in MiniC.y   */
                   break;
                 } /*if*/
-                if (ch == '\n' || ch == '\r\n')
+                if (ch == '\n')
                   yylineno++;
                 else if (prevCh == '*' && ch == '/')
                   break; /*ok: correct end of comment               */
@@ -785,51 +787,51 @@ YY_RULE_SETUP
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 41 "MiniC.l"
+#line 43 "MiniC.l"
 { return INT;    }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 42 "MiniC.l"
+#line 44 "MiniC.l"
 { return MAIN;   }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 43 "MiniC.l"
+#line 45 "MiniC.l"
 { return PRINTF; }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 44 "MiniC.l"
+#line 46 "MiniC.l"
 { return SCANF;  }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 45 "MiniC.l"
+#line 47 "MiniC.l"
 { return VOID;   }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 47 "MiniC.l"
+#line 49 "MiniC.l"
 { return IDENT; }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 49 "MiniC.l"
+#line 51 "MiniC.l"
 { yylval = atoi(yytext); return NUMBER; }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 52 "MiniC.l"
+#line 54 "MiniC.l"
 { return yytext[0]; } /*return all other chars 
                                     as tokens to parser: '+', ...   */
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 55 "MiniC.l"
+#line 57 "MiniC.l"
 ECHO;
 	YY_BREAK
-#line 833 "lex.yy.c"
+#line 835 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1834,7 +1836,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 55 "MiniC.l"
+#line 57 "MiniC.l"
 
 
 /* End of MiniC.l

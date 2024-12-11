@@ -12,6 +12,8 @@
 
   extern int yylineno;   /*current line number, initalized with 1   */
   extern int yylval;     /*lexical attribute for current token      */
+  extern int yyerror(char *msg); 
+
 
 %}
 
@@ -28,7 +30,7 @@
                   yyerror("eof within comment"); /*see in MiniC.y   */
                   break;
                 } /*if*/
-                if (ch == '\n' || ch == '\r\n')
+                if (ch == '\n') /* unix-line-ending also contains '\n' */
                   yylineno++;
                 else if (prevCh == '*' && ch == '/')
                   break; /*ok: correct end of comment               */

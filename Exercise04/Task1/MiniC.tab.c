@@ -75,9 +75,10 @@
 
   extern int yylineno;  /*current line number, initalized with 1    */
   extern int yylval;    /*lexical attribute for current token       */
+  extern int yylex_destroy();
 
 
-#line 81 "MiniC.tab.c"
+#line 82 "MiniC.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -522,9 +523,9 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    28,    28,    32,    35,    37,    41,    42,    46,    47,
-      51,    52,    53,    54,    55,    59,    60,    61,    65,    66,
-      67,    71,    72,    73
+       0,    29,    29,    33,    36,    38,    42,    43,    47,    48,
+      52,    53,    54,    55,    56,    60,    61,    62,    66,    67,
+      68,    72,    73,    74
 };
 #endif
 
@@ -1113,7 +1114,7 @@ yyreduce:
   switch (yyn)
     {
 
-#line 1117 "MiniC.tab.c"
+#line 1118 "MiniC.tab.c"
 
       default: break;
     }
@@ -1306,7 +1307,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 76 "MiniC.y"
+#line 77 "MiniC.y"
 
 
 extern FILE *yyin;     /*file to parse, stdin per default*/
