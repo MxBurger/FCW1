@@ -1,0 +1,140 @@
+Coco-2 PGT (source: Calc.atg)
+
+    1| COMPILER Calc
+    2| 
+    3| CHARACTER SETS
+    4|   digit      = '0' .. '9'.
+    5|   whiteSpace = CHR(9) + EOL IGNORE. /*' ' ignored by default*/ 
+    6| 
+    7| TOKENS                      
+    8|   '+'.  '-'.  '*'.  '/'.  '('.  ')'.
+    9| 
+   10| TOKEN CLASSES           
+   11|   number<<out int n>> = 
+   12|     digit { digit }      LEX<<n = Convert.ToInt32(tokenStr);>>.
+   13| 
+   14| NONTERMINALS
+   15|   Calc.
+   16|   Expr<<out int e>>.
+   17|   Term<<out int t>>.
+   18|   Fact<<out int f>>.
+   19| 
+   20| RULES
+   21| 
+   22|   Calc =                 LOCAL<<int e = 0;>> 
+   23|     Expr<<out e>>        SEM<<Console.WriteLine(e);>>.  
+   24|     
+   25|   Expr<<out int e>> =    LOCAL<<int t = 0; e = 0;>> 
+   26|     Term<<out e>>             
+   27|     { '+' Term<<out t>>  SEM<<e = e + t;>>
+   28|     | '-' Term<<out t>>  SEM<<e = e - t;>>
+   29|     }.
+   30|     
+   31|   Term<<out int t>> =    LOCAL<<int f = 0; t = 0;>>
+   32|     Fact<<out t>>
+   33|     { '*' Fact<<out f>>  SEM<<t = t * f;>>
+   34|     | '/' Fact<<out f>>  SEM<<t = t / f;>>
+   35|     }.
+   36|     
+   37|   Fact<<out int f>> =    LOCAL <<f = 0;>>
+   38|       number<<out f>>
+   39|     | '(' Expr<<out f>> ')'.
+   40| 
+   41| END Calc.
+   42| 
+
+
+error(s) and warning(s):
+-----------------------
+
+    0 lexical error(s) 
+    0 syntax error(s)  
+    0 semantic error(s)
+    0 warning(s)       
+
+
+statistics:
+----------
+
+    7 terminals
+    4 nonterminals
+    9 alternatives
+   19 nodes in top-down graph
+    2 eps sets (with look ahead)
+    1 any sets
+
+   81 bytes G-code
+
+grammar has no deletable nonterminals
+-------------------------------------
+
+
+
+G-code:
+
+======
+
+-----  Calc  -------------------------------
+    1  NT     Expr                    1
+    4  SEM        2
+    5  RET
+
+-----  Expr  -------------------------------
+    6  NT     Term                    1
+    9  TA     '+'                    20
+   13  NT     Term                    2
+   16  SEM        3
+   17  JMP        9
+
+   20  TA     '-'                    31
+   24  NT     Term                    4
+   27  SEM        5
+   28  JMP        9
+
+   31  EPS        1
+   33  RET
+
+-----  Term  -------------------------------
+   34  NT     Fact                    1
+   37  TA     '*'                    48
+   41  NT     Fact                    2
+   44  SEM        3
+   45  JMP       37
+
+   48  TA     '/'                    59
+   52  NT     Fact                    4
+   55  SEM        5
+   56  JMP       37
+
+   59  EPS        2
+   61  RET
+
+-----  Fact  -------------------------------
+   62  TCA    number                 68    1
+   67  RET
+
+   68  T      '('
+   70  NT     Expr                    2
+   73  T      ')'
+   75  RET
+
+-----  R o o t  ----------------------------
+   76  NT     Calc                    1
+   79  T      'end of file'
+   81  RET
+
+
+nonterminals:
+============
+
+Calc                      1     { '(', number }
+Expr                      6     { '(', number }
+Term                     34     { '(', number }
+Fact                     62     { '(', number }
+
+
+eps look-aheads:
+===============
+
+    1   { 'end of file', ')' }
+    2   { 'end of file', '+', '-', ')' }
