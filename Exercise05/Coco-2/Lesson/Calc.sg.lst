@@ -1,0 +1,78 @@
+Coco-2 SG (source: Calc.atg)
+
+    1| COMPILER Calc
+    2| 
+    3| CHARACTER SETS
+    4|   digit      = '0' .. '9'.
+    5|   whiteSpace = CHR(9) + EOL IGNORE. /*' ' ignored by default*/ 
+    6| 
+    7| TOKENS                      
+    8|   '+'.  '-'.  '*'.  '/'.  '('.  ')'.
+    9| 
+   10| TOKEN CLASSES           
+   11|   number<<out int n>> = 
+   12|     digit { digit }      LEX<<n = Convert.ToInt32(tokenStr);>>.
+   13| 
+   14| NONTERMINALS
+   15|   Calc.
+   16|   Expr<<out int e>>.
+   17|   Term<<out int t>>.
+   18|   Fact<<out int f>>.
+   19| 
+   20| RULES
+   21| 
+   22|   Calc =                 LOCAL<<int e = 0;>> 
+   23|     Expr<<out e>>        SEM<<Console.WriteLine(e);>>.  
+   24|     
+   25|   Expr<<out int e>> =    LOCAL<<int t = 0; e = 0;>> 
+   26|     Term<<out e>>             
+   27|     { '+' Term<<out t>>  SEM<<e = e + t;>>
+   28|     | '-' Term<<out t>>  SEM<<e = e - t;>>
+   29|     }.
+   30|     
+   31|   Term<<out int t>> =    LOCAL<<int f = 0; t = 0;>>
+   32|     Fact<<out t>>
+   33|     { '*' Fact<<out f>>  SEM<<t = t * f;>>
+   34|     | '/' Fact<<out f>>  SEM<<t = t / f;>>
+   35|     }.
+   36|     
+   37|   Fact<<out int f>> =    LOCAL <<f = 0;>>
+   38|       number<<out f>>
+   39|     | '(' Expr<<out f>> ')'.
+   40| 
+   41| END Calc.
+   42| 
+
+
+error(s) and warning(s):
+-----------------------
+
+    0 lexical error(s) 
+    0 syntax error(s)  
+    0 semantic error(s)
+    0 warning(s)       
+
+
+start table:
+-----------
+
+   '('                     6 | ')'                       7
+   '*'                     4 | '+'                       2
+   '-'                     3 | '/'                       5
+   '0'..'9'                8 | ELSE                      0
+   
+
+ignored characters:
+------------------
+
+{ HT..LF, ' ' }
+
+comment starts:
+--------------
+
+{ }
+
+character classes:
+-----------------
+
+1: { '0'..'9' }

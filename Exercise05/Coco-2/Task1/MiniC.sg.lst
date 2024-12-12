@@ -1,0 +1,162 @@
+Coco-2 SG (source: MiniC.atg)
+
+    1| /* MiniC: (C# Version)                              HDO, 2006-08-27
+    2|    -----
+    3|    Attributed Grammar for the MiniC Parser.
+    4| ===================================================================*/
+    5| 
+    6| COMPILER MiniC
+    7| 
+    8| SEM <<
+    9|                                     // globals for semantic actions:
+   10|   private static String identStr;   //    identifier string
+   11|   private static int    numberVal;  //    number value       
+   12|        
+   13| >>
+   14| 
+   15| CHARACTER SETS
+   16| 
+   17|   letter = 'A'..'Z' + 'a'..'z'.
+   18|   digit  = '0'..'9'.
+   19|   ignore = CHR(9) + EOL IGNORE.
+   20|   
+   21| KEYWORDS
+   22| 
+   23|   'int'.
+   24|   'main'.
+   25|   'printf'.
+   26|   'scanf'.
+   27|   'void'.
+   28| 
+   29| TOKENS
+   30| 
+   31|   '+'.   '-'.   '*'.  '/'.   '('.   ')'.
+   32|   ','.   '='.   ';'.  '{'.   '}'.
+   33| 
+   34| TOKEN CLASSES
+   35|   
+   36|   ident<<out String identStr>> =
+   37|     letter { letter | digit } 
+   38|                                   LEX <<
+   39|                                     identStr = tokenStr;
+   40|                                   >>
+   41|     .
+   42| 
+   43|   number<<out int numberVal>> =
+   44|     digit { digit }               LEX <<
+   45|                                     numberVal = Convert.ToInt32(tokenStr);
+   46|                                   >>
+   47|     .
+   48| 
+   49| NONTERMINALS 
+   50| 
+   51|   MiniC.
+   52|   VarDecl.
+   53|   StatSeq.
+   54|   Stat.
+   55|   Expr.
+   56|   Term.
+   57|   Fact.
+   58| 
+   59| RULES
+   60| 
+   61|   MiniC =                                          
+   62|     'void' 'main' '(' ')'
+   63|     '{'
+   64|     [ VarDecl
+   65|     ]
+   66|     StatSeq
+   67|     '}' .
+   68| 
+   69|   VarDecl =                       
+   70|     'int' ident<<out identStr>>   
+   71|     { ',' ident<<out identStr>>   
+   72|     }
+   73|     ';' .
+   74| 
+   75|   StatSeq =
+   76|     Stat 
+   77|     { Stat 
+   78|     } .
+   79| 
+   80|   Stat =                          
+   81|     [ ident<<out identStr>>       
+   82|       '=' Expr           
+   83|     | 'scanf'
+   84|       '(' ident<<out identStr>>   
+   85|       ')'
+   86|     | 'printf'
+   87|       '(' Expr           
+   88|       ')' 
+   89|     ] 
+   90|     ';' .
+   91| 
+   92|   Expr =             
+   93|     Term
+   94|     { '+' Term           
+   95|     | '-' Term           
+   96|     } .
+   97| 
+   98|    Term =            
+   99|      Fact
+  100|      { '*' Fact          
+  101|      | '/' Fact         
+  102|      } .
+  103| 
+  104|    Fact =            
+  105|        ident<<out identStr>>      
+  106|      | number<<out numberVal>>    
+  107|      | '(' Expr 
+  108|        ')' .
+  109| 
+  110| END MiniC.
+
+
+error(s) and warning(s):
+-----------------------
+
+    0 lexical error(s) 
+    0 syntax error(s)  
+    0 semantic error(s)
+    0 warning(s)       
+
+
+start table:
+-----------
+
+   '('                     6 | ')'                       7
+   '*'                     4 | '+'                       2
+   ','                     8 | '-'                       3
+   '/'                     5 | '0'..'9'                 14
+   ';'                    10 | '='                       9
+   'A'..'Z'               13 | 'a'                      15
+   'b'                    13 | 'c'..'d'                 15
+   'e'                    13 | 'f'                      15
+   'g'..'h'               13 | 'i'                      15
+   'j'..'l'               13 | 'm'..'p'                 15
+   'q'                    13 | 'r'..'t'                 15
+   'u'                    13 | 'v'                      15
+   'w'..'z'               13 | '{'                      11
+   '}'                    12 | ELSE                      0
+   
+
+ignored characters:
+------------------
+
+{ HT..LF, ' ' }
+
+comment starts:
+--------------
+
+{ }
+
+character classes:
+-----------------
+
+1: { 'A'..'Z', 'a'..'z' }
+
+2: { '0'..'9' }
+
+3: { 'a', 'c'..'d', 'f', 'i', 'm'..'p', 'r'..'t', 'v' }
+
+4: { 'A'..'Z', 'b', 'e', 'g'..'h', 'j'..'l', 'q', 'u', 'w'..'z' }
