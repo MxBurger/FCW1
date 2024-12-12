@@ -127,7 +127,7 @@ public class MiniCLex {
          0x0600, 0x0000, 0x0001
       ); // ignoredChars
     public Sets.Set256 commentStart = new Sets.Set256(
-         0x0000
+         0x0000, 0x0000, 0x8000
       ); // commentStart
     public Sets.Set256[] cls = {
         new Sets.Set256( 0x0000, 0x0000, 0x0000, 0x0000, 0xfffe, 0x07ff, 0xfffe, 0x07ff),
@@ -200,6 +200,63 @@ public class MiniCLex {
 
   private static bool Comment() {
     
+    int level = 1;
+    
+    SaveScannerState();
+    // --- from '/' '/' to Utils.LF ---
+    if (curCh == '/') {
+      NextCh();
+      if (curCh == '/') {
+        NextCh();
+        while (true)
+          switch (curCh) {
+            case Utils.LF:
+              NextCh();
+              return true;
+            case Utils.EF:
+              CommentErr();
+              return true;
+            default:
+              NextCh();
+              break;
+          } // switch
+      } else
+        RestoreScannerState();
+    } // if
+    // --- from '/' '*' to '*' '/' nested ---
+    if (curCh == '/') {
+      NextCh();
+      if (curCh == '*') {
+        NextCh();
+        while (true)
+          switch (curCh) {
+            case '*':
+              NextCh();
+              if (curCh == '/') {
+                NextCh();
+                level--;
+                if (level == 0) {
+                  return true;
+                } // if
+              } // if
+              break;
+            case '/':
+              NextCh();
+              if (curCh == '*') {
+                level++;
+                NextCh();
+              }
+              break;
+            case Utils.EF:
+              CommentErr();
+              return true;
+            default:
+              NextCh();
+              break;
+          } // switch
+      } else
+        RestoreScannerState();
+    } // if
     return false;
   } // Comment
 
@@ -216,9 +273,15 @@ public class MiniCLex {
     token = -1;
     tokenStr = null;
     do {
-      // --- skip ignored chars ---
-      while (Sets.member(curCh, lt.ignoredChars))
-        NextCh();
+      // --- skip ignored chars and comments ---
+      while (true) {
+        while (Sets.member(curCh, lt.ignoredChars))
+          NextCh();
+        if (!Sets.member(curCh, lt.commentStart))
+          break;
+        if (!Comment())
+          break;
+      } // while
       // --- scan for next token ---
       tokenLine   = curLine;
       tokenCol    = curCol;

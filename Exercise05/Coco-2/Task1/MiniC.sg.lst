@@ -19,97 +19,101 @@ Coco-2 SG (source: MiniC.atg)
    17|   letter = 'A'..'Z' + 'a'..'z'.
    18|   digit  = '0'..'9'.
    19|   ignore = CHR(9) + EOL IGNORE.
-   20|   
-   21| KEYWORDS
-   22| 
-   23|   'int'.
-   24|   'main'.
-   25|   'printf'.
-   26|   'scanf'.
-   27|   'void'.
-   28| 
-   29| TOKENS
-   30| 
-   31|   '+'.   '-'.   '*'.  '/'.   '('.   ')'.
-   32|   ','.   '='.   ';'.  '{'.   '}'.
-   33| 
-   34| TOKEN CLASSES
-   35|   
-   36|   ident<<out String identStr>> =
-   37|     letter { letter | digit } 
-   38|                                   LEX <<
-   39|                                     identStr = tokenStr;
-   40|                                   >>
-   41|     .
-   42| 
-   43|   number<<out int numberVal>> =
-   44|     digit { digit }               LEX <<
-   45|                                     numberVal = Convert.ToInt32(tokenStr);
-   46|                                   >>
-   47|     .
-   48| 
-   49| NONTERMINALS 
-   50| 
-   51|   MiniC.
-   52|   VarDecl.
-   53|   StatSeq.
-   54|   Stat.
-   55|   Expr.
-   56|   Term.
-   57|   Fact.
-   58| 
-   59| RULES
-   60| 
-   61|   MiniC =                                          
-   62|     'void' 'main' '(' ')'
-   63|     '{'
-   64|     [ VarDecl
-   65|     ]
-   66|     StatSeq
-   67|     '}' .
-   68| 
-   69|   VarDecl =                       
-   70|     'int' ident<<out identStr>>   
-   71|     { ',' ident<<out identStr>>   
-   72|     }
-   73|     ';' .
-   74| 
-   75|   StatSeq =
-   76|     Stat 
-   77|     { Stat 
-   78|     } .
-   79| 
-   80|   Stat =                          
-   81|     [ ident<<out identStr>>       
-   82|       '=' Expr           
-   83|     | 'scanf'
-   84|       '(' ident<<out identStr>>   
-   85|       ')'
-   86|     | 'printf'
-   87|       '(' Expr           
-   88|       ')' 
-   89|     ] 
-   90|     ';' .
-   91| 
-   92|   Expr =             
-   93|     Term
-   94|     { '+' Term           
-   95|     | '-' Term           
-   96|     } .
-   97| 
-   98|    Term =            
-   99|      Fact
-  100|      { '*' Fact          
-  101|      | '/' Fact         
-  102|      } .
-  103| 
-  104|    Fact =            
-  105|        ident<<out identStr>>      
-  106|      | number<<out numberVal>>    
-  107|      | '(' Expr 
-  108|        ')' .
-  109| 
-  110| END MiniC.
+   20| 
+   21| COMMENTS
+   22|   FROM '/*' TO '*/' NESTED.
+   23|   FROM '//' TO EOL.
+   24|   
+   25| KEYWORDS
+   26| 
+   27|   'int'.
+   28|   'main'.
+   29|   'printf'.
+   30|   'scanf'.
+   31|   'void'.
+   32| 
+   33| TOKENS
+   34| 
+   35|   '+'.   '-'.   '*'.  '/'.   '('.   ')'.
+   36|   ','.   '='.   ';'.  '{'.   '}'.
+   37| 
+   38| TOKEN CLASSES
+   39|   
+   40|   ident<<out String identStr>> =
+   41|     letter { letter | digit } 
+   42|                                   LEX <<
+   43|                                     identStr = tokenStr;
+   44|                                   >>
+   45|     .
+   46| 
+   47|   number<<out int numberVal>> =
+   48|     digit { digit }               LEX <<
+   49|                                     numberVal = Convert.ToInt32(tokenStr);
+   50|                                   >>
+   51|     .
+   52| 
+   53| NONTERMINALS 
+   54| 
+   55|   MiniC.
+   56|   VarDecl.
+   57|   StatSeq.
+   58|   Stat.
+   59|   Expr.
+   60|   Term.
+   61|   Fact.
+   62| 
+   63| RULES
+   64| 
+   65|   MiniC =                                          
+   66|     'void' 'main' '(' ')'
+   67|     '{'
+   68|     [ VarDecl
+   69|     ]
+   70|     StatSeq
+   71|     '}' .
+   72| 
+   73|   VarDecl =                       
+   74|     'int' ident<<out identStr>>   
+   75|     { ',' ident<<out identStr>>   
+   76|     }
+   77|     ';' .
+   78| 
+   79|   StatSeq =
+   80|     Stat 
+   81|     { Stat 
+   82|     } .
+   83| 
+   84|   Stat =                          
+   85|     [ ident<<out identStr>>       
+   86|       '=' Expr           
+   87|     | 'scanf'
+   88|       '(' ident<<out identStr>>   
+   89|       ')'
+   90|     | 'printf'
+   91|       '(' Expr           
+   92|       ')' 
+   93|     ] 
+   94|     ';' .
+   95| 
+   96|   Expr =             
+   97|     Term
+   98|     { '+' Term           
+   99|     | '-' Term           
+  100|     } .
+  101| 
+  102|    Term =            
+  103|      Fact
+  104|      { '*' Fact          
+  105|      | '/' Fact         
+  106|      } .
+  107| 
+  108|    Fact =            
+  109|        ident<<out identStr>>      
+  110|      | number<<out numberVal>>    
+  111|      | '(' Expr 
+  112|        ')' .
+  113| 
+  114| END MiniC.
 
 
 error(s) and warning(s):
@@ -148,7 +152,7 @@ ignored characters:
 comment starts:
 --------------
 
-{ }
+{ '/' }
 
 character classes:
 -----------------

@@ -17,6 +17,10 @@ CHARACTER SETS
   letter = 'A'..'Z' + 'a'..'z'.
   digit  = '0'..'9'.
   ignore = CHR(9) + EOL IGNORE.
+
+COMMENTS
+  FROM '/*' TO '*/' NESTED.
+  FROM '//' TO EOL.
   
 KEYWORDS
 
