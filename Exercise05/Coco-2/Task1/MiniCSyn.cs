@@ -25,9 +25,9 @@ public class MiniCSyn {
     T, TA, TC, TCA, NT, NTA, ANY, ANYA, EPS, EPSA, JMP, RET
   } // Instruction
 
-  private const int ROOTPC     =  167;
-  private const int LASTTERM   =   18;
-  private const int LASTPRAGMA =   18;
+  private const int ROOTPC     =  191;
+  private const int LASTTERM   =   20;
+  private const int LASTPRAGMA =   20;
 
 
   // --- other constants ---
@@ -49,44 +49,46 @@ public class MiniCSyn {
   
   private class GrammarTable {
     public int[]  header = {
-      172, 18, 18, 25, 3, 0
+      196, 20, 20, 27, 3, 0
     }; // header
     public byte[] code = {
-         0,   5,   0,   2,   0,  10,   0,  11,   0,  15,   5,   1,  16,   0,
-         1,   4,   2,   2,   0,  16,  11,   0,   1,   2,  17,   1,   1,  12,
-        37,   0,   2,  17,   2,  10,  27,   0,   0,  14,  11,   4,   3,   1,
-         5,   3,  51,   0,   2,  10,  43,   0,   8,   1,  11,   3,  17,  67,
-         0,   1,   0,  13,   4,   4,   2,   0,  14,  11,   1,   4,  81,   0,
-         0,  10,   2,  17,   3,   0,  11,  10,  64,   0,   1,   3,  64,   0,
-         0,  10,   4,   4,   4,   0,  11,  10,  64,   0,   4,   5,   1,   1,
-         6, 108,   0,   4,   5,   2,  10,  98,   0,   1,   7, 118,   0,   4,
-         5,   3,  10,  98,   0,   8,   2,  11,   4,   6,   1,   1,   8, 134,
-         0,   4,   6,   2,  10, 124,   0,   1,   9, 144,   0,   4,   6,   3,
-        10, 124,   0,   8,   3,  11,   3,  17, 153,   0,   1,  11,   3,  18,
-       159,   0,   2,  11,   0,  10,   4,   4,   3,   0,  11,  11,   4,   0,
-         1,   0,   0,  11
+         0,   5,   0,   2,   0,  12,   0,  13,   0,  17,   5,   1,  16,   0,
+         1,   4,   2,   2,   0,  18,  11,   0,   1,   2,  19,   1,   1,  14,
+        37,   0,   2,  19,   2,  10,  27,   0,   0,  16,  11,   4,   3,   1,
+         5,   3,  51,   0,   2,  10,  43,   0,   8,   1,  11,   3,  19,  67,
+         0,   1,   0,  15,   4,   4,   2,   0,  16,  11,   1,   4,  81,   0,
+         0,  12,   2,  19,   3,   0,  13,  10,  64,   0,   1,   3,  95,   0,
+         0,  12,   4,   4,   4,   0,  13,  10,  64,   0,   1,   6,  64,   0,
+         0,  12,   4,   4,   5,   0,  13,   4,   2,   6,   1,   7,  64,   0,
+         4,   2,   7,  10,  64,   0,   4,   5,   1,   1,   8, 132,   0,   4,
+         5,   2,  10, 122,   0,   1,   9, 142,   0,   4,   5,   3,  10, 122,
+         0,   8,   2,  11,   4,   6,   1,   1,  10, 158,   0,   4,   6,   2,
+        10, 148,   0,   1,  11, 168,   0,   4,   6,   3,  10, 148,   0,   8,
+         3,  11,   3,  19, 177,   0,   1,  11,   3,  20, 183,   0,   2,  11,
+         0,  12,   4,   4,   3,   0,  13,  11,   4,   0,   1,   0,   0,  11
     }; // code
     public NTData[] nts = {
       new NTData(   1, false, new Sets.Set256(0x0020)),
       new NTData(  22, false, new Sets.Set256(0x0002)),
-      new NTData(  40, false, new Sets.Set256(0x4018, 0x0002)),
-      new NTData(  54, false, new Sets.Set256(0x4018, 0x0002)),
-      new NTData(  95, false, new Sets.Set256(0x0400, 0x0006)),
-      new NTData( 121, false, new Sets.Set256(0x0400, 0x0006)),
-      new NTData( 147, false, new Sets.Set256(0x0400, 0x0006))
+      new NTData(  40, false, new Sets.Set256(0x0058, 0x0009)),
+      new NTData(  54, false, new Sets.Set256(0x0058, 0x0009)),
+      new NTData( 119, false, new Sets.Set256(0x1000, 0x0018)),
+      new NTData( 145, false, new Sets.Set256(0x1000, 0x0018)),
+      new NTData( 171, false, new Sets.Set256(0x1000, 0x0018))
     }; // nts
     public Sets.Set256[] epsSets = {
-      new Sets.Set256(0x0000, 0x0001),
-      new Sets.Set256(0x4800),
-      new Sets.Set256(0x48c0)
+      new Sets.Set256(0x0080, 0x0005),
+      new Sets.Set256(0x2000, 0x0001),
+      new Sets.Set256(0x2300, 0x0001)
     }; // epsSets
     public Sets.Set256[] anySets = {
       new Sets.Set256(0x0000)
     }; // anySets
     public String[] names = {
-      "end of file", "int", "main", "printf", "scanf", "void", "+", "-",
-      "*", "/", "(", ")", ",", "=", ";", "{", "}", "ident", "number",
-      "MiniC", "VarDecl", "StatSeq", "Stat", "Expr", "Term", "Fact"
+      "end of file", "int", "main", "printf", "scanf", "void", "if",
+      "else", "+", "-", "*", "/", "(", ")", ",", "=", ";", "{", "}",
+      "ident", "number", "MiniC", "VarDecl", "StatSeq", "Stat", "Expr",
+      "Term", "Fact"
     }; // names
   } // GrammarTable;
 

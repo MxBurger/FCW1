@@ -102,6 +102,15 @@ public class MiniCSem {
         case 4:
           NT_Expr();
           break;
+        case 5:
+          NT_Expr();
+          break;
+        case 6:
+          NT_StatSeq();
+          break;
+        case 7:
+          NT_StatSeq();
+          break;
       } // switch
     } // for
   } // NT_Stat

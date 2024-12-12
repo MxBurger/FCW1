@@ -1,5 +1,7 @@
 Coco-2 PGT (source: MiniC.atg)
 
+
+
     1| /* MiniC: (C# Version)                              HDO, 2006-08-27
     2|    -----
     3|    Attributed Grammar for the MiniC Parser.
@@ -19,97 +21,105 @@ Coco-2 PGT (source: MiniC.atg)
    17|   letter = 'A'..'Z' + 'a'..'z'.
    18|   digit  = '0'..'9'.
    19|   ignore = CHR(9) + EOL IGNORE.
-   20|   
-   21| KEYWORDS
-   22| 
-   23|   'int'.
-   24|   'main'.
-   25|   'printf'.
-   26|   'scanf'.
-   27|   'void'.
-   28| 
-   29| TOKENS
-   30| 
-   31|   '+'.   '-'.   '*'.  '/'.   '('.   ')'.
-   32|   ','.   '='.   ';'.  '{'.   '}'.
-   33| 
-   34| TOKEN CLASSES
-   35|   
-   36|   ident<<out String identStr>> =
-   37|     letter { letter | digit } 
-   38|                                   LEX <<
-   39|                                     identStr = tokenStr;
-   40|                                   >>
-   41|     .
-   42| 
-   43|   number<<out int numberVal>> =
-   44|     digit { digit }               LEX <<
-   45|                                     numberVal = Convert.ToInt32(tokenStr);
+   20| 
+   21| COMMENTS
+   22|   FROM '/*' TO '*/' NESTED.
+   23|   FROM '//' TO EOL.
+   24|   
+   25| KEYWORDS
+   26| 
+   27|   'int'.
+   28|   'main'.
+   29|   'printf'.
+   30|   'scanf'.
+   31|   'void'.
+   32|   'if'.
+   33|   'else'.
+   34| 
+   35| TOKENS
+   36| 
+   37|   '+'.   '-'.   '*'.  '/'.   '('.   ')'.
+   38|   ','.   '='.   ';'.  '{'.   '}'.
+   39| 
+   40| TOKEN CLASSES
+   41|   
+   42|   ident<<out String identStr>> =
+   43|     letter { letter | digit } 
+   44|                                   LEX <<
+   45|                                     identStr = tokenStr;
    46|                                   >>
    47|     .
    48| 
-   49| NONTERMINALS 
-   50| 
-   51|   MiniC.
-   52|   VarDecl.
-   53|   StatSeq.
-   54|   Stat.
-   55|   Expr.
-   56|   Term.
-   57|   Fact.
-   58| 
-   59| RULES
-   60| 
-   61|   MiniC =                                          
-   62|     'void' 'main' '(' ')'
-   63|     '{'
-   64|     [ VarDecl
-   65|     ]
-   66|     StatSeq
-   67|     '}' .
-   68| 
-   69|   VarDecl =                       
-   70|     'int' ident<<out identStr>>   
-   71|     { ',' ident<<out identStr>>   
-   72|     }
-   73|     ';' .
+   49|   number<<out int numberVal>> =
+   50|     digit { digit }               LEX <<
+   51|                                     numberVal = Convert.ToInt32(tokenStr);
+   52|                                   >>
+   53|     .
+   54| 
+   55| NONTERMINALS 
+   56| 
+   57|   MiniC.
+   58|   VarDecl.
+   59|   StatSeq.
+   60|   Stat.
+   61|   Expr.
+   62|   Term.
+   63|   Fact.
+   64| 
+   65| RULES
+   66| 
+   67|   MiniC =                                          
+   68|     'void' 'main' '(' ')'
+   69|     '{'
+   70|     [ VarDecl
+   71|     ]
+   72|     StatSeq
+   73|     '}' .
    74| 
-   75|   StatSeq =
-   76|     Stat 
-   77|     { Stat 
-   78|     } .
-   79| 
-   80|   Stat =                          
-   81|     [ ident<<out identStr>>       
-   82|       '=' Expr           
-   83|     | 'scanf'
-   84|       '(' ident<<out identStr>>   
-   85|       ')'
-   86|     | 'printf'
-   87|       '(' Expr           
-   88|       ')' 
-   89|     ] 
-   90|     ';' .
-   91| 
-   92|   Expr =             
-   93|     Term
-   94|     { '+' Term           
-   95|     | '-' Term           
-   96|     } .
-   97| 
-   98|    Term =            
-   99|      Fact
-  100|      { '*' Fact          
-  101|      | '/' Fact         
-  102|      } .
-  103| 
-  104|    Fact =            
-  105|        ident<<out identStr>>      
-  106|      | number<<out numberVal>>    
-  107|      | '(' Expr 
-  108|        ')' .
-  109| 
-  110| END MiniC.
+   75|   VarDecl =                       
+   76|     'int' ident<<out identStr>>   
+   77|     { ',' ident<<out identStr>>   
+   78|     }
+   79|     ';' .
+   80| 
+   81|   StatSeq =
+   82|     Stat 
+   83|     { Stat 
+!WRN!        ^LL(1) error (start AND succ): ";"
+   84|     } .
+   85| 
+   86|   Stat =                          
+   87|     [ ident<<out identStr>>       
+   88|       '=' Expr           
+   89|     | 'scanf'
+   90|       '(' ident<<out identStr>>   
+   91|       ')'
+   92|     | 'printf'
+   93|       '(' Expr           
+   94|       ')'
+   95|     | 'if' '(' Expr ')' StatSeq ['else' StatSeq]
+   96|     ] 
+   97|     ';' .
+   98| 
+   99|   Expr =             
+  100|     Term
+  101|     { '+' Term           
+  102|     | '-' Term           
+  103|     } .
+  104| 
+  105|    Term =            
+  106|      Fact
+  107|      { '*' Fact          
+  108|      | '/' Fact         
+  109|      } .
+  110| 
+  111|    Fact =            
+  112|        ident<<out identStr>>      
+  113|      | number<<out numberVal>>    
+  114|      | '(' Expr 
+  115|        ')' .
+  116| 
+  117| END MiniC.
 
 
 error(s) and warning(s):
@@ -118,20 +128,20 @@ error(s) and warning(s):
     0 lexical error(s) 
     0 syntax error(s)  
     0 semantic error(s)
-    0 warning(s)       
+    1 warning(s)       
 
 
 statistics:
 ----------
 
-   18 terminals
+   20 terminals
     7 nonterminals
-   19 alternatives
-   50 nodes in top-down graph
+   21 alternatives
+   58 nodes in top-down graph
     3 eps sets (with look ahead)
     1 any sets
 
-  172 bytes G-code
+  196 bytes G-code
 
 grammar has no deletable nonterminals
 -------------------------------------
@@ -184,54 +194,63 @@ G-code:
    76  T      ')'
    78  JMP       64
 
-   81  TA     printf                 64
+   81  TA     printf                 95
    85  T      '('
    87  NT     Expr                    4
    90  T      ')'
    92  JMP       64
 
+   95  TA     if                     64
+   99  T      '('
+  101  NT     Expr                    5
+  104  T      ')'
+  106  NT     StatSeq                 6
+  109  TA     else                   64
+  113  NT     StatSeq                 7
+  116  JMP       64
+
 -----  Expr  -------------------------------
-   95  NT     Term                    1
-   98  TA     '+'                   108
-  102  NT     Term                    2
-  105  JMP       98
+  119  NT     Term                    1
+  122  TA     '+'                   132
+  126  NT     Term                    2
+  129  JMP      122
 
-  108  TA     '-'                   118
-  112  NT     Term                    3
-  115  JMP       98
+  132  TA     '-'                   142
+  136  NT     Term                    3
+  139  JMP      122
 
-  118  EPS        2
-  120  RET
+  142  EPS        2
+  144  RET
 
 -----  Term  -------------------------------
-  121  NT     Fact                    1
-  124  TA     '*'                   134
-  128  NT     Fact                    2
-  131  JMP      124
+  145  NT     Fact                    1
+  148  TA     '*'                   158
+  152  NT     Fact                    2
+  155  JMP      148
 
-  134  TA     '/'                   144
-  138  NT     Fact                    3
-  141  JMP      124
+  158  TA     '/'                   168
+  162  NT     Fact                    3
+  165  JMP      148
 
-  144  EPS        3
-  146  RET
+  168  EPS        3
+  170  RET
 
 -----  Fact  -------------------------------
-  147  TCA    ident                 153    1
-  152  RET
+  171  TCA    ident                 177    1
+  176  RET
 
-  153  TCA    number                159    2
-  158  RET
+  177  TCA    number                183    2
+  182  RET
 
-  159  T      '('
-  161  NT     Expr                    3
-  164  T      ')'
-  166  RET
+  183  T      '('
+  185  NT     Expr                    3
+  188  T      ')'
+  190  RET
 
 -----  R o o t  ----------------------------
-  167  NT     MiniC                   1
-  170  T      'end of file'
-  172  RET
+  191  NT     MiniC                   1
+  194  T      'end of file'
+  196  RET
 
 
 nonterminals:
@@ -239,16 +258,16 @@ nonterminals:
 
 MiniC                     1     { void }
 VarDecl                  22     { int }
-StatSeq                  40     { printf, scanf, ';', ident }
-Stat                     54     { printf, scanf, ';', ident }
-Expr                     95     { '(', ident, number }
-Term                    121     { '(', ident, number }
-Fact                    147     { '(', ident, number }
+StatSeq                  40     { printf, scanf, if, ';', ident }
+Stat                     54     { printf, scanf, if, ';', ident }
+Expr                    119     { '(', ident, number }
+Term                    145     { '(', ident, number }
+Fact                    171     { '(', ident, number }
 
 
 eps look-aheads:
 ===============
 
-    1   { '}' }
+    1   { else, ';', '}' }
     2   { ')', ';' }
     3   { '+', '-', ')', ';' }

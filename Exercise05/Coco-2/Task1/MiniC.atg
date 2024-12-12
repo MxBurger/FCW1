@@ -29,6 +29,8 @@ KEYWORDS
   'printf'.
   'scanf'.
   'void'.
+  'if'.
+  'else'.
 
 TOKENS
 
@@ -89,7 +91,8 @@ RULES
       ')'
     | 'printf'
       '(' Expr           
-      ')' 
+      ')'
+    | 'if' '(' Expr ')' StatSeq ['else' StatSeq]
     ] 
     ';' .
 
